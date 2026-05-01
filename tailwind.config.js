@@ -7,12 +7,10 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: 'var(--aw-color-primary)',
-        secondary: 'var(--aw-color-secondary)',
-        accent: 'var(--aw-color-accent)',
-        default: 'var(--aw-color-text-default)',
-        muted: 'var(--aw-color-text-muted)',
-      },
+  primary: '#1A3673', // Het diepblauw uit je logo
+  secondary: '#2B4D91',
+  accent: '#E5A31A', // Een mooie goud/geel voor de actieknoppen (vloekt niet, valt op)
+},
       fontFamily: {
         sans: ['var(--aw-font-sans, ui-sans-serif)', ...defaultTheme.fontFamily.sans],
         serif: ['var(--aw-font-serif, ui-serif)', ...defaultTheme.fontFamily.serif],
