@@ -6,10 +6,10 @@ export default {
   content: ['./src/**/*.{astro,html,js,jsx,json,md,mdx,svelte,ts,tsx,vue}'],
   theme: {
     extend: {
-      colors: {
-  primary: '#1A3673', // Het diepblauw uit je logo
-  secondary: '#2B4D91',
-  accent: '#E5A31A', // Een mooie goud/geel voor de actieknoppen (vloekt niet, valt op)
+   colors: {
+  primary: '#003399',    // Het diepe NAD Service blauw
+  secondary: '#002673',  // Iets donkerder voor hover-effecten
+  accent: '#003399',     // Knoppen nu ook in het blauw voor een rustige uitstraling
 },
       fontFamily: {
         sans: ['var(--aw-font-sans, ui-sans-serif)', ...defaultTheme.fontFamily.sans],
