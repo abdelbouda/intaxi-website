@@ -8,8 +8,10 @@ import Steps from '~/components/widgets/Steps.astro';
 import Content from '~/components/widgets/Content.astro';
 import FAQs from '~/components/widgets/FAQs.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
-// Importeer de nieuwe calculator
 import PriceCalculator from '~/components/widgets/PriceCalculator.astro';
+
+// Importeer je eigen Tesla afbeelding
+import teslaImg from '~/assets/images/tesla_nad_services.webp';
 
 const metadata = {
   title: 'InTaxi — Luxe Tesla Taxi naar Schiphol vanaf €75',
@@ -42,12 +44,16 @@ const metadata = {
     </Fragment>
 
     <Fragment slot="image">
-      <img 
-        src="https://images.unsplash.com/photo-1617788130012-02ba73c2f6fd?auto=format&fit=crop&w=2070&q=80" 
-        alt="Luxe Tesla X met chauffeur" 
-        class="mx-auto rounded-md w-full max-w-[1000px] shadow-lg bg-gray-400 dark:bg-slate-700"
-        loading="eager"
-      />
+      <div class="relative m-auto max-w-5xl">
+        <img 
+          src={teslaImg.src} 
+          alt="InTaxi Tesla NAD Service" 
+          class="mx-auto rounded-md w-full shadow-lg bg-gray-400 dark:bg-slate-700"
+          loading="eager"
+          width={1024}
+          height={555}
+        />
+      </div>
     </Fragment>
   </Hero>
 
@@ -69,7 +75,7 @@ const metadata = {
     items={[
       {
         title: 'Vast Tarief €75,-',
-        description: 'Geen meter-stress of onverwachte kosten. U weet vooraf precies what de rit van Amsterdam naar Schiphol kost.',
+        description: 'Geen meter-stress of onverwachte kosten. U weet vooraf precies wat de rit van Amsterdam naar Schiphol kost.',
         icon: 'tabler:currency-euro',
       },
       {
@@ -107,8 +113,8 @@ const metadata = {
       },
     ]}
     image={{
-      src: 'https://images.unsplash.com/photo-1560958089-b8a1929cea89?auto=format&fit=crop&w=2070&q=80',
-      alt: 'Tesla Model S Interior',
+      src: teslaImg,
+      alt: 'Luxe Tesla interieur en exterieur',
     }}
   >
     <Fragment slot="content">
@@ -147,8 +153,8 @@ const metadata = {
       },
     ]}
     image={{
-      src: 'https://images.unsplash.com/photo-1541447271487-09612b3f49f7?auto=format&fit=crop&w=987&q=80',
-      alt: 'Schiphol Airport Departure',
+      src: teslaImg,
+      alt: 'Uw rit met InTaxi',
     }}
   />
 
