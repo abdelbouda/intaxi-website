@@ -29,21 +29,24 @@ const metadata = {
       },
       { text: 'Bekijk tarieven', href: '#tarieven' },
     ]}
-    image={{ src: '~/assets/images/hero-image.png', alt: 'InTaxi Tesla Schiphol Service' }}
+    image={{ 
+      src: 'https://images.unsplash.com/photo-1617788130012-02ba73c2f6fd?auto=format&fit=crop&w=2070&q=80', 
+      alt: 'Luxe Tesla X met professionele chauffeur' 
+    }}
   >
     <Fragment slot="title">
-      Uw luxe rit naar Schiphol in een <span class="text-accent dark:text-white">Tesla</span>
+      Uw luxe rit naar Schiphol in een <span class="text-[#003399] dark:text-blue-400">Tesla</span>
     </Fragment>
 
     <Fragment slot="subtitle">
-      <span class="font-semibold">InTaxi (NAD Service)</span> biedt premium luchthavenvervoer vanuit Amsterdam. 
-      Reis volledig elektrisch, in stijl en altijd voor een vast tarief van <span class="font-bold text-primary">€75,-</span>.
+      <span class="font-semibold text-gray-900 dark:text-white">InTaxi (NAD Service)</span> biedt premium luchthavenvervoer vanuit Amsterdam. 
+      Reis volledig elektrisch, in stijl en altijd voor een vast tarief van <span class="font-bold text-[#003399]">€75,-</span>.
     </Fragment>
   </Hero>
 
   <!-- Note Widget ******************* -->
 
-  <Note title="Onze belofte:" description="Duurzaamheid, Puntualiteit en Luxe zonder verrassingen." />
+  <Note title="Onze belofte:" description="Duurzaamheid, Punctualiteit en Luxe zonder verrassingen." />
 
   <!-- Features Widget *************** -->
 
@@ -109,7 +112,7 @@ const metadata = {
     </Fragment>
 
     <Fragment slot="bg">
-      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
+      <div class="absolute inset-0 bg-slate-50 dark:bg-transparent"></div>
     </Fragment>
   </Content>
 
@@ -119,19 +122,19 @@ const metadata = {
     title="Hoe werkt het?"
     items={[
       {
-        title: 'Stap 1: <span class="font-medium">Stuur een bericht</span>',
+        title: 'Stap 1: <span class="font-medium text-[#003399]">Stuur een bericht</span>',
         description:
           "WhatsApp ons uw ophaallocatie, tijd en vluchtnummer. Wij reageren direct om uw rit te bevestigen.",
         icon: 'tabler:message-circle',
       },
       {
-        title: 'Stap 2: <span class="font-medium">Tesla arriveert</span>',
+        title: 'Stap 2: <span class="font-medium text-[#003399]">Tesla arriveert</span>',
         description:
           "Onze chauffeur staat op het afgesproken tijdstip voor de deur en helpt u uiteraard met uw bagage.",
         icon: 'tabler:car',
       },
       {
-        title: 'Stap 3: <span class="font-medium">Ontspannen aankomen</span>',
+        title: 'Stap 3: <span class="font-medium text-[#003399]">Ontspannen aankomen</span>',
         description:
           'Geniet van de rit. U wordt direct voor de vertrekhal op Schiphol afgezet.',
         icon: 'tabler:plane-departure',
@@ -143,7 +146,7 @@ const metadata = {
     ]}
     image={{
       src: 'https://images.unsplash.com/photo-1541447271487-09612b3f49f7?auto=format&fit=crop&w=987&q=80',
-      alt: 'Schiphol Airport',
+      alt: 'Schiphol Airport Departure',
     }}
   />
 
@@ -195,7 +198,11 @@ const metadata = {
     </Fragment>
 
     <Fragment slot="subtitle">
-      Reserveer vandaag nog uw Tesla bij <strong>InTaxi</strong> en reis zorgeloos naar Schiphol.
+      Reserveer vandaag nog uw Tesla bij <strong class="text-[#003399]">InTaxi</strong> en reis zorgeloos naar Schiphol.
+    </Fragment>
+
+    <Fragment slot="bg">
+      <div class="absolute inset-0 bg-[#003399]/5 dark:bg-transparent"></div>
     </Fragment>
   </CallToAction>
 </Layout>
