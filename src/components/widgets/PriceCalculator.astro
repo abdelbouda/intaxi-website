@@ -1,0 +1,167 @@
+---
+// Tariefcalculator Widget voor InTaxi
+---
+
+<section id="calculator" class="relative not-prose scroll-mt-[72px]">
+  <div class="absolute inset-0 bg-blue-50 dark:bg-slate-800/50 pointer-events-none mb-32" aria-hidden="true"></div>
+  <div class="relative max-w-4xl mx-auto px-4 sm:px-6">
+    
+    <div class="py-12 md:py-20">
+      <!-- Header -->
+      <div class="text-center pb-10 md:pb-12 max-w-3xl mx-auto">
+        <h2 class="text-3xl md:text-4xl font-bold leading-tighter tracking-tighter mb-4 font-heading">
+          Bereken uw <span class="text-[#003399] dark:text-blue-400">ritprijs</span>
+        </h2>
+        <p class="text-xl text-muted dark:text-slate-400">
+          Plan uw reis in 4 eenvoudige stappen en ontvang direct een prijsopgave.
+        </p>
+      </div>
+
+      <!-- Calculator Card -->
+      <div class="bg-white dark:bg-slate-900 rounded-xl shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-700">
+        
+        <!-- Step Indicator -->
+        <div class="bg-[#003399] p-4 flex justify-around text-white/70 text-sm font-medium border-b border-white/10">
+          <div class="step-label active text-white border-b-2 border-white pb-1" data-step="1">Route</div>
+          <div class="step-label" data-step="2">Overzicht</div>
+          <div class="step-label" data-step="3">Auto type</div>
+          <div class="step-label" data-step="4">Betalen</div>
+        </div>
+
+        <form id="calc-form" class="p-6 md:p-8 space-y-6">
+          
+          <!-- STAP 1: ROUTE -->
+          <div class="step-content block" id="step-1">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <!-- Van -->
+              <div class="space-y-2">
+                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300">Van</label>
+                <div class="flex gap-2">
+                  <select class="w-1/3 p-3 rounded-lg border border-gray-300 dark:bg-slate-800 dark:border-slate-600 outline-none focus:ring-2 focus:ring-[#003399]">
+                    <option>Adres</option>
+                    <option>Vliegveld</option>
+                  </select>
+                  <input type="text" placeholder="Stad" class="w-2/3 p-3 rounded-lg border border-gray-300 dark:bg-slate-800 dark:border-slate-600 outline-none focus:ring-2 focus:ring-[#003399]" />
+                </div>
+                <div class="flex gap-2">
+                  <input type="text" placeholder="Straat" class="w-3/4 p-3 rounded-lg border border-gray-300 dark:bg-slate-800 dark:border-slate-600 outline-none focus:ring-2 focus:ring-[#003399]" />
+                  <input type="text" placeholder="#" class="w-1/4 p-3 rounded-lg border border-gray-300 dark:bg-slate-800 dark:border-slate-600 outline-none focus:ring-2 focus:ring-[#003399]" />
+                </div>
+              </div>
+
+              <!-- Naar -->
+              <div class="space-y-2">
+                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300">Naar</label>
+                <div class="flex gap-2">
+                  <select class="w-1/3 p-3 rounded-lg border border-gray-300 dark:bg-slate-800 dark:border-slate-600 outline-none focus:ring-2 focus:ring-[#003399]">
+                    <option selected>Vliegveld</option>
+                    <option>Adres</option>
+                  </select>
+                  <select class="w-2/3 p-3 rounded-lg border border-gray-300 dark:bg-slate-800 dark:border-slate-600 outline-none focus:ring-2 focus:ring-[#003399]">
+                    <option>Schiphol Airport (AMS)</option>
+                    <option>Eindhoven Airport (EIN)</option>
+                    <option>Rotterdam The Hague (RTM)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <button type="button" class="text-sm text-[#003399] font-bold mt-2 hover:underline">+ Voeg extra tussenstop toe</button>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+              <div class="space-y-2">
+                <label class="block text-sm font-semibold">Ophaaltijd</label>
+                <div class="flex gap-2">
+                  <input type="date" class="w-3/5 p-3 rounded-lg border border-gray-300 dark:bg-slate-800" value="2026-05-02" />
+                  <input type="time" class="w-2/5 p-3 rounded-lg border border-gray-300 dark:bg-slate-800" value="00:07" />
+                </div>
+              </div>
+              <div class="flex items-center space-x-4 pt-8">
+                <label class="flex items-center cursor-pointer">
+                  <input type="checkbox" class="w-5 h-5 text-[#003399] rounded border-gray-300 focus:ring-[#003399]" />
+                  <span class="ml-2 text-sm font-medium">Retour rit</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+              <div class="space-y-2">
+                <label class="block text-sm font-semibold text-gray-700">Passagiers</label>
+                <select class="w-full p-3 rounded-lg border border-gray-300 dark:bg-slate-800">
+                  <option>1 passagier</option>
+                  <option>2 passagiers</option>
+                  <option>3 passagiers</option>
+                  <option>4 passagiers</option>
+                </select>
+              </div>
+              <div class="space-y-2">
+                <label class="block text-sm font-semibold text-gray-700">Bagage</label>
+                <select class="w-full p-3 rounded-lg border border-gray-300 dark:bg-slate-800">
+                  <option>Geen extra bagage</option>
+                  <option>1-2 grote koffers</option>
+                  <option>3-4 grote koffers</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- FOOTER: BUTTONS -->
+          <div class="flex justify-end border-t border-gray-100 dark:border-slate-800 pt-6">
+            <button 
+              type="button" 
+              id="next-btn"
+              class="bg-[#003399] hover:bg-[#002b80] text-white px-10 py-3 rounded-lg font-bold transition-all shadow-lg active:scale-95"
+            >
+              Bereken ritprijs
+            </button>
+          </div>
+        </form>
+      </div>
+      
+      <p class="text-center text-sm text-gray-500 mt-4 italic">
+        * Uw rit wordt altijd uitgevoerd in een premium Tesla van InTaxi.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .step-label.active {
+    opacity: 1;
+  }
+</style>
+
+<script>
+  // Simpele navigatie logica
+  const nextBtn = document.getElementById('next-btn');
+  const stepLabels = document.querySelectorAll('.step-label');
+  
+  let currentStep = 1;
+
+  nextBtn?.addEventListener('click', () => {
+    if (currentStep < 4) {
+      currentStep++;
+      updateUI();
+    } else {
+      // In een echte situatie stuur je hier het formulier door naar WhatsApp of een backend
+      alert('Bedankt voor uw aanvraag! We verbinden u door met WhatsApp.');
+      window.open('https://wa.me/31642277607', '_blank');
+    }
+  });
+
+  function updateUI() {
+    // Update labels
+    stepLabels.forEach((lbl, idx) => {
+      if (idx + 1 === currentStep) {
+        lbl.classList.add('text-white', 'border-b-2', 'border-white', 'pb-1');
+      } else {
+        lbl.classList.remove('text-white', 'border-b-2', 'border-white', 'pb-1');
+      }
+    });
+
+    // Verander knoptekst bij laatste stap
+    if (currentStep === 4 && nextBtn) {
+      nextBtn.innerText = 'Nu Boeken';
+    }
+  }
+</script>
