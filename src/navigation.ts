@@ -1,6 +1,11 @@
 import { getPermalink, getAsset } from './utils/permalinks';
 
 export const headerData = {
+  // Hier voegen we de logo-instellingen toe
+  showLogo: true,
+  logoText: 'InTaxi', // Tekst voor SEO/alt-tag
+  logoImage: getAsset('~/assets/images/nad_logo.webp'), // Verander naar .jpg als je hem nog niet hebt omgezet
+
   links: [
     {
       text: 'Home',
@@ -59,6 +64,6 @@ export const footerData = {
     { ariaLabel: 'WhatsApp', icon: 'tabler:brand-whatsapp', href: 'https://wa.me/31642277607' },
   ],
   footNote: `
-    © ${new Date().getFullYear()} <strong>InTaxi</strong> · Een service van <a class="text-blue-600 underline dark:text-muted" href="/"> NAD Service</a> · Alle rechten voorbehouden.
+    © ${new Date().getFullYear()} <strong>InTaxi</strong> · Een service van <a class="text-blue-900 font-bold underline dark:text-muted" href="/"> NAD Service</a> · Alle rechten voorbehouden.
   `,
 };
