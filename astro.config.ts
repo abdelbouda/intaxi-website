@@ -72,7 +72,8 @@ export default defineConfig({
   ],
 
   image: {
-    domains: ['cdn.pixabay.com'],
+    // Hier heb ik images.unsplash.com toegevoegd zodat je foto's laden
+    domains: ['cdn.pixabay.com', 'images.unsplash.com'],
   },
 
   markdown: {
