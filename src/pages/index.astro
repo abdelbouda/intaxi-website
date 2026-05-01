@@ -29,10 +29,6 @@ const metadata = {
       },
       { text: 'Bekijk tarieven', href: '#tarieven' },
     ]}
-    image={{ 
-      src: 'https://images.unsplash.com/photo-1617788130012-02ba73c2f6fd?auto=format&fit=crop&w=2070&q=80', 
-      alt: 'Luxe Tesla X met professionele chauffeur' 
-    }}
   >
     <Fragment slot="title">
       Uw luxe rit naar Schiphol in een <span class="text-[#003399] dark:text-blue-400">Tesla</span>
@@ -41,6 +37,15 @@ const metadata = {
     <Fragment slot="subtitle">
       <span class="font-semibold text-gray-900 dark:text-white">InTaxi (NAD Service)</span> biedt premium luchthavenvervoer vanuit Amsterdam. 
       Reis volledig elektrisch, in stijl en altijd voor een vast tarief van <span class="font-bold text-[#003399]">€75,-</span>.
+    </Fragment>
+
+    <Fragment slot="image">
+      <img 
+        src="https://images.unsplash.com/photo-1617788130012-02ba73c2f6fd?auto=format&fit=crop&w=2070&q=80" 
+        alt="Luxe Tesla X met chauffeur" 
+        class="mx-auto rounded-md w-full max-w-[1000px] shadow-lg bg-gray-400 dark:bg-slate-700"
+        loading="eager"
+      />
     </Fragment>
   </Hero>
 
