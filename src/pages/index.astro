@@ -39,19 +39,19 @@ const metadata = {
     </Fragment>
 
     <Fragment slot="subtitle">
-      <span class="font-semibold text-gray-900 dark:text-white">InTaxi (NAD Service)</span> biedt premium luchthavenvervoer vanuit Amsterdam. 
+      <span class="font-semibold text-gray-900 dark:text-white">InTaxi powered by (NAD Service)</span> biedt premium luchthavenvervoer vanuit Amsterdam. 
       Reis volledig elektrisch, in stijl en altijd voor een vast tarief van <span class="font-bold text-[#003399]">€75,-</span>.
     </Fragment>
 
     <Fragment slot="image">
-      <div class="relative m-auto max-w-5xl">
+      <div class="relative m-auto max-w-2xl"> <!-- Verkleind van 5xl naar 2xl voor betere zichtbaarheid -->
         <img 
           src={teslaImg.src} 
           alt="InTaxi Tesla NAD Service" 
           class="mx-auto rounded-md w-full shadow-lg bg-gray-400 dark:bg-slate-700"
           loading="eager"
-          width={1024}
-          height={555}
+          width={672} 
+          height={364}
         />
       </div>
     </Fragment>
