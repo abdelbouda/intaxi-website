@@ -28,26 +28,14 @@ export const headerData = {
     },
   ],
   actions: [
---    {
---      text: '+31 6 42 27 76 07',
---      href: 'tel:+31642277607',
---      variant: 'secondary',
---      icon: 'tabler:phone',
---    },
---   {
---      text: 'info@intaxi.nl',
---      href: 'mailto:info@intaxi.nl',
---      variant: 'secondary',
---      icon: 'tabler:mail',
---    },
     { 
       text: 'Contact via WhatsApp', 
       href: 'https://wa.me/31642277607?text=Ik%20wil%20graag%20een%20luxe%20Tesla%20taxi%20boeken%20voor%20een%20vaste%20prijs', 
       target: '_blank',
       variant: 'primary',
       icon: 'tabler:brand-whatsapp',
---    },
---  ],
+    },
+  ],
 };
 
 export const footerData = {
