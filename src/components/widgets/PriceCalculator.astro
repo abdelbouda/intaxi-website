@@ -1,5 +1,5 @@
 ---
-/* PriceCalculator.astro - 10% Discount, Round Down, NL Only & Extra Fields */
+/* PriceCalculator.astro - 10% Discount, Round Down, NL Only (BBox) & Extra Fields */
 ---
 
 <section id="prijs-calculator" class="bg-blue-50 dark:bg-slate-900 py-12 border-t border-b border-gray-200 dark:border-slate-800 scroll-mt-20">
@@ -22,7 +22,7 @@
               type="text" 
               id="pickup-input" 
               placeholder="Typ ophaaladres..." 
-              class="w-full p-3 rounded-lg border border-gray-300 dark:bg-slate-700 dark:border-slate-600 outline-none focus:ring-2 focus:ring-blue-500"
+              class="w-full p-3 rounded-lg border border-gray-300 dark:bg-slate-700 dark:border-slate-600 outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 dark:text-white"
               autocomplete="off"
             />
             <div id="autocomplete-results" class="absolute z-20 w-full bg-white dark:bg-slate-800 shadow-2xl rounded-b-lg hidden max-h-60 overflow-y-auto border border-gray-200 dark:border-slate-600"></div>
@@ -120,31 +120,33 @@
     };
   });
 
-  // API Filter: Alleen Nederland resultaten
+  // Robuuste Adres Autocomplete (Nederland Only via BBox)
   pickupInput.addEventListener('input', async (e) => {
     const val = e.target.value;
     if (val.length < 3) { resultsDiv.classList.add('hidden'); return; }
 
     try {
-      // Filter toegevoegd: countrycode=nl
-      const res = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(val)}&limit=5&lang=nl&location_bias_scale=0.5`);
+      // Gebruik bbox voor Nederland om resultaten te forceren naar NL
+      const bbox = '3.314971,50.750367,7.227498,53.576443';
+      const res = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(val)}&limit=10&bbox=${bbox}&lang=nl`);
       const data = await res.json();
       
       resultsDiv.innerHTML = '';
-      // Filter extra op features uit Nederland
-      const nlFeatures = data.features.filter(f => f.properties.countrycode === 'NL' || f.properties.country === 'Netherlands');
+      if(!data.features || data.features.length === 0) { resultsDiv.classList.add('hidden'); return; }
 
-      if(nlFeatures.length === 0) { resultsDiv.classList.add('hidden'); return; }
-
-      nlFeatures.forEach(f => {
+      data.features.forEach(f => {
+        const p = f.properties;
         const div = document.createElement('div');
-        div.className = 'p-3 hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer border-b text-sm';
-        const name = f.properties.name || '';
-        const city = f.properties.city ? `, ${f.properties.city}` : '';
-        div.innerText = `${name}${city}`;
+        div.className = 'p-3 hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer border-b text-sm text-gray-800 dark:text-gray-200 dark:border-slate-700';
+        
+        const street = p.street ? p.street : (p.name || '');
+        const city = p.city || p.state || '';
+        const displayLabel = `${street}${city ? ', ' + city : ''}`;
+
+        div.innerText = displayLabel;
         
         div.onclick = () => {
-          pickupInput.value = name;
+          pickupInput.value = displayLabel;
           selectedLonLat = f.geometry.coordinates;
           resultsDiv.classList.add('hidden');
         };
@@ -152,6 +154,10 @@
       });
       resultsDiv.classList.remove('hidden');
     } catch (err) { console.error(err); }
+  });
+
+  document.addEventListener('click', (e) => {
+    if (e.target !== pickupInput) resultsDiv.classList.add('hidden');
   });
 
   document.getElementById('calculate-btn').onclick = async () => {
@@ -176,16 +182,16 @@
       const km = route.distance / 1000;
       const min = route.duration / 60;
 
-      // Berekening
+      // Berekening: 10% korting en afronden naar beneden
       const basisPrijs = t.start + (km * t.km) + (min * t.min);
-      const metKorting = basisPrijs * 0.90; // 10% korting
-      const afgerond = Math.floor(metKorting); // Afronden naar beneden
+      const metKorting = basisPrijs * 0.90;
+      const afgerond = Math.floor(metKorting);
 
       document.getElementById('old-price').innerText = `Normaal: €${basisPrijs.toFixed(2)}`;
       document.getElementById('display-price').innerText = `€ ${afgerond}`;
       document.getElementById('route-info').innerText = `${km.toFixed(1)} km | ± ${Math.round(min)} min`;
       
-      // WhatsApp link
+      // WhatsApp link met alle details
       const huisnr = document.getElementById('house-number').value;
       const notes = document.getElementById('notes-input').value;
       const destinationText = document.getElementById('destination-select').options[document.getElementById('destination-select').selectedIndex].text;
