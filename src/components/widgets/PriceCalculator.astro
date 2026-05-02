@@ -2,7 +2,7 @@
 /* PriceCalculator.astro - No-budget OSM integration with 2026 Government Rates */
 ---
 
-<section id="prijs-calculator" class="bg-blue-50 dark:bg-slate-900 py-12 border-t border-b border-gray-200 dark:border-slate-800">
+<section id="prijs-calculator" class="bg-blue-50 dark:bg-slate-900 py-12 border-t border-b border-gray-200 dark:border-slate-800 scroll-mt-20">
   <div class="max-w-4xl mx-auto px-4">
     <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-8 border border-blue-100 dark:border-slate-700">
       
@@ -42,17 +42,17 @@
           <div>
             <label class="block text-sm font-semibold mb-1 text-gray-700 dark:text-gray-300">Type Voertuig</label>
             <div class="grid grid-cols-2 gap-2">
-              <button id="btn-auto" class="vehicle-btn active p-3 border-2 border-blue-600 rounded-lg bg-blue-50 dark:bg-blue-900/20 font-bold" data-type="auto">
+              <button id="btn-auto" class="vehicle-btn active p-3 border-2 rounded-lg font-bold transition-colors" data-type="auto">
                 Tesla (1-4 pers.)
               </button>
-              <button id="btn-bus" class="vehicle-btn p-3 border-2 border-gray-200 dark:border-slate-600 rounded-lg font-bold" data-type="bus">
+              <button id="btn-bus" class="vehicle-btn p-3 border-2 border-gray-200 dark:border-slate-600 rounded-lg font-bold transition-colors text-gray-500 dark:text-gray-400" data-type="bus">
                 Bus (5-8 pers.)
               </button>
             </div>
           </div>
 
-          <button id="calculate-btn" class="w-full bg-[#003399] text-white font-bold py-4 rounded-lg hover:bg-blue-800 transition shadow-lg">
-            Bereken Ritprijs
+          <button id="calculate-btn" class="w-full bg-[#003399] text-white font-bold py-4 rounded-lg hover:bg-blue-800 transition shadow-lg flex justify-center items-center gap-2">
+            <span>Bereken Ritprijs</span>
           </button>
         </div>
 
@@ -75,8 +75,8 @@
              <div id="route-info" class="text-sm font-semibold text-gray-600 dark:text-gray-400 bg-white dark:bg-slate-800 py-2 rounded-full inline-block px-4 border border-gray-100 dark:border-slate-700"></div>
              
              <div class="pt-4">
-               <a href="#" id="whatsapp-link" class="inline-flex items-center text-green-600 font-bold hover:underline">
-                 <icon name="tabler:brand-whatsapp" class="w-5 h-5 mr-1" /> Direct boeken via WhatsApp
+               <a href="#" id="whatsapp-link" target="_blank" class="inline-flex items-center justify-center bg-green-600 text-white px-6 py-3 rounded-full font-bold hover:bg-green-700 transition w-full">
+                  Stuur aanvraag via WhatsApp
                </a>
              </div>
           </div>
@@ -90,7 +90,6 @@
           <li>De getoonde prijs is een indicatie op basis van de wettelijke maximumtarieven van de Rijksoverheid voor 2026.</li>
           <li><strong>Personenauto (t/m 4 pers.):</strong> Starttarief € 4,31 | Kilometerprijs € 3,17 | Tijdtarief per minuut € 0,52.</li>
           <li><strong>Busje (5 t/m 8 pers.):</strong> Starttarief € 8,75 | Kilometerprijs € 3,63 | Tijdtarief per minuut € 0,60.</li>
-          <li>Indien u de chauffeur vraagt te wachten, geldt een wachttarief van maximaal € 59,41 per uur.</li>
           <li>De uiteindelijke prijs wordt bepaald door de taximeter in het voertuig, tenzij vooraf een vaste prijs is overeengekomen.</li>
           <li>Routeberekeningen worden uitgevoerd via OpenStreetMap (OSRM) op basis van de snelste route.</li>
         </ul>
@@ -100,6 +99,7 @@
 </section>
 
 <style>
+  /* Actieve knop styling */
   .vehicle-btn.active {
     border-color: #003399;
     background-color: rgba(0, 51, 153, 0.05);
@@ -123,11 +123,15 @@
 
   // Voertuig switch logica
   vehicleBtns.forEach(btn => {
-    btn.onclick = () => {
-      vehicleBtns.forEach(b => b.classList.remove('active', 'border-blue-600', 'bg-blue-50'));
-      btn.classList.add('active', 'border-blue-600', 'bg-blue-50');
-      currentVehicleType = btn.dataset.type;
-    };
+    btn.addEventListener('click', () => {
+      vehicleBtns.forEach(b => {
+        b.classList.remove('active', 'border-[#003399]', 'bg-blue-50');
+        b.classList.add('border-gray-200', 'dark:border-slate-600', 'text-gray-500');
+      });
+      btn.classList.add('active', 'border-[#003399]', 'bg-blue-50');
+      btn.classList.remove('border-gray-200', 'text-gray-500');
+      currentVehicleType = btn.getAttribute('data-type');
+    });
   });
 
   // 1. Adres Autocomplete (Photon/OSM)
@@ -142,8 +146,12 @@
       resultsDiv.innerHTML = '';
       data.features.forEach(f => {
         const div = document.createElement('div');
-        div.className = 'p-3 hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer border-b dark:border-slate-700';
-        div.innerText = `${f.properties.name || ''} ${f.properties.city || ''} (${f.properties.country || ''})`;
+        div.className = 'p-3 hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer border-b dark:border-slate-700 text-sm';
+        const name = f.properties.name || '';
+        const city = f.properties.city || '';
+        const street = f.properties.street || '';
+        div.innerText = `${name}${street ? ', ' + street : ''} ${city} (${f.properties.country || ''})`;
+        
         div.onclick = () => {
           pickupInput.value = div.innerText;
           selectedLonLat = f.geometry.coordinates;
@@ -153,6 +161,11 @@
       });
       resultsDiv.classList.remove('hidden');
     } catch (err) { console.error("Adres fout", err); }
+  });
+
+  // Sluit dropdown bij klikken buiten input
+  document.addEventListener('click', (e) => {
+    if (e.target !== pickupInput) resultsDiv.classList.add('hidden');
   });
 
   // 2. Afstand & Prijs berekenen (OSRM)
@@ -185,13 +198,14 @@
       document.getElementById('route-info').innerText = `${km.toFixed(1)} km | ± ${Math.round(min)} min`;
       
       // WhatsApp link updaten
-      const msg = encodeURIComponent(`Hallo InTaxi, ik wil graag een rit boeken van ${pickupInput.value} naar de luchthaven. De geschatte prijs is €${totaalPrijs.toFixed(2)}.`);
+      const vehicleName = currentVehicleType === 'auto' ? 'Tesla' : 'Busje';
+      const msg = encodeURIComponent(`Hallo InTaxi, ik wil graag een ${vehicleName} boeken van ${pickupInput.value} naar de luchthaven. De geschatte prijs via de website is €${totaalPrijs.toFixed(2)}.`);
       document.getElementById('whatsapp-link').href = `https://wa.me/31642277607?text=${msg}`;
 
       loader.classList.add('hidden');
       output.classList.remove('hidden');
     } catch (err) {
-      alert("Er ging iets mis met de routeberekening.");
+      alert("Er ging iets mis met de routeberekening. Probeer het later opnieuw.");
       loader.classList.add('hidden');
       placeholder.classList.remove('hidden');
     }
