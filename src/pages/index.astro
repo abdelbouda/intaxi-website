@@ -14,7 +14,7 @@ import PriceCalculator from '~/components/widgets/PriceCalculator.astro';
 import teslaImg from '~/assets/images/tesla_nad_services.webp';
 
 const metadata = {
-  title: 'InTaxi — Luxe Tesla Taxi naar Schiphol met eerlijke tarieven',
+  title: 'InTaxi — Luxe Tesla Taxi naar Schiphol met vaste tarieven',
   ignoreTitleTemplate: true,
 };
 ---
@@ -27,11 +27,11 @@ const metadata = {
       {
         variant: 'primary',
         text: 'Boek via WhatsApp',
-        href: 'https://wa.me/31642277607?text=Ik%20wil%20graag%20een%20luxe%20Tesla%20taxi%20boeken',
+        href: 'https://wa.me/31642277607?text=Ik%20wil%20graag%20een%20luxe%20Tesla%20taxi%20boeken%20voor%20een%20vaste%20prijs',
         target: '_blank',
         icon: 'tabler:brand-whatsapp',
       },
-      { text: 'Bereken uw eerlijke ritprijs', href: '#prijs-calculator' },
+      { text: 'Bereken uw vaste ritprijs', href: '#prijs-calculator' },
     ]}
   >
     <Fragment slot="title">
@@ -40,7 +40,7 @@ const metadata = {
 
     <Fragment slot="subtitle">
       <span class="font-semibold text-gray-900 dark:text-white">InTaxi powered by (NAD Service)</span> biedt premium luchthavenvervoer vanuit Amsterdam. 
-      Reis volledig elektrisch en in stijl voor een eerlijke prijs, berekend volgens de officiële <span class="font-bold text-[#003399]">taxitarieven van 2026</span>.
+      Reis volledig elektrisch en in stijl voor een <span class="font-bold text-[#003399] dark:text-blue-400">vaste prijs</span>, berekend volgens de officiële <span class="font-bold text-[#003399]">taxitarieven van 2026</span>.
     </Fragment>
 
     <Fragment slot="image">
@@ -63,7 +63,7 @@ const metadata = {
 
   <!-- Note Widget ******************* -->
 
-  <Note title="Onze belofte:" description="Duurzaamheid, Punctualiteit en Luxe op basis van eerlijke, wettelijke tarieven." />
+  <Note title="Onze belofte:" description="Duurzaamheid, Punctualiteit en Luxe op basis van vaste, transparante tarieven." />
 
   <!-- Features Widget *************** -->
 
@@ -74,8 +74,8 @@ const metadata = {
     subtitle="Wij combineren de duurzaamheid van Tesla met de betrouwbaarheid van NAD Service voor de perfecte reiservaring."
     items={[
       {
-        title: 'Eerlijke Meterprijs',
-        description: 'Geen schattingen achteraf. Wij hanteren de officiële tarieven van de Rijksoverheid, zodat u nooit te veel betaalt.',
+        title: 'Vaste Ritprijs',
+        description: 'Geen verrassingen achteraf. Wij bieden een vast tarief vooraf, zodat u precies weet waar u aan toe bent.',
         icon: 'tabler:currency-euro',
       },
       {
@@ -90,13 +90,11 @@ const metadata = {
       },
       {
         title: 'Eenvoudig Boeken',
-        description: 'Geen ingewikkelde apps. Gebruik onze calculator voor een indicatie en bevestig direct via WhatsApp.',
+        description: 'Geen ingewikkelde apps. Gebruik onze calculator voor een vaste prijs en bevestig direct via WhatsApp.',
         icon: 'tabler:brand-whatsapp',
       },
     ]}
   />
-
-  <!-- De rest van de widgets blijven functioneel hetzelfde maar gebruiken de teslaImg import -->
 
   <Content
     isReversed
@@ -131,13 +129,13 @@ const metadata = {
     title="Hoe werkt het?"
     items={[
       {
-        title: 'Stap 1: <span class="font-medium text-[#003399]">Bereken uw prijs</span>',
-        description: "Gebruik de calculator hierboven om een eerlijke prijsindicatie te krijgen voor uw specifieke route.",
+        title: 'Stap 1: <span class="font-medium text-[#003399]">Bereken uw vaste prijs</span>',
+        description: "Gebruik de calculator hierboven om direct een vaste prijs te krijgen voor uw specifieke route.",
         icon: 'tabler:calculator',
       },
       {
         title: 'Stap 2: <span class="font-medium text-[#003399]">Bevestig via WhatsApp</span>',
-        description: "Stuur ons uw locatie en tijd. Wij reageren direct om uw luxe Tesla te bevestigen.",
+        description: "Stuur ons uw gegevens. Wij reageren direct om uw luxe Tesla voor het afgesproken tarief te bevestigen.",
         icon: 'tabler:brand-whatsapp',
       },
       {
@@ -163,15 +161,15 @@ const metadata = {
     items={[
       {
         title: 'Hoe wordt de prijs bepaald?',
-        description: "Wij maken gebruik van de officiële taximeter die de prijs berekent op basis van starttarief, afstand en tijd, conform de wetgeving van 2026.",
+        description: "De calculator berekent een vaste prijs op basis van de afstand en tijd, inclusief een exclusieve korting ten opzichte van de meterprijs.",
       },
       {
         title: 'Hoe kan ik betalen?',
         description: "U kunt bij de chauffeur betalen via pin, creditcard of contant. Voor zakelijke klanten is rijden op factuur mogelijk.",
       },
       {
-        title: 'Rijden jullie 24/7?',
-        description: "Zeker. Of u nu een vroege vlucht heeft om 05:00 uur of midden in de nacht landt, wij staan voor u klaar.",
+        title: 'Geldt de vaste prijs altijd?',
+        description: "Ja, zodra u via onze website een berekening maakt en deze bevestigt via WhatsApp, staat uw prijs vast.",
       },
       {
         title: 'Wat als mijn vlucht vertraging heeft?',
@@ -196,7 +194,7 @@ const metadata = {
     </Fragment>
 
     <Fragment slot="subtitle">
-      Reserveer vandaag nog uw Tesla bij <strong class="text-[#003399]">InTaxi</strong> en reis zorgeloos voor een eerlijke prijs.
+      Reserveer vandaag nog uw Tesla bij <strong class="text-[#003399]">InTaxi</strong> en reis zorgeloos voor een <span class="font-bold">vaste prijs</span>.
     </Fragment>
 
     <Fragment slot="bg">
