@@ -1,5 +1,5 @@
 ---
-/* PriceCalculator.astro - Update: Werkend Logo, Afstand & Prijs Capping */
+/* PriceCalculator.astro - Update: Grid Layout voor Adres + Nr */
 import { Image } from 'astro:assets';
 import teslaLogo from '../../assets/images/tesla_nad_services.webp';
 import vitoLogo from '../../assets/images/busje_nad_services.webp';
@@ -21,35 +21,35 @@ import vitoLogo from '../../assets/images/busje_nad_services.webp';
             </div>
 
             <div class="grid gap-2">
-              <div class="relative group">
-                <div class="flex items-center bg-gray-50 dark:bg-slate-700 rounded-lg px-3 py-2 border border-gray-200 dark:border-slate-600 shadow-[inset_0_1px_2px_rgba(0,0,0,0.05)] focus-within:border-[#003399]">
-                  <span class="text-xs mr-2">📍</span>
-                  <input type="text" id="pickup-input" placeholder="Ophaaladres (Straat en stad)..." class="w-full bg-transparent outline-none text-xs font-semibold" />
+              <!-- Ophaaladres + Nr -->
+              <div class="grid grid-cols-4 gap-2">
+                <div class="col-span-3 relative">
+                  <div class="flex items-center bg-gray-50 dark:bg-slate-700 rounded-lg px-3 py-2 border border-gray-200 dark:border-slate-600 shadow-[inset_0_1px_2px_rgba(0,0,0,0.05)] focus-within:border-[#003399]">
+                    <span class="text-xs mr-2">📍</span>
+                    <input type="text" id="pickup-input" placeholder="Ophaaladres..." class="w-full bg-transparent outline-none text-xs font-semibold" />
+                  </div>
+                  <div id="pickup-results" class="absolute z-50 w-full bg-white shadow-xl hidden max-h-32 overflow-y-auto border rounded-b-lg text-[11px]"></div>
                 </div>
-                <div id="pickup-results" class="absolute z-50 w-full bg-white shadow-xl hidden max-h-32 overflow-y-auto border rounded-b-lg text-[11px]"></div>
-              </div>
-              <div class="bg-gray-50 dark:bg-slate-700 rounded-lg px-3 py-2 border border-gray-200 dark:border-slate-600 shadow-[inset_0_1px_2px_rgba(0,0,0,0.05)]">
-                <input type="text" id="pickup-house" placeholder="Huisnummer ophaaladres..." class="w-full bg-transparent outline-none text-xs font-semibold" />
+                <input type="text" id="pickup-house" placeholder="Nr" class="bg-gray-50 dark:bg-slate-700 rounded-lg px-3 py-2 border border-gray-200 dark:border-slate-600 text-xs font-semibold outline-none focus:border-[#003399]" />
               </div>
 
-              <div class="relative group mt-1">
-                <div class="flex items-center bg-gray-50 dark:bg-slate-700 rounded-lg px-3 py-2 border border-gray-200 dark:border-slate-600 shadow-[inset_0_1px_2px_rgba(0,0,0,0.05)] focus-within:border-[#003399]">
-                  <span class="text-xs mr-2">🏁</span>
-                  <input type="text" id="dest-input" placeholder="Bestemming (Vliegveld of stad)..." class="w-full bg-transparent outline-none text-xs font-semibold" />
+              <!-- Bestemming + Nr -->
+              <div class="grid grid-cols-4 gap-2">
+                <div class="col-span-3 relative">
+                  <div class="flex items-center bg-gray-50 dark:bg-slate-700 rounded-lg px-3 py-2 border border-gray-200 dark:border-slate-600 shadow-[inset_0_1px_2px_rgba(0,0,0,0.05)] focus-within:border-[#003399]">
+                    <span class="text-xs mr-2">🏁</span>
+                    <input type="text" id="dest-input" placeholder="Bestemming..." class="w-full bg-transparent outline-none text-xs font-semibold" />
+                  </div>
+                  <div id="dest-results" class="absolute z-50 w-full bg-white shadow-xl hidden max-h-40 overflow-y-auto border rounded-b-lg text-[11px]"></div>
                 </div>
-                <div id="dest-results" class="absolute z-50 w-full bg-white shadow-xl hidden max-h-40 overflow-y-auto border rounded-b-lg text-[11px]"></div>
-              </div>
-              <div class="bg-gray-50 dark:bg-slate-700 rounded-lg px-3 py-2 border border-gray-200 dark:border-slate-600 shadow-[inset_0_1px_2px_rgba(0,0,0,0.05)]">
-                <input type="text" id="dest-house" placeholder="Huisnummer bestemming..." class="w-full bg-transparent outline-none text-xs font-semibold" />
+                <input type="text" id="dest-house" placeholder="Nr" class="bg-gray-50 dark:bg-slate-700 rounded-lg px-3 py-2 border border-gray-200 dark:border-slate-600 text-xs font-semibold outline-none focus:border-[#003399]" />
               </div>
 
-              <div class="grid grid-cols-2 gap-2">
-                <div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg px-3 py-2 border border-blue-100 flex justify-between items-center shadow-sm col-span-2">
-                   <span class="text-[9px] uppercase font-bold text-blue-400">Ritdetails:</span>
-                   <p class="text-xs font-black text-[#003399] dark:text-blue-300">
-                     <span id="est-time">--</span> min / <span id="est-km">--</span> km
-                   </p>
-                </div>
+              <div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg px-3 py-2 border border-blue-100 flex justify-between items-center shadow-sm">
+                 <span class="text-[9px] uppercase font-bold text-blue-400">Ritdetails:</span>
+                 <p class="text-xs font-black text-[#003399] dark:text-blue-300">
+                   <span id="est-time">--</span> min / <span id="est-km">--</span> km
+                 </p>
               </div>
 
               <div class="grid grid-cols-2 gap-2">
@@ -62,27 +62,15 @@ import vitoLogo from '../../assets/images/busje_nad_services.webp';
             <div class="grid grid-cols-2 gap-2 pt-1">
               <div id="v-auto" onclick="setVehicle('auto')" class="group relative bg-white dark:bg-slate-700 border-b-4 border-gray-200 p-2 rounded-xl cursor-pointer transition-all active:translate-y-1">
                 <div class="flex flex-col items-center text-center">
-                  <Image 
-                    src={teslaLogo} 
-                    alt="Tesla NAD" 
-                    width={60} 
-                    height={30} 
-                    class="w-12 h-auto mb-1 object-contain"
-                  />
+                  <Image src={teslaLogo} alt="Tesla NAD" width={60} height={30} class="w-12 h-auto mb-1 object-contain" />
                   <span class="text-[10px] font-bold block">Tesla</span>
                   <span id="price-auto" class="text-xs font-black text-[#003399]">€ --</span>
                 </div>
               </div>
               <div id="v-bus" onclick="setVehicle('bus')" class="group relative bg-white dark:bg-slate-700 border-b-4 border-gray-200 p-2 rounded-xl cursor-pointer transition-all active:translate-y-1">
                 <div class="flex flex-col items-center text-center">
-                   <Image 
-                    src={vitoLogo} 
-                    alt="Mercedes Vito NAD" 
-                    width={60} 
-                    height={30} 
-                    class="w-12 h-auto mb-1 object-contain"
-                  />
-                  <span class="text-[10px] font-bold block">Busje (Vito)</span>
+                   <Image src={vitoLogo} alt="Mercedes Vito NAD" width={60} height={30} class="w-12 h-auto mb-1 object-contain" />
+                  <span class="text-[10px] font-bold block">Busje</span>
                   <span id="price-bus" class="text-xs font-black text-[#003399]">€ --</span>
                 </div>
               </div>
@@ -100,15 +88,15 @@ import vitoLogo from '../../assets/images/busje_nad_services.webp';
               <input type="text" id="cust-last-name" placeholder="Achternaam" class="p-2.5 text-xs bg-gray-50 dark:bg-slate-700 border border-gray-200 rounded-lg outline-none" />
             </div>
             <input type="tel" id="cust-phone" placeholder="Telefoonnummer *" class="w-full p-2.5 text-xs bg-gray-50 dark:bg-slate-700 border border-gray-200 rounded-lg outline-none" />
-            <textarea id="cust-notes" placeholder="Vluchtnummer of opmerkingen..." class="w-full p-2.5 text-xs bg-gray-50 dark:bg-slate-700 border border-gray-200 rounded-lg h-20 outline-none"></textarea>
+            <textarea id="cust-notes" placeholder="Vluchtnummer of opmerkingen..." class="w-full p-2.5 text-xs bg-gray-50 dark:bg-slate-700 border border-gray-200 rounded-lg h-20 outline-none resize-none"></textarea>
             
             <div class="space-y-2">
                 <button id="final-reserve-btn" class="w-full bg-[#003399] text-white font-black py-3 rounded-xl shadow-[0_4px_0_rgb(0,30,90)] hover:shadow-[0_2px_0_rgb(0,30,90)] hover:translate-y-[2px] active:shadow-none active:translate-y-[4px] transition-all flex items-center justify-center gap-2 text-xs uppercase tracking-widest">
-                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.417-.003 6.557-5.338 11.892-11.893 11.892-1.997-.001-3.951-.5-5.688-1.448l-6.305 1.652zm6.599-3.835c1.406.836 2.492 1.24 4.39 1.24 5.33 0 9.675-4.346 9.678-9.677.001-2.583-1.003-5.01-2.827-6.834-1.825-1.825-4.253-2.83-6.837-2.831-5.33 0-9.673 4.346-9.676 9.677-.001 1.83.479 3.125 1.385 4.69l-.934 3.413 3.421-.899zm10.155-5.592c-.286-.143-1.688-.833-1.949-.928-.261-.095-.451-.143-.641.143-.19.286-.737.928-.903 1.118-.166.19-.333.214-.618.071-.285-.143-1.206-.444-2.298-1.417-.85-.758-1.423-1.694-1.59-1.979-.166-.286-.018-.44.125-.581.128-.128.286-.333.428-.5.143-.166.19-.286.286-.476.095-.19.048-.357-.024-.5-.071-.143-.641-1.545-.879-2.117-.231-.557-.466-.481-.641-.49-.166-.008-.356-.01-.546-.01s-.5.071-.76.357c-.26.286-.998.976-.998 2.38s1.022 2.761 1.164 2.951c.143.19 2.012 3.073 4.874 4.31.681.294 1.212.47 1.626.601.684.218 1.307.187 1.8.113.549-.082 1.688-.69 1.926-1.356.238-.666.238-1.237.166-1.356-.072-.119-.261-.19-.547-.333z"/></svg>
+                  <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.417-.003 6.557-5.338 11.892-11.893 11.892-1.997-.001-3.951-.5-5.688-1.448l-6.305 1.652zm6.599-3.835c1.406.836 2.492 1.24 4.39 1.24 5.33 0 9.675-4.346 9.678-9.677.001-2.583-1.003-5.01-2.827-6.834-1.825-1.825-4.253-2.83-6.837-2.831-5.33 0-9.673 4.346-9.676 9.677-.001 1.83.479 3.125 1.385 4.69l-.934 3.413 3.421-.899zm10.155-5.592c-.286-.143-1.688-.833-1.949-.928-.261-.095-.451-.143-.641.143-.19.286-.737.928-.903 1.118-.166.19-.333.214-.618.071-.285-.143-1.206-.444-2.298-1.417-.85-.758-1.423-1.694-1.59-1.979-.166-.286-.018-.44.125-.581.128-.128.286-.333.428-.5.143-.166.19-.286.286-.476.095-.19.048-.357-.024-.5-.071-.143-.641-1.545-.879-2.117-.231-.557-.466-.481-.641-.49-.166-.008-.356-.01-.546-.01s-.5.071-.76.357c-.26.286-.998.976-.998 2.38s1.022 2.761 1.164 2.951c.143.19 2.012 3.073 4.874 4.31.681.294 1.212.47 1.626.601.684.218 1.307.187 1.8.113.549-.082 1.688-.69 1.926-1.356.238-.666.238-1.237.166-1.356-.072-.119-.261-.19-.547-.333z"/></svg>
                   Nu Boeken
                 </button>
                 <p id="error-msg" class="text-[10px] text-red-500 font-bold text-center opacity-0 transition-opacity duration-300">
-                  Vul a.u.b. alle verplichte velden in.
+                  Vul a.u.b. alle verplichte velden (*) in.
                 </p>
             </div>
           </div>
@@ -141,7 +129,7 @@ import vitoLogo from '../../assets/images/busje_nad_services.webp';
     setVehicle('auto');
   });
 
-  function setVehicle(type) {
+  window.setVehicle = function(type) {
     selectedVehicle = type;
     document.getElementById('v-auto').classList.toggle('active-vehicle', type === 'auto');
     document.getElementById('v-bus').classList.toggle('active-vehicle', type === 'bus');
@@ -190,17 +178,15 @@ import vitoLogo from '../../assets/images/busje_nad_services.webp';
       totalAuto *= 0.90;
       totalBus *= 0.90;
 
-      if (!isAirport && destInNL) {
-        totalAuto *= 0.75;
-        totalBus *= 0.75;
-        
+      // Prijs-Cap: Indien NL en boven limiet
+      if (destInNL) {
         if (totalAuto > 250) totalAuto = 250;
         if (totalBus > 300) totalBus = 300;
       }
 
       document.getElementById('price-auto').innerText = `€ ${Math.floor(totalAuto)},-`;
       document.getElementById('price-bus').innerText = `€ ${Math.floor(totalBus)},-`;
-    } catch (e) { console.error("Price error"); }
+    } catch (e) { console.error("Price calculation error"); }
   }
 
   async function setupAutocomplete(inputId, resultsId, onSelect) {
@@ -212,6 +198,7 @@ import vitoLogo from '../../assets/images/busje_nad_services.webp';
       results.innerHTML = '';
       if (val.length < 2) { results.classList.add('hidden'); return; }
 
+      // Voeg vliegvelden toe aan suggesties
       if (inputId === 'dest-input') {
         airports.filter(a => a.name.toLowerCase().includes(val.toLowerCase())).forEach(a => {
           const div = document.createElement('div');
@@ -234,12 +221,11 @@ import vitoLogo from '../../assets/images/busje_nad_services.webp';
       data.features.forEach(f => {
         const div = document.createElement('div');
         div.className = 'p-2 hover:bg-blue-50 cursor-pointer border-b text-[10px]';
-        const name = `${f.properties.name || f.properties.city || ''}, ${f.properties.city || f.properties.country || ''}`;
+        const name = `${f.properties.name || ''} ${f.properties.city || ''}, ${f.properties.country || ''}`;
         div.innerText = name;
         div.onclick = () => {
           input.value = name;
           results.classList.add('hidden');
-          isAirport = airports.some(a => name.includes(a.name));
           destInNL = f.properties.country === 'Netherlands' || f.properties.countrycode === 'NL';
           onSelect(f.geometry.coordinates);
           calculatePrice();
@@ -256,10 +242,10 @@ import vitoLogo from '../../assets/images/busje_nad_services.webp';
   document.getElementById('final-reserve-btn').onclick = () => {
     const fName = document.getElementById('cust-first-name').value;
     const phone = document.getElementById('cust-phone').value;
-    const pCHouse = document.getElementById('pickup-house').value;
+    const pInput = document.getElementById('pickup-input').value;
     const price = selectedVehicle === 'auto' ? document.getElementById('price-auto').innerText : document.getElementById('price-bus').innerText;
     
-    if (!fName || !phone || !pCHouse || price === '€ --') { 
+    if (!fName || !phone || !pInput || price === '€ --') { 
       showError();
       return; 
     }
@@ -268,7 +254,7 @@ import vitoLogo from '../../assets/images/busje_nad_services.webp';
       `🚕 INTAXI BOEKING\n\n` +
       `Klant: ${fName} ${document.getElementById('cust-last-name').value}\n` +
       `📞 Tel: ${phone}\n` +
-      `📍 Van: ${document.getElementById('pickup-input').value} ${pCHouse}\n` +
+      `📍 Van: ${pInput} ${document.getElementById('pickup-house').value}\n` +
       `🏁 Naar: ${document.getElementById('dest-input').value} ${document.getElementById('dest-house').value}\n` +
       `📅 Datum: ${document.getElementById('pickup-date').value} om ${document.getElementById('pickup-time').value}\n` +
       `🚗 Auto: ${selectedVehicle === 'auto' ? 'Tesla' : 'Busje'}\n` +
