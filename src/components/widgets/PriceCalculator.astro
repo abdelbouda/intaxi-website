@@ -1,111 +1,103 @@
 ---
-/* PriceCalculator.astro - 2-Staps Workflow gebaseerd op image_9e069c.png */
+/* PriceCalculator.astro - NAD Huisstijl, Compact & 2-staps Workflow */
 ---
 
-<section id="prijs-calculator" class="bg-slate-50 dark:bg-slate-900 py-8 scroll-mt-20">
-  <div class="max-w-4xl mx-auto px-4">
-    <div class="bg-[#2c2e33] rounded-3xl shadow-2xl border-4 border-red-600 overflow-hidden text-white">
+<section id="prijs-calculator" class="bg-slate-50 dark:bg-slate-900 py-4 scroll-mt-20">
+  <div class="max-w-2xl mx-auto px-4">
+    <!-- Container met NAD Blauw (#003399) en 3D effect -->
+    <div class="bg-[#f8fafc] dark:bg-slate-800 rounded-2xl shadow-[0_10px_30px_rgba(0,51,153,0.15)] border-2 border-[#003399] overflow-hidden text-gray-800 dark:text-white">
       
-      <!-- Top Bar: Taal (Optioneel) -->
-      <div class="flex justify-end p-4">
-        <select class="bg-white text-gray-800 text-sm rounded-md px-3 py-1 outline-none">
-          <option>NL Dutch</option>
-          <option>EN English</option>
-        </select>
-      </div>
-
-      <div class="p-6 md:p-10">
-        <!-- STAP 1: REIS (Gecombineerd Route + Voertuig) -->
-        <div id="step-1" class="step-content space-y-4">
+      <div class="p-4 md:p-6">
+        <!-- STAP 1: REIS -->
+        <div id="step-1" class="step-content space-y-3">
           
           <!-- Ophaalpunt -->
-          <div class="relative bg-white rounded-xl p-4 flex items-center gap-3">
-            <span class="text-gray-400">🔍</span>
-            <input type="text" id="pickup-input" placeholder="Ophaalpunt (required)" class="w-full text-gray-800 outline-none font-medium" required />
-            <div id="autocomplete-results" class="absolute z-50 left-0 top-full w-full bg-white shadow-2xl hidden max-h-48 overflow-y-auto border-t text-gray-800"></div>
+          <div class="relative bg-white dark:bg-slate-700 rounded-lg p-3 flex items-center gap-2 border border-gray-200 dark:border-slate-600 shadow-sm">
+            <span class="text-[#003399]">📍</span>
+            <input type="text" id="pickup-input" placeholder="Ophaalpunt (straat + stad)" class="w-full text-sm outline-none font-medium bg-transparent" required />
+            <div id="autocomplete-results" class="absolute z-50 left-0 top-full w-full bg-white shadow-xl hidden max-h-40 overflow-y-auto border-t text-gray-800"></div>
           </div>
 
-          <!-- Bestemming Info Box (Statisch visueel element) -->
-          <div class="bg-white rounded-xl p-4 flex justify-between items-center text-gray-800">
-             <div class="flex items-center gap-3">
-               <span class="text-xl">✈️</span>
-               <div>
-                 <p class="text-[10px] uppercase font-bold text-gray-400">Selecteer uw bestemming</p>
-                 <select id="destination-select" class="font-bold outline-none bg-transparent">
+          <!-- Bestemming & Tijd Box -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div class="bg-white dark:bg-slate-700 rounded-lg p-3 border border-gray-200 dark:border-slate-600 flex justify-between items-center shadow-sm">
+               <div class="flex items-center gap-2">
+                 <span class="text-sm">✈️</span>
+                 <select id="destination-select" class="text-xs font-bold outline-none bg-transparent">
                     <option value="4.7683,52.3105">Schiphol Airport (AMS)</option>
                     <option value="4.4844,50.9010">Brussels Airport (BRU)</option>
                     <option value="4.4372,51.9225">Rotterdam Airport (RTM)</option>
                  </select>
                </div>
-             </div>
-             <div class="bg-gray-700 text-white p-2 rounded-lg text-center min-w-[80px]">
-                <p class="text-[8px] uppercase">Journey Time</p>
-                <p class="font-bold"><span id="est-time">--</span> Mins</p>
-             </div>
-          </div>
-
-          <!-- Datum & Tijd Rij -->
-          <div class="grid grid-cols-2 gap-4">
-            <div class="bg-white rounded-xl p-4 text-gray-800">
-               <p class="text-[10px] uppercase font-bold text-gray-400">Datum (Required)</p>
-               <input type="date" id="pickup-date" class="w-full font-bold outline-none" required />
+               <div class="text-right border-l pl-2 border-gray-100">
+                  <p class="text-[8px] uppercase text-gray-400">Reistijd</p>
+                  <p class="text-xs font-bold text-[#003399]"><span id="est-time">--</span> min</p>
+               </div>
             </div>
-            <div class="bg-white rounded-xl p-4 text-gray-800">
-               <p class="text-[10px] uppercase font-bold text-gray-400">Time</p>
-               <input type="time" id="pickup-time" class="w-full font-bold outline-none" required />
+
+            <div class="flex gap-2">
+              <div class="bg-white dark:bg-slate-700 rounded-lg p-2 border border-gray-200 dark:border-slate-600 flex-1 shadow-sm">
+                <input type="date" id="pickup-date" class="w-full text-xs font-bold outline-none bg-transparent" />
+              </div>
+              <div class="bg-white dark:bg-slate-700 rounded-lg p-2 border border-gray-200 dark:border-slate-600 flex-1 shadow-sm">
+                <input type="time" id="pickup-time" class="w-full text-xs font-bold outline-none bg-transparent" />
+              </div>
             </div>
           </div>
 
-          <p class="text-center font-bold text-lg py-2">Selecteer uw reis</p>
+          <p class="text-center font-bold text-xs uppercase tracking-widest text-gray-400 py-1">Kies uw voertuig</p>
 
-          <!-- Voertuig Selectie -->
-          <div class="space-y-3">
-            <div onclick="selectVehicle('auto')" class="vehicle-card bg-white rounded-xl p-4 flex justify-between items-center text-gray-800 cursor-pointer hover:ring-4 hover:ring-blue-500 transition">
-               <div class="flex items-center gap-4">
-                 <span class="text-4xl">🚗</span>
-                 <span class="font-bold text-xl">Sedan (Tesla)</span>
+          <!-- Voertuigen - Compacter -->
+          <div class="grid grid-cols-1 gap-2">
+            <div onclick="selectVehicle('auto')" class="vehicle-card bg-white dark:bg-slate-700 rounded-lg p-3 flex justify-between items-center border border-gray-100 dark:border-slate-600 cursor-pointer hover:border-[#003399] transition-all shadow-sm active:scale-95">
+               <div class="flex items-center gap-3">
+                 <span class="text-2xl">🚗</span>
+                 <div>
+                   <span class="font-bold text-sm block">Tesla Business Class</span>
+                   <span class="text-[9px] text-green-600 font-bold uppercase">✓ 10% Korting</span>
+                 </div>
                </div>
-               <span id="price-auto" class="font-black text-xl text-blue-600">€ --</span>
+               <span id="price-auto" class="font-black text-lg text-[#003399]">€ --</span>
             </div>
-            <div onclick="selectVehicle('bus')" class="vehicle-card bg-white rounded-xl p-4 flex justify-between items-center text-gray-800 cursor-pointer hover:ring-4 hover:ring-blue-500 transition">
-               <div class="flex items-center gap-4">
-                 <span class="text-4xl">🚐</span>
-                 <span class="font-bold text-xl">Bus</span>
+            <div onclick="selectVehicle('bus')" class="vehicle-card bg-white dark:bg-slate-700 rounded-lg p-3 flex justify-between items-center border border-gray-100 dark:border-slate-600 cursor-pointer hover:border-[#003399] transition-all shadow-sm active:scale-95">
+               <div class="flex items-center gap-3">
+                 <span class="text-2xl">🚐</span>
+                 <span class="font-bold text-sm">Personenbus (5-8p)</span>
                </div>
-               <span id="price-bus" class="font-black text-xl text-blue-600">€ --</span>
+               <span id="price-bus" class="font-black text-lg text-[#003399]">€ --</span>
             </div>
           </div>
         </div>
 
-        <!-- STAP 2: PERSOONLIJKE INFORMATIE -->
-        <div id="step-2" class="step-content hidden space-y-6">
-          <div class="bg-gray-800/50 p-6 rounded-2xl border border-gray-700">
-            <h3 class="text-center font-bold text-xl mb-6">Persoonlijke Informatie</h3>
-            <div class="grid md:grid-cols-2 gap-4 text-gray-800">
-              <input type="text" id="cust-first-name" placeholder="Voornaam *" class="p-4 rounded-xl outline-none" required />
-              <input type="text" id="cust-last-name" placeholder="Achternaam *" class="p-4 rounded-xl outline-none" required />
-              <input type="email" id="cust-email" placeholder="E-mailadres *" class="p-4 rounded-xl outline-none" required />
-              <input type="tel" id="cust-phone" placeholder="Telefoonnummer *" class="p-4 rounded-xl outline-none" required />
+        <!-- STAP 2: PERSOONLIJKE INFO -->
+        <div id="step-2" class="step-content hidden space-y-4">
+          <div class="bg-white dark:bg-slate-700 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-slate-600">
+            <h3 class="text-center font-bold text-sm text-[#003399] mb-4">Uw Gegevens</h3>
+            <div class="grid grid-cols-2 gap-3">
+              <input type="text" id="cust-first-name" placeholder="Voornaam *" class="p-2 text-xs border rounded-md dark:bg-slate-600 outline-none focus:ring-1 focus:ring-[#003399]" />
+              <input type="text" id="cust-last-name" placeholder="Achternaam *" class="p-2 text-xs border rounded-md dark:bg-slate-600 outline-none focus:ring-1 focus:ring-[#003399]" />
+              <input type="email" id="cust-email" placeholder="E-mail *" class="p-2 text-xs border rounded-md dark:bg-slate-600 outline-none focus:ring-1 focus:ring-[#003399]" />
+              <input type="tel" id="cust-phone" placeholder="Telefoon *" class="p-2 text-xs border rounded-md dark:bg-slate-600 outline-none focus:ring-1 focus:ring-[#003399]" />
             </div>
-            <textarea id="cust-notes" placeholder="Vluchtnummer of extra info..." class="w-full mt-4 p-4 rounded-xl text-gray-800 h-24 outline-none"></textarea>
+            <textarea id="cust-notes" placeholder="Vluchtnummer / Opmerkingen..." class="w-full mt-3 p-2 text-xs border rounded-md dark:bg-slate-600 h-16 outline-none focus:ring-1 focus:ring-[#003399]"></textarea>
           </div>
 
-          <div class="flex gap-4">
-             <button onclick="toggleSteps(1)" class="w-1/3 bg-gray-600 py-4 rounded-xl font-bold uppercase">Terug</button>
-             <button id="final-reserve-btn" class="w-2/3 bg-green-600 py-4 rounded-xl font-bold uppercase shadow-lg hover:bg-green-700 transition">Bevestig via WhatsApp</button>
+          <div class="flex gap-2">
+             <button onclick="toggleSteps(1)" class="flex-1 bg-gray-100 dark:bg-slate-600 py-3 rounded-lg text-xs font-bold uppercase">Terug</button>
+             <button id="final-reserve-btn" class="flex-[2] bg-green-600 text-white py-3 rounded-lg text-xs font-bold uppercase shadow-md hover:bg-green-700 transition">Boeken via WhatsApp</button>
           </div>
         </div>
 
-        <!-- Bottom Navigation Tabs (Visual only as in image) -->
-        <div class="mt-8 flex justify-center items-center gap-8 border-t border-gray-700 pt-6">
-          <div class="text-center opacity-100" id="nav-step-1">
-            <span class="bg-red-600 text-white w-6 h-6 inline-flex items-center justify-center rounded-full text-xs font-bold mb-1">1</span>
-            <p class="text-[10px] uppercase font-bold">Reis</p>
+        <!-- Navigatie bollen onderaan -->
+        <div class="mt-4 flex justify-center items-center gap-4 pt-3 border-t border-gray-100 dark:border-slate-700">
+          <div class="flex items-center gap-1 opacity-100 transition-opacity" id="nav-step-1">
+            <span class="bg-[#003399] text-white w-4 h-4 flex items-center justify-center rounded-full text-[10px] font-bold">1</span>
+            <p class="text-[9px] uppercase font-bold text-[#003399]">Reis</p>
           </div>
-          <div class="h-px w-12 bg-gray-600"></div>
-          <div class="text-center opacity-40" id="nav-step-2">
-            <span class="bg-red-600 text-white w-6 h-6 inline-flex items-center justify-center rounded-full text-xs font-bold mb-1">2</span>
-            <p class="text-[10px] uppercase font-bold">Persoonlijke informatie</p>
+          <div class="h-px w-8 bg-gray-200"></div>
+          <div class="flex items-center gap-1 opacity-30 transition-opacity" id="nav-step-2">
+            <span class="bg-[#003399] text-white w-4 h-4 flex items-center justify-center rounded-full text-[10px] font-bold">2</span>
+            <p class="text-[9px] uppercase font-bold">Contact</p>
           </div>
         </div>
 
@@ -118,14 +110,20 @@
   let tripData = { pickup: '', destination: '', destName: '', date: '', time: '', vehicle: '', price: 0 };
   const TARIEVEN = { auto: { start: 4.31, km: 3.17, min: 0.52 }, bus: { start: 8.75, km: 3.63, min: 0.60 } };
 
+  // Set default Date to Today and Time to 12:00
+  window.addEventListener('DOMContentLoaded', () => {
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('pickup-date').value = today;
+    document.getElementById('pickup-time').value = "12:00";
+  });
+
   function toggleSteps(step) {
     document.querySelectorAll('.step-content').forEach(el => el.classList.add('hidden'));
     document.getElementById('step-' + step).classList.remove('hidden');
-    document.getElementById('nav-step-1').style.opacity = step === 1 ? '1' : '0.4';
-    document.getElementById('nav-step-2').style.opacity = step === 2 ? '1' : '0.4';
+    document.getElementById('nav-step-1').classList.toggle('opacity-30', step === 2);
+    document.getElementById('nav-step-2').classList.toggle('opacity-30', step === 1);
   }
 
-  // Live prijs berekening zodra ophaalpunt bekend is
   async function updatePrices() {
     const pickup = document.getElementById('pickup-input').value;
     if (pickup.length < 5) return;
@@ -133,6 +131,8 @@
     try {
       const res = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(pickup)}&limit=1`);
       const data = await res.json();
+      if (!data.features.length) return;
+      
       const coords = data.features[0].geometry.coordinates;
       const destCoords = document.getElementById('destination-select').value;
       
@@ -149,34 +149,69 @@
         const prijs = Math.floor((t.start + (km * t.km) + (min * t.min)) * 0.90);
         document.getElementById('price-' + type).innerText = `€ ${prijs},-`;
       });
-    } catch (e) { console.error("Route error"); }
+    } catch (e) { console.error("Fout bij berekenen route"); }
   }
 
   function selectVehicle(type) {
     const priceText = document.getElementById('price-' + type).innerText;
-    if (priceText === '€ --') {
-      alert("Voer eerst een geldig ophaalpunt in."); return;
+    if (priceText.includes('--')) {
+      alert("Voer a.u.b. eerst een geldig ophaaladres in."); return;
     }
-    tripData.vehicle = type;
-    tripData.price = priceText;
-    tripData.pickup = document.getElementById('pickup-input').value;
-    tripData.date = document.getElementById('pickup-date').value;
-    tripData.time = document.getElementById('pickup-time').value;
-    tripData.destName = document.getElementById('destination-select').options[document.getElementById('destination-select').selectedIndex].text;
+    tripData = {
+      vehicle: type === 'auto' ? 'Tesla Business Class' : 'Personenbus',
+      price: priceText,
+      pickup: document.getElementById('pickup-input').value,
+      date: document.getElementById('pickup-date').value,
+      time: document.getElementById('pickup-time').value,
+      destName: document.getElementById('destination-select').options[document.getElementById('destination-select').selectedIndex].text
+    };
     toggleSteps(2);
   }
 
-  // WhatsApp Verwerking
   document.getElementById('final-reserve-btn').onclick = () => {
     const fName = document.getElementById('cust-first-name').value;
     const phone = document.getElementById('cust-phone').value;
-    if (!fName || !phone) { alert("Vul uw gegevens in."); return; }
+    if (!fName || !phone) { alert("Vul uw naam en telefoonnummer in."); return; }
 
-    const msg = encodeURIComponent(`🚕 NIEUWE BOEKING\n\nKlant: ${fName}\nTel: ${phone}\nRit: ${tripData.pickup} -> ${tripData.destName}\nDatum/Tijd: ${tripData.date} om ${tripData.time}\nVoertuig: ${tripData.vehicle}\nPrijs: ${tripData.price}`);
+    const msg = encodeURIComponent(
+      `🚕 NIEUWE BOEKING (InTaxi)\n\n` +
+      `👤 Klant: ${fName} ${document.getElementById('cust-last-name').value}\n` +
+      `📞 Tel: ${phone}\n` +
+      `📍 Van: ${tripData.pickup}\n` +
+      `🏁 Naar: ${tripData.destName}\n` +
+      `📅 Datum: ${tripData.date}\n` +
+      `🕒 Tijd: ${tripData.time}\n` +
+      `🚗 Auto: ${tripData.vehicle}\n` +
+      `💰 Prijs: ${tripData.price}\n` +
+      `📝 Info: ${document.getElementById('cust-notes').value || 'Geen'}`
+    );
     window.open(`https://wa.me/31642277607?text=${msg}`, '_blank');
   };
 
-  // Autocomplete & Trigger
-  document.getElementById('pickup-input').onchange = updatePrices;
-  document.getElementById('destination-select').onchange = updatePrices;
+  // Listeners voor prijsupdate
+  document.getElementById('pickup-input').addEventListener('change', updatePrices);
+  document.getElementById('destination-select').addEventListener('change', updatePrices);
+  
+  // Autocomplete simpel
+  const pickupInput = document.getElementById('pickup-input');
+  const resultsDiv = document.getElementById('autocomplete-results');
+  pickupInput.addEventListener('input', async (e) => {
+    const val = e.target.value;
+    if (val.length < 3) { resultsDiv.classList.add('hidden'); return; }
+    const res = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(val)}&limit=5`);
+    const data = await res.json();
+    resultsDiv.innerHTML = '';
+    data.features.forEach(f => {
+      const div = document.createElement('div');
+      div.className = 'p-2 hover:bg-blue-50 cursor-pointer text-xs';
+      div.innerText = `${f.properties.name || ''}, ${f.properties.city || ''}`;
+      div.onclick = () => { 
+        pickupInput.value = div.innerText; 
+        resultsDiv.classList.add('hidden'); 
+        updatePrices(); 
+      };
+      resultsDiv.appendChild(div);
+    });
+    resultsDiv.classList.remove('hidden');
+  });
 </script>
