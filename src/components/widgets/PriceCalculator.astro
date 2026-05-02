@@ -1,108 +1,3 @@
----
-/* PriceCalculator.astro - 10% Discount, Round Down, Smart NL Search & Extra Fields */
----
-
-<section id="prijs-calculator" class="bg-blue-50 dark:bg-slate-900 py-12 border-t border-b border-gray-200 dark:border-slate-800 scroll-mt-20">
-  <div class="max-w-4xl mx-auto px-4">
-    <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-8 border border-blue-100 dark:border-slate-700">
-      
-      <div class="text-center mb-8">
-        <h2 class="text-3xl font-bold mb-2 text-[#003399] dark:text-blue-400">Bereken uw ritprijs</h2>
-        <p class="text-gray-600 dark:text-gray-400 font-medium">
-          Profiteer nu van <span class="text-green-600 font-bold">10% korting</span> op de officiële 2026 tarieven!
-        </p>
-      </div>
-
-      <div class="grid md:grid-cols-2 gap-8">
-        <!-- Linker kolom: Inputs -->
-        <div class="space-y-5">
-          <div class="relative">
-            <label class="block text-sm font-semibold mb-1 text-gray-700 dark:text-gray-300">Straat / Stad</label>
-            <input 
-              type="text" 
-              id="pickup-input" 
-              placeholder="Typ ophaaladres..." 
-              class="w-full p-3 rounded-lg border border-gray-300 dark:bg-slate-700 dark:border-slate-600 outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 dark:text-white"
-              autocomplete="off"
-            />
-            <!-- Verbeterde resultatenlijst met hogere z-index -->
-            <div id="autocomplete-results" class="absolute z-[100] w-full bg-white dark:bg-slate-800 shadow-2xl rounded-b-lg hidden max-h-60 overflow-y-auto border border-gray-200 dark:border-slate-600 mt-1"></div>
-          </div>
-
-          <div class="grid grid-cols-3 gap-3">
-            <div class="col-span-1">
-              <label class="block text-sm font-semibold mb-1 text-gray-700 dark:text-gray-300">Huisnr.</label>
-              <input type="text" id="house-number" placeholder="12a" class="w-full p-3 rounded-lg border border-gray-300 dark:bg-slate-700 dark:border-slate-600 outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 dark:text-white" />
-            </div>
-            <div class="col-span-2">
-              <label class="block text-sm font-semibold mb-1 text-gray-700 dark:text-gray-300">Bestemming</label>
-              <select id="destination-select" class="w-full p-3 rounded-lg border border-gray-300 dark:bg-slate-700 dark:border-slate-600 outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 dark:text-white">
-                <option value="4.7683,52.3105">Schiphol Airport (AMS)</option>
-                <option value="4.4844,50.9010">Brussels Airport (BRU)</option>
-                <option value="6.7663,51.2895">Düsseldorf Airport (DUS)</option>
-                <option value="4.4372,51.9225">Rotterdam Airport (RTM)</option>
-                <option value="5.3916,51.4584">Eindhoven Airport (EIN)</option>
-              </select>
-            </div>
-          </div>
-
-          <div>
-            <label class="block text-sm font-semibold mb-1 text-gray-700 dark:text-gray-300">Opmerkingen (optioneel)</label>
-            <textarea id="notes-input" placeholder="Bijv. vluchtnummer of extra bagage..." class="w-full p-3 rounded-lg border border-gray-300 dark:bg-slate-700 dark:border-slate-600 outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 dark:text-white" rows="2"></textarea>
-          </div>
-
-          <div>
-            <label class="block text-sm font-semibold mb-1 text-gray-700 dark:text-gray-300">Type Voertuig</label>
-            <div class="grid grid-cols-2 gap-2">
-              <button id="btn-auto" class="vehicle-btn active p-3 border-2 rounded-lg font-bold transition-colors" data-type="auto">Tesla (1-4p)</button>
-              <button id="btn-bus" class="vehicle-btn p-3 border-2 border-gray-200 dark:border-slate-600 rounded-lg font-bold transition-colors text-gray-500" data-type="bus">Bus (5-8p)</button>
-            </div>
-          </div>
-
-          <button id="calculate-btn" class="w-full bg-[#003399] text-white font-bold py-4 rounded-lg hover:bg-blue-800 transition shadow-lg">
-            Bereken Ritprijs
-          </button>
-        </div>
-
-        <!-- Rechter kolom: Resultaat -->
-        <div id="results-box" class="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-6 border-2 border-dashed border-slate-200 dark:border-slate-700 flex flex-col justify-center text-center relative overflow-hidden">
-          <div id="calc-loader" class="hidden flex flex-col items-center">
-            <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600 mb-2"></div>
-            <p class="dark:text-white">Prijs berekenen...</p>
-          </div>
-          
-          <div id="calc-placeholder" class="text-gray-500 italic">
-            Voer uw adres in voor een scherpe aanbieding inclusief 10% korting.
-          </div>
-
-          <div id="calc-output" class="hidden space-y-3">
-             <div class="inline-block bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded mb-2 uppercase">10% Introductiekorting toegepast</div>
-             <p class="text-sm font-medium text-gray-500 line-through" id="old-price"></p>
-             <div class="py-2">
-               <span id="display-price" class="text-6xl font-black text-[#003399] dark:text-blue-400">€ 0</span>
-             </div>
-             <div id="route-info" class="text-xs font-bold text-gray-500 bg-white dark:bg-slate-800 py-1 px-3 rounded-full border inline-block"></div>
-             
-             <div class="pt-4">
-               <a href="#" id="whatsapp-link" target="_blank" class="inline-flex items-center justify-center bg-green-600 text-white px-6 py-4 rounded-full font-bold hover:bg-green-700 transition w-full shadow-md">
-                  Reserveer deze prijs via WhatsApp
-               </a>
-             </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="mt-8 pt-6 border-t border-gray-100 dark:border-slate-700 text-[10px] text-gray-500 leading-relaxed text-center">
-        Onze prijzen zijn gebaseerd op de wettelijke 2026 tarieven minus 10% korting. Het eindbedrag wordt naar beneden afgerond op hele euro's.
-      </div>
-    </div>
-  </div>
-</section>
-
-<style>
-  .vehicle-btn.active { border-color: #003399; background-color: rgba(0, 51, 153, 0.05); color: #003399; }
-</style>
-
 <script>
   const TARIEVEN = { auto: { start: 4.31, km: 3.17, min: 0.52 }, bus: { start: 8.75, km: 3.63, min: 0.60 } };
   let selectedLonLat = null;
@@ -121,30 +16,31 @@
     };
   });
 
-  // Verbeterde Adres Autocomplete
+  // OPEN ZOEKEN (Zonder harde filters)
   pickupInput.addEventListener('input', async (e) => {
     const val = e.target.value;
     if (val.length < 3) { resultsDiv.classList.add('hidden'); return; }
 
     try {
-      // We gebruiken lat/lon van het centrum van NL (Utrecht) als bias om NL resultaten bovenaan te krijgen
-      const res = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(val)}&limit=10&lang=nl&lat=52.0907&lon=5.1214&location_bias_scale=0.9`);
+      // We focussen op Amsterdam (52.36, 4.90) zodat lokale straten bovenaan komen
+      const res = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(val)}&limit=10&lang=nl&lat=52.3676&lon=4.9041&location_bias_scale=1.0`);
       const data = await res.json();
       
       resultsDiv.innerHTML = '';
-      if(!data.features || data.features.length === 0) { resultsDiv.classList.add('hidden'); return; }
+      if(!data.features || data.features.length === 0) { 
+        resultsDiv.classList.add('hidden'); 
+        return; 
+      }
 
       data.features.forEach(f => {
         const p = f.properties;
-        // Alleen resultaten in Nederland tonen aan de klant
-        if (p.countrycode !== 'NL' && p.country !== 'Netherlands') return;
-
         const div = document.createElement('div');
-        div.className = 'p-3 hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer border-b text-sm text-gray-800 dark:text-gray-200 dark:border-slate-700';
+        div.className = 'p-3 hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer border-b text-sm text-gray-900 dark:text-white dark:border-slate-700';
         
-        const street = p.street ? p.street : (p.name || '');
-        const city = p.city || p.town || p.village || '';
-        const displayLabel = `${street}${city ? ', ' + city : ''}`;
+        // Bouw label: Prioriteit aan straat, dan naam, dan stad
+        const main = p.street || p.name || '';
+        const sub = p.city || p.town || p.country || '';
+        const displayLabel = `${main}${sub ? ', ' + sub : ''}`;
 
         div.innerText = displayLabel;
         
@@ -155,16 +51,20 @@
         };
         resultsDiv.appendChild(div);
       });
+      
       resultsDiv.classList.remove('hidden');
-    } catch (err) { console.error("Autocomplete error:", err); }
+    } catch (err) { 
+      console.error("Zoekfout:", err); 
+    }
   });
 
+  // Sluit lijst bij klik buiten veld
   document.addEventListener('click', (e) => {
     if (e.target !== pickupInput) resultsDiv.classList.add('hidden');
   });
 
   document.getElementById('calculate-btn').onclick = async () => {
-    if (!selectedLonLat) return alert("Selecteer een ophaaladres uit de lijst die verschijnt tijdens het typen.");
+    if (!selectedLonLat) return alert("Selecteer eerst een adres uit de suggesties.");
     
     const loader = document.getElementById('calc-loader');
     const output = document.getElementById('calc-output');
@@ -180,14 +80,11 @@
     try {
       const res = await fetch(`https://router.project-osrm.org/route/v1/driving/${selectedLonLat[0]},${selectedLonLat[1]};${destCoords}?overview=false`);
       const data = await res.json();
-      
-      if (!data.routes || data.routes.length === 0) throw new Error("Geen route gevonden");
-      
       const route = data.routes[0];
+
       const km = route.distance / 1000;
       const min = route.duration / 60;
 
-      // Berekening: 10% korting en afronden naar beneden (Floor)
       const basisPrijs = t.start + (km * t.km) + (min * t.min);
       const metKorting = basisPrijs * 0.90;
       const afgerond = Math.floor(metKorting);
@@ -206,16 +103,15 @@
         `🏁 Naar: ${destinationText}\n` +
         `🚗 Auto: ${currentVehicleType === 'auto' ? 'Tesla' : 'Busje'}\n` +
         `📝 Opmerking: ${notes || 'Geen'}\n\n` +
-        `💰 Prijs: €${afgerond},- (inclusief 10% korting)`
+        `💰 Prijs: €${afgerond},-`
       );
       document.getElementById('whatsapp-link').href = `https://wa.me/31642277607?text=${msg}`;
 
       loader.classList.add('hidden');
       output.classList.remove('hidden');
     } catch (err) {
-      alert("Er is iets misgegaan bij het berekenen van de route. Probeer het ophaaladres opnieuw te selecteren.");
+      alert("Routeberekening mislukt.");
       loader.classList.add('hidden');
-      placeholder.classList.remove('hidden');
     }
   };
 </script>
