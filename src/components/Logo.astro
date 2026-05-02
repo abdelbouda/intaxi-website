@@ -1,13 +1,14 @@
 ---
 import { SITE } from 'astrowind:config';
-import logoImg from '~/assets/images/nad_logo.webp';
+// We importeren nu de Tesla afbeelding als het nieuwe miniatuur-logo
+import logoImg from '~/assets/images/tesla_nad_services.webp';
 ---
 
 <span class="self-center ml-2 rtl:ml-0 rtl:mr-2 flex items-center gap-3">
   <img 
     src={logoImg.src} 
-    alt="InTaxi NAD Service Logo" 
-    class="h-10 md:h-12 w-auto bg-white p-0.5 rounded-sm shadow-sm"
+    alt="InTaxi Tesla Logo" 
+    class="h-10 md:h-12 w-auto object-cover aspect-video rounded-sm shadow-sm border border-gray-100 dark:border-slate-700"
     loading="eager"
   />
   <span class="text-xl md:text-2xl font-bold text-gray-900 whitespace-nowrap dark:text-white">
