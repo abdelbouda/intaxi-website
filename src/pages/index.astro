@@ -14,7 +14,7 @@ import PriceCalculator from '~/components/widgets/PriceCalculator.astro';
 import teslaImg from '~/assets/images/tesla_nad_services.webp';
 
 const metadata = {
-  title: 'InTaxi — Luxe Tesla Taxi naar Schiphol vanaf €75',
+  title: 'InTaxi — Luxe Tesla Taxi naar Schiphol met eerlijke tarieven',
   ignoreTitleTemplate: true,
 };
 ---
@@ -31,7 +31,7 @@ const metadata = {
         target: '_blank',
         icon: 'tabler:brand-whatsapp',
       },
-      { text: 'Bekijk tarieven', href: '#tarieven' },
+      { text: 'Bereken uw eerlijke ritprijs', href: '#prijs-calculator' },
     ]}
   >
     <Fragment slot="title">
@@ -40,11 +40,11 @@ const metadata = {
 
     <Fragment slot="subtitle">
       <span class="font-semibold text-gray-900 dark:text-white">InTaxi powered by (NAD Service)</span> biedt premium luchthavenvervoer vanuit Amsterdam. 
-      Reis volledig elektrisch, in stijl en altijd voor een vast tarief van <span class="font-bold text-[#003399]">€75,-</span>.
+      Reis volledig elektrisch en in stijl voor een eerlijke prijs, berekend volgens de officiële <span class="font-bold text-[#003399]">taxitarieven van 2026</span>.
     </Fragment>
 
     <Fragment slot="image">
-      <div class="relative m-auto max-w-2xl"> <!-- Verkleind van 5xl naar 2xl voor betere zichtbaarheid -->
+      <div class="relative m-auto max-w-2xl">
         <img 
           src={teslaImg.src} 
           alt="InTaxi Tesla NAD Service" 
@@ -63,7 +63,7 @@ const metadata = {
 
   <!-- Note Widget ******************* -->
 
-  <Note title="Onze belofte:" description="Duurzaamheid, Punctualiteit en Luxe zonder verrassingen." />
+  <Note title="Onze belofte:" description="Duurzaamheid, Punctualiteit en Luxe op basis van eerlijke, wettelijke tarieven." />
 
   <!-- Features Widget *************** -->
 
@@ -74,8 +74,8 @@ const metadata = {
     subtitle="Wij combineren de duurzaamheid van Tesla met de betrouwbaarheid van NAD Service voor de perfecte reiservaring."
     items={[
       {
-        title: 'Vast Tarief €75,-',
-        description: 'Geen meter-stress of onverwachte kosten. U weet vooraf precies wat de rit van Amsterdam naar Schiphol kost.',
+        title: 'Eerlijke Meterprijs',
+        description: 'Geen schattingen achteraf. Wij hanteren de officiële tarieven van de Rijksoverheid, zodat u nooit te veel betaalt.',
         icon: 'tabler:currency-euro',
       },
       {
@@ -90,13 +90,13 @@ const metadata = {
       },
       {
         title: 'Eenvoudig Boeken',
-        description: 'Geen ingewikkelde apps of formulieren. Stuur ons simpelweg een WhatsApp-bericht en uw rit is bevestigd.',
+        description: 'Geen ingewikkelde apps. Gebruik onze calculator voor een indicatie en bevestig direct via WhatsApp.',
         icon: 'tabler:brand-whatsapp',
       },
     ]}
   />
 
-  <!-- Content Widget **************** -->
+  <!-- De rest van de widgets blijven functioneel hetzelfde maar gebruiken de teslaImg import -->
 
   <Content
     isReversed
@@ -119,7 +119,7 @@ const metadata = {
   >
     <Fragment slot="content">
       <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">Luxe als standaard</h3>
-      Wij geloven dat de reis naar de luchthaven net zo ontspannen moet zijn als de vlucht zelf.
+      Wij geloven dat de rit naar de luchthaven net zo ontspannen moet zijn als de vlucht zelf.
     </Fragment>
 
     <Fragment slot="bg">
@@ -127,28 +127,26 @@ const metadata = {
     </Fragment>
   </Content>
 
-  <!-- Steps Widget ****************** -->
-
   <Steps
     title="Hoe werkt het?"
     items={[
       {
-        title: 'Stap 1: <span class="font-medium text-[#003399]">Stuur een bericht</span>',
-        description: "WhatsApp ons uw ophaallocatie, tijd en vluchtnummer. Wij reageren direct om uw rit te bevestigen.",
-        icon: 'tabler:message-circle',
+        title: 'Stap 1: <span class="font-medium text-[#003399]">Bereken uw prijs</span>',
+        description: "Gebruik de calculator hierboven om een eerlijke prijsindicatie te krijgen voor uw specifieke route.",
+        icon: 'tabler:calculator',
       },
       {
-        title: 'Stap 2: <span class="font-medium text-[#003399]">Tesla arriveert</span>',
-        description: "Onze chauffeur staat op het afgesproken tijdstip voor de deur en helpt u uiteraard met uw bagage.",
-        icon: 'tabler:car',
+        title: 'Stap 2: <span class="font-medium text-[#003399]">Bevestig via WhatsApp</span>',
+        description: "Stuur ons uw locatie en tijd. Wij reageren direct om uw luxe Tesla te bevestigen.",
+        icon: 'tabler:brand-whatsapp',
       },
       {
         title: 'Stap 3: <span class="font-medium text-[#003399]">Ontspannen aankomen</span>',
-        description: 'Geniet van de rit. U wordt direct voor de vertrekhal op Schiphol afgezet.',
+        description: 'Onze chauffeur helpt met uw bagage en brengt u in alle rust naar de vertrekhal.',
         icon: 'tabler:plane-departure',
       },
       {
-        title: 'Geniet van uw vlucht!',
+        title: 'Goede reis!',
         icon: 'tabler:check',
       },
     ]}
@@ -158,20 +156,18 @@ const metadata = {
     }}
   />
 
-  <!-- FAQs Widget ******************* -->
-
   <FAQs
     title="Veelgestelde Vragen"
     tagline="FAQs"
     classes={{ container: 'max-w-6xl' }}
     items={[
       {
-        title: 'Hoe kan ik betalen?',
-        description: "U kunt bij de chauffeur betalen via pin, creditcard of contant. Voor zakelijke klanten is rijden op factuur mogelijk.",
+        title: 'Hoe wordt de prijs bepaald?',
+        description: "Wij maken gebruik van de officiële taximeter die de prijs berekent op basis van starttarief, afstand en tijd, conform de wetgeving van 2026.",
       },
       {
-        title: 'Is het tarief van €75,- inclusief koffers?',
-        description: 'Ja, de prijs is inclusief bagage. Onze Tesla\'s hebben voldoende ruimte voor koffers voor maximaal 4 personen.',
+        title: 'Hoe kan ik betalen?',
+        description: "U kunt bij de chauffeur betalen via pin, creditcard of contant. Voor zakelijke klanten is rijden op factuur mogelijk.",
       },
       {
         title: 'Rijden jullie 24/7?',
@@ -183,8 +179,6 @@ const metadata = {
       },
     ]}
   />
-
-  <!-- CallToAction Widget *********** -->
 
   <CallToAction
     actions={[
@@ -202,7 +196,7 @@ const metadata = {
     </Fragment>
 
     <Fragment slot="subtitle">
-      Reserveer vandaag nog uw Tesla bij <strong class="text-[#003399]">InTaxi</strong> en reis zorgeloos naar Schiphol.
+      Reserveer vandaag nog uw Tesla bij <strong class="text-[#003399]">InTaxi</strong> en reis zorgeloos voor een eerlijke prijs.
     </Fragment>
 
     <Fragment slot="bg">
