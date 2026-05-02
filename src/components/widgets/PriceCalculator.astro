@@ -1,5 +1,5 @@
 ---
-/* PriceCalculator.astro - Volledig Hersteld & Robuust met NL-Filter */
+/* PriceCalculator.astro - Gebruikt PDOK (Nederlandse Overheid) API voor 100% NL dekking */
 ---
 
 <section id="prijs-calculator" class="bg-blue-50 dark:bg-slate-900 py-12 border-t border-b border-gray-200 dark:border-slate-800 scroll-mt-20">
@@ -25,7 +25,6 @@
               class="w-full p-3 rounded-lg border border-gray-300 dark:bg-slate-700 dark:border-slate-600 outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 dark:text-white"
               autocomplete="off"
             />
-            <!-- Resultatenlijst -->
             <div id="autocomplete-results" class="absolute z-[100] w-full bg-white dark:bg-slate-800 shadow-2xl rounded-b-lg hidden max-h-60 overflow-y-auto border border-gray-200 dark:border-slate-600 mt-1"></div>
           </div>
 
@@ -112,59 +111,51 @@
     };
   });
 
-  // Zoekfunctie met handmatige NL-filter
+  // PDOK Locatieserver (Officiële NL Overheid API)
   pickupInput.addEventListener('input', async (e) => {
     const val = e.target.value;
     if (val.length < 3) { resultsDiv.classList.add('hidden'); return; }
 
     try {
-      // Vrij zoeken zonder harde API-filters voor maximale betrouwbaarheid
-      const res = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(val)}&limit=15&lang=nl`);
+      // De PDOK API is gratis en specifiek voor Nederland
+      const res = await fetch(`https://api.pdok.nl/bzk/locatieserver/v3/suggest?q=${encodeURIComponent(val)}&rows=10`);
       const data = await res.json();
       
       resultsDiv.innerHTML = '';
-      if(!data.features || data.features.length === 0) { 
+      if(!data.response.docs || data.response.docs.length === 0) { 
         resultsDiv.classList.add('hidden'); 
         return; 
       }
 
-      // Filter handmatig op Nederland
-      const nlResults = data.features.filter(f => {
-        const country = f.properties.country || "";
-        return country.toLowerCase() === 'netherlands' || country.toLowerCase() === 'nederland';
-      });
-
-      if (nlResults.length === 0) {
-        resultsDiv.classList.add('hidden');
-        return;
-      }
-
-      nlResults.forEach(f => {
-        const p = f.properties;
+      data.response.docs.forEach(doc => {
         const div = document.createElement('div');
         div.className = 'p-3 hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer border-b text-sm text-gray-900 dark:text-white dark:border-slate-700';
         
-        const street = p.street || p.name || '';
-        const city = p.city || p.town || '';
-        const label = `${street}${city ? ', ' + city : ''}`;
-
-        div.innerText = label;
-        div.onclick = () => {
-          pickupInput.value = label;
-          selectedLonLat = f.geometry.coordinates;
+        // PDOK geeft een 'weergavenaam' die al perfect geformatteerd is (Straat, Stad)
+        div.innerText = doc.weergavenaam;
+        
+        div.onclick = async () => {
+          pickupInput.value = doc.weergavenaam;
           resultsDiv.classList.add('hidden');
+          
+          // Haal de coördinaten op voor deze specifieke locatie (Lookup)
+          const lookupRes = await fetch(`https://api.pdok.nl/bzk/locatieserver/v3/lookup?id=${doc.id}`);
+          const lookupData = await lookupRes.json();
+          const wkt = lookupData.response.docs[0].centroide_ll; // Geeft "POINT(lon lat)"
+          const coords = wkt.replace('POINT(', '').replace(')', '').split(' ');
+          selectedLonLat = [parseFloat(coords[0]), parseFloat(coords[1])];
         };
         resultsDiv.appendChild(div);
       });
       resultsDiv.classList.remove('hidden');
     } catch (err) { 
-      console.error("Zoekfout:", err); 
+      console.error("PDOK Error:", err); 
     }
   });
 
-  // Berekening
+  // Berekening via OSRM
   document.getElementById('calculate-btn').onclick = async () => {
-    if (!selectedLonLat) return alert("Selecteer a.u.b. een adres uit de suggestielijst.");
+    if (!selectedLonLat) return alert("Selecteer een adres uit de suggesties.");
     
     document.getElementById('calc-placeholder').classList.add('hidden');
     document.getElementById('calc-loader').classList.remove('hidden');
@@ -176,10 +167,8 @@
     try {
       const res = await fetch(`https://router.project-osrm.org/route/v1/driving/${selectedLonLat[0]},${selectedLonLat[1]};${destCoords}?overview=false`);
       const data = await res.json();
-      
-      if (!data.routes || data.routes.length === 0) throw new Error("Route niet gevonden");
-      
       const route = data.routes[0];
+
       const km = route.distance / 1000;
       const min = route.duration / 60;
 
@@ -194,24 +183,18 @@
       const huisnr = document.getElementById('house-number').value;
       const destinationText = document.getElementById('destination-select').options[document.getElementById('destination-select').selectedIndex].text;
       
-      const msg = encodeURIComponent(
-        `Hallo InTaxi, ik wil een rit boeken:\n` +
-        `📍 Van: ${pickupInput.value} ${huisnr}\n` +
-        `🏁 Naar: ${destinationText}\n` +
-        `💰 Prijs: €${afgerond},- (inclusief 10% korting)`
-      );
+      const msg = encodeURIComponent(`Hallo InTaxi, ik wil boeken: ${pickupInput.value} ${huisnr} naar ${destinationText}. Prijs: €${afgerond},-`);
       document.getElementById('whatsapp-link').href = `https://wa.me/31642277607?text=${msg}`;
 
       document.getElementById('calc-loader').classList.add('hidden');
       document.getElementById('calc-output').classList.remove('hidden');
     } catch (err) {
-      alert("Er kon geen route berekend worden. Probeer het adres opnieuw te selecteren.");
+      alert("Routeberekening mislukt. Kies een ander adres.");
       document.getElementById('calc-loader').classList.add('hidden');
       document.getElementById('calc-placeholder').classList.remove('hidden');
     }
   };
 
-  // Sluit lijst bij klik buiten
   document.addEventListener('click', (e) => {
     if (e.target !== pickupInput) resultsDiv.classList.add('hidden');
   });
