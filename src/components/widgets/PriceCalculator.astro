@@ -1,5 +1,5 @@
 ---
-/* PriceCalculator.astro - Volledig Hersteld & Robuust */
+/* PriceCalculator.astro - Volledig Hersteld & Robuust met NL-Filter */
 ---
 
 <section id="prijs-calculator" class="bg-blue-50 dark:bg-slate-900 py-12 border-t border-b border-gray-200 dark:border-slate-800 scroll-mt-20">
@@ -25,6 +25,7 @@
               class="w-full p-3 rounded-lg border border-gray-300 dark:bg-slate-700 dark:border-slate-600 outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 dark:text-white"
               autocomplete="off"
             />
+            <!-- Resultatenlijst -->
             <div id="autocomplete-results" class="absolute z-[100] w-full bg-white dark:bg-slate-800 shadow-2xl rounded-b-lg hidden max-h-60 overflow-y-auto border border-gray-200 dark:border-slate-600 mt-1"></div>
           </div>
 
@@ -90,7 +91,6 @@
 </section>
 
 <script is:inline>
-  // Gebruik is:inline om Astro-optimalisatie problemen te voorkomen
   const TARIEVEN = { auto: { start: 4.31, km: 3.17, min: 0.52 }, bus: { start: 8.75, km: 3.63, min: 0.60 } };
   let selectedLonLat = null;
   let currentVehicleType = 'auto';
@@ -112,23 +112,37 @@
     };
   });
 
-  // Zoekfunctie
+  // Zoekfunctie met handmatige NL-filter
   pickupInput.addEventListener('input', async (e) => {
     const val = e.target.value;
     if (val.length < 3) { resultsDiv.classList.add('hidden'); return; }
 
     try {
-      // Focus op Amsterdam voor snellere resultaten
-      const res = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(val)}&limit=10&lang=nl&lat=52.3676&lon=4.9041`);
+      // Vrij zoeken zonder harde API-filters voor maximale betrouwbaarheid
+      const res = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(val)}&limit=15&lang=nl`);
       const data = await res.json();
       
       resultsDiv.innerHTML = '';
-      if(!data.features || data.features.length === 0) { resultsDiv.classList.add('hidden'); return; }
+      if(!data.features || data.features.length === 0) { 
+        resultsDiv.classList.add('hidden'); 
+        return; 
+      }
 
-      data.features.forEach(f => {
+      // Filter handmatig op Nederland
+      const nlResults = data.features.filter(f => {
+        const country = f.properties.country || "";
+        return country.toLowerCase() === 'netherlands' || country.toLowerCase() === 'nederland';
+      });
+
+      if (nlResults.length === 0) {
+        resultsDiv.classList.add('hidden');
+        return;
+      }
+
+      nlResults.forEach(f => {
         const p = f.properties;
         const div = document.createElement('div');
-        div.className = 'p-3 hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer border-b text-sm text-gray-800 dark:text-gray-200 dark:border-slate-700';
+        div.className = 'p-3 hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer border-b text-sm text-gray-900 dark:text-white dark:border-slate-700';
         
         const street = p.street || p.name || '';
         const city = p.city || p.town || '';
@@ -143,12 +157,14 @@
         resultsDiv.appendChild(div);
       });
       resultsDiv.classList.remove('hidden');
-    } catch (err) { console.error(err); }
+    } catch (err) { 
+      console.error("Zoekfout:", err); 
+    }
   });
 
   // Berekening
   document.getElementById('calculate-btn').onclick = async () => {
-    if (!selectedLonLat) return alert("Selecteer een adres uit de lijst.");
+    if (!selectedLonLat) return alert("Selecteer a.u.b. een adres uit de suggestielijst.");
     
     document.getElementById('calc-placeholder').classList.add('hidden');
     document.getElementById('calc-loader').classList.remove('hidden');
@@ -160,8 +176,10 @@
     try {
       const res = await fetch(`https://router.project-osrm.org/route/v1/driving/${selectedLonLat[0]},${selectedLonLat[1]};${destCoords}?overview=false`);
       const data = await res.json();
+      
+      if (!data.routes || data.routes.length === 0) throw new Error("Route niet gevonden");
+      
       const route = data.routes[0];
-
       const km = route.distance / 1000;
       const min = route.duration / 60;
 
@@ -176,13 +194,18 @@
       const huisnr = document.getElementById('house-number').value;
       const destinationText = document.getElementById('destination-select').options[document.getElementById('destination-select').selectedIndex].text;
       
-      const msg = encodeURIComponent(`Hallo InTaxi, ik wil boeken: ${pickupInput.value} ${huisnr} naar ${destinationText}. Prijs: €${afgerond},-`);
+      const msg = encodeURIComponent(
+        `Hallo InTaxi, ik wil een rit boeken:\n` +
+        `📍 Van: ${pickupInput.value} ${huisnr}\n` +
+        `🏁 Naar: ${destinationText}\n` +
+        `💰 Prijs: €${afgerond},- (inclusief 10% korting)`
+      );
       document.getElementById('whatsapp-link').href = `https://wa.me/31642277607?text=${msg}`;
 
       document.getElementById('calc-loader').classList.add('hidden');
       document.getElementById('calc-output').classList.remove('hidden');
     } catch (err) {
-      alert("Fout bij berekenen.");
+      alert("Er kon geen route berekend worden. Probeer het adres opnieuw te selecteren.");
       document.getElementById('calc-loader').classList.add('hidden');
       document.getElementById('calc-placeholder').classList.remove('hidden');
     }
