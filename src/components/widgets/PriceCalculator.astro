@@ -1,5 +1,5 @@
 ---
-/* PriceCalculator.astro - No-budget OSM integration with 2026 Government Rates */
+/* PriceCalculator.astro - Update: Huisnummer, Opmerkingen, 10% Korting & Afronding */
 ---
 
 <section id="prijs-calculator" class="bg-blue-50 dark:bg-slate-900 py-12 border-t border-b border-gray-200 dark:border-slate-800 scroll-mt-20">
@@ -9,7 +9,7 @@
       <div class="text-center mb-8">
         <h2 class="text-3xl font-bold mb-2 text-[#003399] dark:text-blue-400">Bereken uw ritprijs</h2>
         <p class="text-gray-600 dark:text-gray-400 font-medium">
-          Eerlijke tarieven op basis van de officiële taximeter-normen 2026.
+          Profiteer van <span class="text-green-600 font-bold">10% korting</span> op de officiële tarieven van 2026!
         </p>
       </div>
 
@@ -17,42 +17,53 @@
         <!-- Linker kolom: Inputs -->
         <div class="space-y-5">
           <div class="relative">
-            <label class="block text-sm font-semibold mb-1 text-gray-700 dark:text-gray-300">Vertreklocatie</label>
+            <label class="block text-sm font-semibold mb-1 text-gray-700 dark:text-gray-300">Vertreklocatie (Straat + Stad)</label>
             <input 
               type="text" 
               id="pickup-input" 
               placeholder="Typ straat of stad..." 
-              class="w-full p-3 rounded-lg border border-gray-300 dark:bg-slate-700 dark:border-slate-600 outline-none focus:ring-2 focus:ring-blue-500"
+              class="w-full p-3 rounded-lg border border-gray-300 dark:bg-slate-700 dark:border-slate-600 outline-none focus:ring-2 focus:ring-blue-500 dark:text-white"
               autocomplete="off"
             />
             <div id="autocomplete-results" class="absolute z-10 w-full bg-white dark:bg-slate-800 shadow-2xl rounded-b-lg hidden max-h-60 overflow-y-auto border border-gray-200 dark:border-slate-600"></div>
           </div>
 
+          <div class="grid grid-cols-3 gap-3">
+            <div class="col-span-1">
+              <label class="block text-sm font-semibold mb-1 text-gray-700 dark:text-gray-300">Huisnr.</label>
+              <input type="text" id="house-number" placeholder="12a" class="w-full p-3 rounded-lg border border-gray-300 dark:bg-slate-700 dark:border-slate-600 outline-none focus:ring-2 focus:ring-blue-500 dark:text-white" />
+            </div>
+            <div class="col-span-2">
+              <label class="block text-sm font-semibold mb-1 text-gray-700 dark:text-gray-300">Bestemming</label>
+              <select id="destination-select" class="w-full p-3 rounded-lg border border-gray-300 dark:bg-slate-700 dark:border-slate-600 outline-none focus:ring-2 focus:ring-blue-500 dark:text-white">
+                <option value="4.7683,52.3105">Luchthaven Schiphol (AMS)</option>
+                <option value="4.4844,50.9010">Brussels Airport (BRU)</option>
+                <option value="6.7663,51.2895">Düsseldorf Airport (DUS)</option>
+                <option value="4.4372,51.9225">Rotterdam The Hague (RTM)</option>
+                <option value="5.3916,51.4584">Eindhoven Airport (EIN)</option>
+              </select>
+            </div>
+          </div>
+
           <div>
-            <label class="block text-sm font-semibold mb-1 text-gray-700 dark:text-gray-300">Bestemming</label>
-            <select id="destination-select" class="w-full p-3 rounded-lg border border-gray-300 dark:bg-slate-700 dark:border-slate-600 outline-none focus:ring-2 focus:ring-blue-500">
-              <option value="4.7683,52.3105">Luchthaven Schiphol (AMS)</option>
-              <option value="4.4844,50.9010">Brussels Airport (BRU)</option>
-              <option value="6.7663,51.2895">Düsseldorf Airport (DUS)</option>
-              <option value="4.4372,51.9225">Rotterdam The Hague (RTM)</option>
-              <option value="5.3916,51.4584">Eindhoven Airport (EIN)</option>
-            </select>
+            <label class="block text-sm font-semibold mb-1 text-gray-700 dark:text-gray-300">Opmerkingen (optioneel)</label>
+            <textarea id="notes-input" placeholder="Bijv. kinderzitje nodig of veel bagage..." class="w-full p-3 rounded-lg border border-gray-300 dark:bg-slate-700 dark:border-slate-600 outline-none focus:ring-2 focus:ring-blue-500 dark:text-white h-20 resize-none"></textarea>
           </div>
 
           <div>
             <label class="block text-sm font-semibold mb-1 text-gray-700 dark:text-gray-300">Type Voertuig</label>
             <div class="grid grid-cols-2 gap-2">
-              <button id="btn-auto" class="vehicle-btn active p-3 border-2 rounded-lg font-bold transition-colors" data-type="auto">
+              <button class="vehicle-btn active p-3 border-2 rounded-lg font-bold transition-colors" data-type="auto">
                 Tesla (1-4 pers.)
               </button>
-              <button id="btn-bus" class="vehicle-btn p-3 border-2 border-gray-200 dark:border-slate-600 rounded-lg font-bold transition-colors text-gray-500 dark:text-gray-400" data-type="bus">
+              <button class="vehicle-btn p-3 border-2 border-gray-200 dark:border-slate-600 rounded-lg font-bold transition-colors text-gray-500 dark:text-gray-400" data-type="bus">
                 Bus (5-8 pers.)
               </button>
             </div>
           </div>
 
           <button id="calculate-btn" class="w-full bg-[#003399] text-white font-bold py-4 rounded-lg hover:bg-blue-800 transition shadow-lg flex justify-center items-center gap-2">
-            <span>Bereken Ritprijs</span>
+            Bereken Ritprijs
           </button>
         </div>
 
@@ -60,46 +71,39 @@
         <div id="results-box" class="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-6 border-2 border-dashed border-slate-200 dark:border-slate-700 flex flex-col justify-center text-center">
           <div id="calc-loader" class="hidden flex flex-col items-center">
             <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600 mb-2"></div>
-            <p>Route berekenen...</p>
+            <p class="dark:text-white">Route berekenen...</p>
           </div>
           
           <div id="calc-placeholder" class="text-gray-500 italic">
-            Voer uw vertreklocatie in voor een exacte prijsopgave op basis van de route.
+            Voer uw gegevens in voor een scherpe prijsopgave inclusief 10% korting.
           </div>
 
           <div id="calc-output" class="hidden space-y-4">
-             <p class="text-sm font-medium uppercase tracking-wider text-gray-500">Geschatte Ritprijs</p>
-             <div class="py-4">
-               <span id="display-price" class="text-5xl font-black text-[#003399] dark:text-blue-400">€ 0,00</span>
+             <div class="inline-block bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded">10% KORTING TOEGEPAST</div>
+             <p class="text-sm font-medium uppercase tracking-wider text-gray-500">Uw voordelige tarief</p>
+             <div class="py-2">
+               <span id="display-price" class="text-6xl font-black text-[#003399] dark:text-blue-400">€ 0</span>
              </div>
              <div id="route-info" class="text-sm font-semibold text-gray-600 dark:text-gray-400 bg-white dark:bg-slate-800 py-2 rounded-full inline-block px-4 border border-gray-100 dark:border-slate-700"></div>
              
              <div class="pt-4">
-               <a href="#" id="whatsapp-link" target="_blank" class="inline-flex items-center justify-center bg-green-600 text-white px-6 py-3 rounded-full font-bold hover:bg-green-700 transition w-full">
-                  Stuur aanvraag via WhatsApp
+               <a href="#" id="whatsapp-link" target="_blank" class="inline-flex items-center justify-center bg-green-600 text-white px-6 py-4 rounded-full font-bold hover:bg-green-700 transition w-full shadow-md">
+                 Reserveer via WhatsApp
                </a>
              </div>
           </div>
         </div>
       </div>
 
-      <!-- Kleine lettertjes / Disclaimer -->
+      <!-- Disclaimer -->
       <div class="mt-8 pt-6 border-t border-gray-100 dark:border-slate-700 text-[11px] text-gray-500 dark:text-gray-400 leading-relaxed">
-        <p class="mb-2"><strong>Juridische informatie & Tarieven:</strong></p>
-        <ul class="list-disc pl-4 space-y-1">
-          <li>De getoonde prijs is een indicatie op basis van de wettelijke maximumtarieven van de Rijksoverheid voor 2026.</li>
-          <li><strong>Personenauto (t/m 4 pers.):</strong> Starttarief € 4,31 | Kilometerprijs € 3,17 | Tijdtarief per minuut € 0,52.</li>
-          <li><strong>Busje (5 t/m 8 pers.):</strong> Starttarief € 8,75 | Kilometerprijs € 3,63 | Tijdtarief per minuut € 0,60.</li>
-          <li>De uiteindelijke prijs wordt bepaald door de taximeter in het voertuig, tenzij vooraf een vaste prijs is overeengekomen.</li>
-          <li>Routeberekeningen worden uitgevoerd via OpenStreetMap (OSRM) op basis van de snelste route.</li>
-        </ul>
+        <p>De getoonde prijs is een vaste prijs inclusief 10% korting, gebaseerd op de snelste route. Afronding vindt plaats naar beneden op hele euro's.</p>
       </div>
     </div>
   </div>
 </section>
 
 <style>
-  /* Actieve knop styling */
   .vehicle-btn.active {
     border-color: #003399;
     background-color: rgba(0, 51, 153, 0.05);
@@ -108,7 +112,6 @@
 </style>
 
 <script>
-  // Wettelijke Tarieven 2026
   const TARIEVEN = {
     auto: { start: 4.31, km: 3.17, min: 0.52 },
     bus:  { start: 8.75, km: 3.63, min: 0.60 }
@@ -121,7 +124,7 @@
   const resultsDiv = document.getElementById('autocomplete-results');
   const vehicleBtns = document.querySelectorAll('.vehicle-btn');
 
-  // Voertuig switch logica
+  // Voertuig switch
   vehicleBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       vehicleBtns.forEach(b => {
@@ -134,24 +137,19 @@
     });
   });
 
-  // 1. Adres Autocomplete (Photon/OSM)
+  // Autocomplete
   pickupInput.addEventListener('input', async (e) => {
     const val = e.target.value;
     if (val.length < 3) { resultsDiv.classList.add('hidden'); return; }
-
     try {
       const res = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(val)}&limit=5`);
       const data = await res.json();
-      
       resultsDiv.innerHTML = '';
       data.features.forEach(f => {
         const div = document.createElement('div');
-        div.className = 'p-3 hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer border-b dark:border-slate-700 text-sm';
-        const name = f.properties.name || '';
-        const city = f.properties.city || '';
-        const street = f.properties.street || '';
-        div.innerText = `${name}${street ? ', ' + street : ''} ${city} (${f.properties.country || ''})`;
-        
+        div.className = 'p-3 hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer border-b dark:border-slate-700 text-sm dark:text-white';
+        const p = f.properties;
+        div.innerText = `${p.name || ''}${p.street ? ', ' + p.street : ''} ${p.city || ''} (${p.country || ''})`;
         div.onclick = () => {
           pickupInput.value = div.innerText;
           selectedLonLat = f.geometry.coordinates;
@@ -160,15 +158,14 @@
         resultsDiv.appendChild(div);
       });
       resultsDiv.classList.remove('hidden');
-    } catch (err) { console.error("Adres fout", err); }
+    } catch (err) { console.error(err); }
   });
 
-  // Sluit dropdown bij klikken buiten input
   document.addEventListener('click', (e) => {
     if (e.target !== pickupInput) resultsDiv.classList.add('hidden');
   });
 
-  // 2. Afstand & Prijs berekenen (OSRM)
+  // Berekening
   document.getElementById('calculate-btn').onclick = async () => {
     if (!selectedLonLat) return alert("Selecteer eerst een ophaaladres uit de lijst.");
     
@@ -181,6 +178,8 @@
     output.classList.add('hidden');
 
     const destCoords = document.getElementById('destination-select').value;
+    const houseNum = document.getElementById('house-number').value;
+    const notes = document.getElementById('notes-input').value;
     const t = TARIEVEN[currentVehicleType];
 
     try {
@@ -191,21 +190,31 @@
       const km = route.distance / 1000;
       const min = route.duration / 60;
 
-      // Wettelijke berekening 2026
-      const totaalPrijs = t.start + (km * t.km) + (min * t.min);
+      // Berekening met 10% korting en afronden naar beneden (Math.floor)
+      const basisPrijs = t.start + (km * t.km) + (min * t.min);
+      const metKorting = basisPrijs * 0.90;
+      const eindBedrag = Math.floor(metKorting);
 
-      document.getElementById('display-price').innerText = `€ ${totaalPrijs.toFixed(2)}`;
+      document.getElementById('display-price').innerText = `€ ${eindBedrag},-`;
       document.getElementById('route-info').innerText = `${km.toFixed(1)} km | ± ${Math.round(min)} min`;
       
-      // WhatsApp link updaten
+      // WhatsApp link
       const vehicleName = currentVehicleType === 'auto' ? 'Tesla' : 'Busje';
-      const msg = encodeURIComponent(`Hallo InTaxi, ik wil graag een ${vehicleName} boeken van ${pickupInput.value} naar de luchthaven. De geschatte prijs via de website is €${totaalPrijs.toFixed(2)}.`);
-      document.getElementById('whatsapp-link').href = `https://wa.me/31642277607?text=${msg}`;
+      const destinationText = document.getElementById('destination-select').options[document.getElementById('destination-select').selectedIndex].text;
+      
+      let msg = `Hallo InTaxi, ik wil graag een rit boeken:\n\n`;
+      msg += `🚗 Voertuig: ${vehicleName}\n`;
+      msg += `📍 Van: ${pickupInput.value} ${houseNum}\n`;
+      msg += `🏁 Naar: ${destinationText}\n`;
+      if(notes) msg += `📝 Opmerking: ${notes}\n`;
+      msg += `💰 Prijs: €${eindBedrag},- (inclusief 10% korting)`;
+
+      document.getElementById('whatsapp-link').href = `https://wa.me/31642277607?text=${encodeURIComponent(msg)}`;
 
       loader.classList.add('hidden');
       output.classList.remove('hidden');
     } catch (err) {
-      alert("Er ging iets mis met de routeberekening. Probeer het later opnieuw.");
+      alert("Fout bij routeberekening.");
       loader.classList.add('hidden');
       placeholder.classList.remove('hidden');
     }
