@@ -1,167 +1,104 @@
 ---
-// Tariefcalculator Widget voor InTaxi
+/* PriceCalculator.astro */
 ---
 
-<section id="calculator" class="relative not-prose scroll-mt-[72px]">
-  <div class="absolute inset-0 bg-blue-50 dark:bg-slate-800/50 pointer-events-none mb-32" aria-hidden="true"></div>
-  <div class="relative max-w-4xl mx-auto px-4 sm:px-6">
-    
-    <div class="py-12 md:py-20">
-      <!-- Header -->
-      <div class="text-center pb-10 md:pb-12 max-w-3xl mx-auto">
-        <h2 class="text-3xl md:text-4xl font-bold leading-tighter tracking-tighter mb-4 font-heading">
-          Bereken uw <span class="text-[#003399] dark:text-blue-400">ritprijs</span>
-        </h2>
-        <p class="text-xl text-muted dark:text-slate-400">
-          Plan uw reis in 4 eenvoudige stappen en ontvang direct een prijsopgave.
+<section id="prijs-calculator" class="bg-blue-50 dark:bg-slate-900 py-12">
+  <div class="max-w-4xl mx-auto px-4">
+    <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-8 border border-blue-100 dark:border-slate-700">
+      <div class="text-center mb-8">
+        <h2 class="text-3xl font-bold mb-2">Bereken uw voordeel</h2>
+        <p class="text-gray-600 dark:text-gray-400">
+          Vergelijk ons vaste tarief met de wettelijke maximumtarieven van 2026.
         </p>
       </div>
 
-      <!-- Calculator Card -->
-      <div class="bg-white dark:bg-slate-900 rounded-xl shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-700">
-        
-        <!-- Step Indicator -->
-        <div class="bg-[#003399] p-4 flex justify-around text-white/70 text-sm font-medium border-b border-white/10">
-          <div class="step-label active text-white border-b-2 border-white pb-1" data-step="1">Route</div>
-          <div class="step-label" data-step="2">Overzicht</div>
-          <div class="step-label" data-step="3">Auto type</div>
-          <div class="step-label" data-step="4">Betalen</div>
+      <div class="grid md:grid-cols-2 gap-6">
+        <!-- Input Velden -->
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium mb-1">Vertreklocatie</label>
+            <input 
+              type="text" 
+              id="pickup-location" 
+              placeholder="Adres in NL of vliegveld in BE/DE" 
+              class="w-full p-3 rounded-lg border border-gray-300 dark:bg-slate-700 dark:border-slate-600 focus:ring-2 focus:ring-blue-500 outline-none"
+            />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1">Bestemming</label>
+            <input 
+              type="text" 
+              id="dropoff-location" 
+              value="Luchthaven Schiphol" 
+              readonly
+              class="w-full p-3 rounded-lg border border-gray-200 bg-gray-50 dark:bg-slate-700 dark:border-slate-600"
+            />
+          </div>
+          <button id="calc-btn" class="w-full bg-[#003399] text-white font-bold py-3 rounded-lg hover:bg-blue-700 transition duration-300">
+            Bereken prijs
+          </button>
         </div>
 
-        <form id="calc-form" class="p-6 md:p-8 space-y-6">
-          
-          <!-- STAP 1: ROUTE -->
-          <div class="step-content block" id="step-1">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <!-- Van -->
-              <div class="space-y-2">
-                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300">Van</label>
-                <div class="flex gap-2">
-                  <select class="w-1/3 p-3 rounded-lg border border-gray-300 dark:bg-slate-800 dark:border-slate-600 outline-none focus:ring-2 focus:ring-[#003399]">
-                    <option>Adres</option>
-                    <option>Vliegveld</option>
-                  </select>
-                  <input type="text" placeholder="Stad" class="w-2/3 p-3 rounded-lg border border-gray-300 dark:bg-slate-800 dark:border-slate-600 outline-none focus:ring-2 focus:ring-[#003399]" />
-                </div>
-                <div class="flex gap-2">
-                  <input type="text" placeholder="Straat" class="w-3/4 p-3 rounded-lg border border-gray-300 dark:bg-slate-800 dark:border-slate-600 outline-none focus:ring-2 focus:ring-[#003399]" />
-                  <input type="text" placeholder="#" class="w-1/4 p-3 rounded-lg border border-gray-300 dark:bg-slate-800 dark:border-slate-600 outline-none focus:ring-2 focus:ring-[#003399]" />
-                </div>
-              </div>
-
-              <!-- Naar -->
-              <div class="space-y-2">
-                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300">Naar</label>
-                <div class="flex gap-2">
-                  <select class="w-1/3 p-3 rounded-lg border border-gray-300 dark:bg-slate-800 dark:border-slate-600 outline-none focus:ring-2 focus:ring-[#003399]">
-                    <option selected>Vliegveld</option>
-                    <option>Adres</option>
-                  </select>
-                  <select class="w-2/3 p-3 rounded-lg border border-gray-300 dark:bg-slate-800 dark:border-slate-600 outline-none focus:ring-2 focus:ring-[#003399]">
-                    <option>Schiphol Airport (AMS)</option>
-                    <option>Eindhoven Airport (EIN)</option>
-                    <option>Rotterdam The Hague (RTM)</option>
-                  </select>
-                </div>
-              </div>
+        <!-- Resultaten -->
+        <div id="results" class="bg-blue-50 dark:bg-slate-700/50 rounded-xl p-6 flex flex-col justify-center border-2 border-dashed border-blue-200 dark:border-slate-600">
+          <div id="calc-placeholder" class="text-center text-gray-500">
+            Voer uw adres in voor een prijsvergelijking.
+          </div>
+          <div id="calc-output" class="hidden space-y-4">
+            <div class="flex justify-between items-center border-b pb-2">
+              <span class="text-sm">Wettelijk Max. Tarief (2026)</span>
+              <span id="max-price" class="font-semibold text-red-600 line-through"></span>
             </div>
-
-            <button type="button" class="text-sm text-[#003399] font-bold mt-2 hover:underline">+ Voeg extra tussenstop toe</button>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-              <div class="space-y-2">
-                <label class="block text-sm font-semibold">Ophaaltijd</label>
-                <div class="flex gap-2">
-                  <input type="date" class="w-3/5 p-3 rounded-lg border border-gray-300 dark:bg-slate-800" value="2026-05-02" />
-                  <input type="time" class="w-2/5 p-3 rounded-lg border border-gray-300 dark:bg-slate-800" value="00:07" />
-                </div>
-              </div>
-              <div class="flex items-center space-x-4 pt-8">
-                <label class="flex items-center cursor-pointer">
-                  <input type="checkbox" class="w-5 h-5 text-[#003399] rounded border-gray-300 focus:ring-[#003399]" />
-                  <span class="ml-2 text-sm font-medium">Retour rit</span>
-                </label>
-              </div>
+            <div class="flex justify-between items-center">
+              <span class="text-lg font-bold text-[#003399]">InTaxi Vast Tarief</span>
+              <span class="text-2xl font-black text-[#003399]">€75,00</span>
             </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-              <div class="space-y-2">
-                <label class="block text-sm font-semibold text-gray-700">Passagiers</label>
-                <select class="w-full p-3 rounded-lg border border-gray-300 dark:bg-slate-800">
-                  <option>1 passagier</option>
-                  <option>2 passagiers</option>
-                  <option>3 passagiers</option>
-                  <option>4 passagiers</option>
-                </select>
-              </div>
-              <div class="space-y-2">
-                <label class="block text-sm font-semibold text-gray-700">Bagage</label>
-                <select class="w-full p-3 rounded-lg border border-gray-300 dark:bg-slate-800">
-                  <option>Geen extra bagage</option>
-                  <option>1-2 grote koffers</option>
-                  <option>3-4 grote koffers</option>
-                </select>
-              </div>
+            <div id="saving-box" class="bg-green-100 text-green-800 p-3 rounded-lg text-center font-bold">
+              U bespaart circa <span id="saving-amount"></span>!
             </div>
           </div>
-
-          <!-- FOOTER: BUTTONS -->
-          <div class="flex justify-end border-t border-gray-100 dark:border-slate-800 pt-6">
-            <button 
-              type="button" 
-              id="next-btn"
-              class="bg-[#003399] hover:bg-[#002b80] text-white px-10 py-3 rounded-lg font-bold transition-all shadow-lg active:scale-95"
-            >
-              Bereken ritprijs
-            </button>
-          </div>
-        </form>
+        </div>
       </div>
       
-      <p class="text-center text-sm text-gray-500 mt-4 italic">
-        * Uw rit wordt altijd uitgevoerd in een premium Tesla van InTaxi.
+      <p class="text-[10px] text-gray-400 mt-6 italic">
+        * De berekening is gebaseerd op het starttarief (€4,31), kilometertarief (€3,17) en tijdtarief (€0,52) conform Rijksoverheid 2026.
       </p>
     </div>
   </div>
 </section>
 
-<style>
-  .step-label.active {
-    opacity: 1;
-  }
-</style>
-
 <script>
-  // Simpele navigatie logica
-  const nextBtn = document.getElementById('next-btn');
-  const stepLabels = document.querySelectorAll('.step-label');
-  
-  let currentStep = 1;
+  // Tariefdata 2026
+  const TARIEVEN = {
+    start: 4.31, //
+    km: 3.17,    //
+    min: 0.52    //
+  };
 
-  nextBtn?.addEventListener('click', () => {
-    if (currentStep < 4) {
-      currentStep++;
-      updateUI();
-    } else {
-      // In een echte situatie stuur je hier het formulier door naar WhatsApp of een backend
-      alert('Bedankt voor uw aanvraag! We verbinden u door met WhatsApp.');
-      window.open('https://wa.me/31642277607', '_blank');
-    }
+  // Deze functie simuleert de berekening. 
+  // In een productie-omgeving zou je hier de Google Distance Matrix API aanroepen.
+  document.getElementById('calc-btn').addEventListener('click', () => {
+    const pickup = (document.getElementById('pickup-location') as HTMLInputElement).value;
+    
+    if (!pickup) return alert("Voer aub een locatie in.");
+
+    // Demo logica: we simuleren een afstand van 25km en 30 minuten voor Amsterdam
+    const afstand = 25; 
+    const tijd = 30;
+
+    const maxPrijs = TARIEVEN.start + (afstand * TARIEVEN.km) + (tijd * TARIEVEN.min); //
+    const vastTarief = 75.00; //
+    const besparing = maxPrijs - vastTarief;
+
+    document.getElementById('calc-placeholder').classList.add('hidden');
+    const output = document.getElementById('calc-output');
+    output.classList.remove('hidden');
+
+    document.getElementById('max-price').innerText = `€${maxPrijs.toFixed(2)}`;
+    document.getElementById('saving-amount').innerText = `€${besparing.toFixed(2)}`;
   });
 
-  function updateUI() {
-    // Update labels
-    stepLabels.forEach((lbl, idx) => {
-      if (idx + 1 === currentStep) {
-        lbl.classList.add('text-white', 'border-b-2', 'border-white', 'pb-1');
-      } else {
-        lbl.classList.remove('text-white', 'border-b-2', 'border-white', 'pb-1');
-      }
-    });
-
-    // Verander knoptekst bij laatste stap
-    if (currentStep === 4 && nextBtn) {
-      nextBtn.innerText = 'Nu Boeken';
-    }
-  }
+  // Notitie voor implementatie: 
+  // Gebruik de Google Autocomplete API met 'componentRestrictions' voor NL, BE, DE.
+  // Filter BE/DE resultaten op type 'airport'.
 </script>
