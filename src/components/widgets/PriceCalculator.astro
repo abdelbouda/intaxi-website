@@ -1,112 +1,114 @@
 ---
-/* PriceCalculator.astro - Volledige Multi-step Workflow met Checkout */
+/* PriceCalculator.astro - Compacte 3D Versie met Kleurconsistentie */
 ---
 
-<section id="prijs-calculator" class="bg-blue-50 dark:bg-slate-900 py-12 border-t border-b border-gray-200 dark:border-slate-800 scroll-mt-20">
-  <div class="max-w-4xl mx-auto px-4">
-    <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-blue-100 dark:border-slate-700 overflow-hidden">
+<section id="prijs-calculator" class="bg-slate-50 dark:bg-slate-900 py-8 scroll-mt-20">
+  <div class="max-w-3xl mx-auto px-4">
+    <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-[0_20px_50px_rgba(0,51,153,0.1)] border border-gray-100 dark:border-slate-700 overflow-hidden transition-all duration-300 hover:shadow-[0_25px_60px_rgba(0,51,153,0.15)]">
       
-      <div class="flex bg-slate-100 dark:bg-slate-700">
-        <div id="step-1-tab" class="step-tab flex-1 py-3 text-center text-xs font-bold uppercase border-b-4 border-blue-600 text-blue-600">1. Route</div>
-        <div id="step-2-tab" class="step-tab flex-1 py-3 text-center text-xs font-bold uppercase border-b-4 border-transparent text-gray-400">2. Bagage</div>
-        <div id="step-3-tab" class="step-tab flex-1 py-3 text-center text-xs font-bold uppercase border-b-4 border-transparent text-gray-400">3. Voertuig</div>
-        <div id="step-4-tab" class="step-tab flex-1 py-3 text-center text-xs font-bold uppercase border-b-4 border-transparent text-gray-400">4. Checkout</div>
+      <div class="flex bg-gray-50/50 dark:bg-slate-700/50 border-b border-gray-100 dark:border-slate-700">
+        <div id="step-1-tab" class="step-tab flex-1 py-3 text-center text-[10px] font-bold uppercase tracking-wider border-b-2 border-[#003399] text-[#003399]">1. Route</div>
+        <div id="step-2-tab" class="step-tab flex-1 py-3 text-center text-[10px] font-bold uppercase tracking-wider border-b-2 border-transparent text-gray-400">2. Bagage</div>
+        <div id="step-3-tab" class="step-tab flex-1 py-3 text-center text-[10px] font-bold uppercase tracking-wider border-b-2 border-transparent text-gray-400">3. Voertuig</div>
+        <div id="step-4-tab" class="step-tab flex-1 py-3 text-center text-[10px] font-bold uppercase tracking-wider border-b-2 border-transparent text-gray-400">4. Checkout</div>
       </div>
 
-      <div class="p-8">
-        <div id="step-1" class="step-content space-y-6">
-          <div class="text-center mb-6">
-            <h2 class="text-2xl font-bold text-[#003399] dark:text-blue-400">Waar wil je heen?</h2>
+      <div class="p-6 md:p-8">
+        <div id="step-1" class="step-content space-y-5">
+          <div class="text-center mb-4">
+            <h2 class="text-xl font-bold text-[#003399] dark:text-blue-400">Waar wil je heen?</h2>
           </div>
-          <div class="grid md:grid-cols-2 gap-6">
-            <div class="space-y-4">
+          <div class="grid md:grid-cols-2 gap-4">
+            <div class="space-y-3">
               <div class="relative">
-                <label class="block text-sm font-semibold mb-1">Van (Ophaaladres) *</label>
-                <input type="text" id="pickup-input" placeholder="Straatnaam en stad..." class="w-full p-3 rounded-lg border border-gray-300 dark:bg-slate-700 dark:text-white" required />
-                <div id="autocomplete-results" class="absolute z-50 w-full bg-white dark:bg-slate-800 shadow-xl hidden max-h-48 overflow-y-auto border border-gray-200"></div>
+                <label class="block text-xs font-bold mb-1 text-gray-600 dark:text-gray-300">Van (Ophaaladres) *</label>
+                <input type="text" id="pickup-input" placeholder="Straatnaam en stad..." class="w-full p-2.5 text-sm rounded-lg border border-gray-200 dark:bg-slate-700 dark:border-slate-600 dark:text-white outline-none focus:ring-2 focus:ring-[#003399] transition-all" required />
+                <div id="autocomplete-results" class="absolute z-50 w-full bg-white dark:bg-slate-800 shadow-2xl hidden max-h-48 overflow-y-auto border border-gray-100 rounded-b-lg"></div>
               </div>
-              <div>
-                <label class="block text-sm font-semibold mb-1">Huisnummer *</label>
-                <input type="text" id="house-number" placeholder="Bijv. 12" class="w-full p-3 rounded-lg border border-gray-300 dark:bg-slate-700 dark:text-white" required />
-              </div>
-              <div>
-                <label class="block text-sm font-semibold mb-1">Naar (Bestemming)</label>
-                <select id="destination-select" class="w-full p-3 rounded-lg border border-gray-300 dark:bg-slate-700 dark:text-white">
-                  <option value="4.7683,52.3105">Schiphol Airport (AMS)</option>
-                  <option value="4.4844,50.9010">Brussels Airport (BRU)</option>
-                  <option value="4.4372,51.9225">Rotterdam Airport (RTM)</option>
-                </select>
+              <div class="grid grid-cols-3 gap-2">
+                <div class="col-span-1">
+                  <label class="block text-xs font-bold mb-1 text-gray-600">Huisnr. *</label>
+                  <input type="text" id="house-number" placeholder="12" class="w-full p-2.5 text-sm rounded-lg border border-gray-200 dark:bg-slate-700 dark:text-white outline-none focus:ring-2 focus:ring-[#003399]" required />
+                </div>
+                <div class="col-span-2">
+                  <label class="block text-xs font-bold mb-1 text-gray-600">Bestemming</label>
+                  <select id="destination-select" class="w-full p-2.5 text-sm rounded-lg border border-gray-200 dark:bg-slate-700 dark:text-white outline-none focus:ring-2 focus:ring-[#003399]">
+                    <option value="4.7683,52.3105">Schiphol Airport (AMS)</option>
+                    <option value="4.4844,50.9010">Brussels Airport (BRU)</option>
+                    <option value="4.4372,51.9225">Rotterdam Airport (RTM)</option>
+                  </select>
+                </div>
               </div>
             </div>
-            <div class="space-y-4">
+            <div class="space-y-3">
               <div>
-                <label class="block text-sm font-semibold mb-1">Ophaalmoment *</label>
-                <input type="datetime-local" id="pickup-time" class="w-full p-3 rounded-lg border border-gray-300 dark:bg-slate-700 dark:text-white" required />
+                <label class="block text-xs font-bold mb-1 text-gray-600">Ophaalmoment *</label>
+                <input type="datetime-local" id="pickup-time" class="w-full p-2.5 text-sm rounded-lg border border-gray-200 dark:bg-slate-700 dark:text-white outline-none focus:ring-2 focus:ring-[#003399]" required />
               </div>
               <div>
-                <label class="block text-sm font-semibold mb-1">Aantal reizigers</label>
-                <input type="number" id="passengers" value="1" min="1" max="8" class="w-full p-3 rounded-lg border border-gray-300 dark:bg-slate-700 dark:text-white" />
+                <label class="block text-xs font-bold mb-1 text-gray-600">Aantal reizigers</label>
+                <input type="number" id="passengers" value="1" min="1" max="8" class="w-full p-2.5 text-sm rounded-lg border border-gray-200 dark:bg-slate-700 dark:text-white outline-none focus:ring-2 focus:ring-[#003399]" />
               </div>
             </div>
           </div>
-          <button onclick="nextStep(2)" class="w-full bg-[#003399] text-white font-bold py-4 rounded-lg hover:bg-blue-800 transition">Bereken mijn ritprijs</button>
+          <button onclick="nextStep(2)" class="w-full bg-[#003399] text-white font-bold py-3.5 rounded-xl hover:bg-blue-800 shadow-[0_4px_15px_rgba(0,51,153,0.3)] transform transition hover:-translate-y-0.5 active:scale-95">
+            Volgende Stap
+          </button>
         </div>
 
-        <div id="step-2" class="step-content hidden space-y-6">
-          <div class="text-center mb-6">
-            <h2 class="text-2xl font-bold text-[#003399] dark:text-blue-400">Bagage</h2>
+        <div id="step-2" class="step-content hidden space-y-5">
+          <div class="text-center">
+            <h2 class="text-xl font-bold text-[#003399] mb-4">Bagage</h2>
           </div>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div class="p-4 border rounded-xl text-center dark:border-slate-600">
-              <span class="block text-3xl mb-2">🧳</span>
-              <p class="font-bold text-sm">Grote koffer</p>
-              <input type="number" id="luggage-large" value="0" min="0" class="w-16 mx-auto mt-2 p-1 border rounded text-center dark:bg-slate-700" />
+          <div class="grid grid-cols-3 gap-3">
+            <div class="p-3 border rounded-xl text-center dark:border-slate-600 bg-gray-50/50">
+              <span class="text-2xl">🧳</span>
+              <p class="font-bold text-[10px] mt-1 uppercase text-gray-500">Koffer</p>
+              <input type="number" id="luggage-large" value="0" min="0" class="w-12 mx-auto mt-1 p-1 text-sm border rounded text-center dark:bg-slate-700 outline-none focus:ring-2 focus:ring-[#003399]" />
             </div>
-            <div class="p-4 border rounded-xl text-center dark:border-slate-600">
-              <span class="block text-3xl mb-2">💼</span>
-              <p class="font-bold text-sm">Handbagage</p>
-              <input type="number" id="luggage-small" value="0" min="0" class="w-16 mx-auto mt-2 p-1 border rounded text-center dark:bg-slate-700" />
+            <div class="p-3 border rounded-xl text-center dark:border-slate-600 bg-gray-50/50">
+              <span class="text-2xl">💼</span>
+              <p class="font-bold text-[10px] mt-1 uppercase text-gray-500">Handtas</p>
+              <input type="number" id="luggage-small" value="0" min="0" class="w-12 mx-auto mt-1 p-1 text-sm border rounded text-center dark:bg-slate-700 outline-none focus:ring-2 focus:ring-[#003399]" />
             </div>
-            <div class="p-4 border rounded-xl text-center dark:border-slate-600">
-              <span class="block text-3xl mb-2">👶</span>
-              <p class="font-bold text-sm">Kinderzitje</p>
-              <input type="number" id="child-seat" value="0" min="0" class="w-16 mx-auto mt-2 p-1 border rounded text-center dark:bg-slate-700" />
+            <div class="p-3 border rounded-xl text-center dark:border-slate-600 bg-gray-50/50">
+              <span class="text-2xl">👶</span>
+              <p class="font-bold text-[10px] mt-1 uppercase text-gray-500">Zitje</p>
+              <input type="number" id="child-seat" value="0" min="0" class="w-12 mx-auto mt-1 p-1 text-sm border rounded text-center dark:bg-slate-700 outline-none focus:ring-2 focus:ring-[#003399]" />
             </div>
           </div>
-          <div class="flex gap-4">
-            <button onclick="nextStep(1)" class="w-1/3 bg-gray-200 py-4 rounded-lg font-bold">Terug</button>
-            <button onclick="calculateAndGoToStep3()" class="w-2/3 bg-[#003399] text-white py-4 rounded-lg font-bold">Bekijk Voertuigen</button>
+          <div class="flex gap-3">
+            <button onclick="nextStep(1)" class="w-1/3 bg-gray-100 py-3 rounded-xl font-bold text-gray-600 hover:bg-gray-200 transition">Terug</button>
+            <button onclick="calculateAndGoToStep3()" class="w-2/3 bg-[#003399] text-white py-3 rounded-xl font-bold shadow-lg hover:-translate-y-0.5 transition">Bereken Vaste Prijs</button>
           </div>
         </div>
 
         <div id="step-3" class="step-content hidden space-y-4">
-          <div class="text-center mb-6">
-            <h2 class="text-2xl font-bold text-[#003399] dark:text-blue-400">Selecteer uw voertuig</h2>
+          <div class="text-center">
+            <h2 class="text-xl font-bold text-[#003399] mb-4">Kies uw voertuig</h2>
           </div>
-          <div id="vehicle-options" class="space-y-4">
-            </div>
-          <button onclick="nextStep(2)" class="w-full bg-gray-200 py-3 rounded-lg font-bold">Terug naar bagage</button>
+          <div id="vehicle-options" class="space-y-3"></div>
+          <button onclick="nextStep(2)" class="w-full text-gray-400 text-xs font-bold uppercase hover:text-[#003399] transition">Wijzig Bagage</button>
         </div>
 
-        <div id="step-4" class="step-content hidden space-y-6">
-          <div class="text-center">
-            <h2 class="text-2xl font-bold text-[#003399] dark:text-blue-400">Contactgegevens</h2>
+        <div id="step-4" class="step-content hidden space-y-5">
+          <div class="bg-[#003399]/5 p-4 rounded-xl border border-[#003399]/10">
+            <p class="text-[10px] font-bold text-[#003399] uppercase">Uw vaste prijsopgave:</p>
+            <p id="summary-text" class="text-sm font-medium text-gray-700 dark:text-gray-300 mt-1"></p>
+            <p class="text-3xl font-black text-[#003399] mt-1"><span id="summary-price">€ 0</span></p>
           </div>
-          <div class="bg-blue-50 dark:bg-slate-900/50 p-4 rounded-lg mb-6 border border-blue-100 dark:border-slate-700">
-            <p class="text-sm"><strong>Geselecteerde rit:</strong> <span id="summary-text">...</span></p>
-            <p class="text-xl font-bold text-blue-600 mt-2">Totaal: <span id="summary-price">€ 0</span></p>
+          <div class="grid md:grid-cols-2 gap-3">
+            <input type="text" id="cust-first-name" placeholder="Voornaam *" class="p-2.5 text-sm border rounded-lg dark:bg-slate-700 outline-none focus:ring-2 focus:ring-[#003399]" required />
+            <input type="text" id="cust-last-name" placeholder="Achternaam *" class="p-2.5 text-sm border rounded-lg dark:bg-slate-700 outline-none focus:ring-2 focus:ring-[#003399]" required />
+            <input type="email" id="cust-email" placeholder="E-mailadres *" class="p-2.5 text-sm border rounded-lg dark:bg-slate-700 outline-none focus:ring-2 focus:ring-[#003399]" required />
+            <input type="tel" id="cust-phone" placeholder="Telefoonnummer *" class="p-2.5 text-sm border rounded-lg dark:bg-slate-700 outline-none focus:ring-2 focus:ring-[#003399]" required />
           </div>
-          <div class="grid md:grid-cols-2 gap-4">
-            <input type="text" id="cust-first-name" placeholder="Voornaam *" class="p-3 border rounded-lg dark:bg-slate-700 dark:text-white" required />
-            <input type="text" id="cust-last-name" placeholder="Achternaam *" class="p-3 border rounded-lg dark:bg-slate-700 dark:text-white" required />
-            <input type="email" id="cust-email" placeholder="E-mailadres *" class="p-3 border rounded-lg dark:bg-slate-700 dark:text-white" required />
-            <input type="tel" id="cust-phone" placeholder="Telefoonnummer *" class="p-3 border rounded-lg dark:bg-slate-700 dark:text-white" required />
-          </div>
-          <textarea id="cust-notes" placeholder="Vluchtnummer of extra opmerkingen..." class="w-full p-3 border rounded-lg dark:bg-slate-700 dark:text-white h-24"></textarea>
-          
-          <div class="flex gap-4">
-            <button onclick="nextStep(3)" class="w-1/3 bg-gray-200 py-4 rounded-lg font-bold">Terug</button>
-            <button id="final-reserve-btn" class="w-2/3 bg-green-600 text-white font-bold py-4 rounded-lg hover:bg-green-700 transition">Reserveer nu via WhatsApp</button>
+          <textarea id="cust-notes" placeholder="Vluchtnummer of extra info..." class="w-full p-2.5 text-sm border rounded-lg dark:bg-slate-700 h-20 outline-none focus:ring-2 focus:ring-[#003399]"></textarea>
+          <div class="flex gap-3">
+            <button onclick="nextStep(3)" class="w-1/3 bg-gray-100 py-3 rounded-xl font-bold text-gray-600">Terug</button>
+            <button id="final-reserve-btn" class="w-2/3 bg-green-600 text-white font-bold py-3 rounded-xl hover:bg-green-700 shadow-xl flex items-center justify-center gap-2 transform hover:-translate-y-0.5 transition">
+               Reserveer via WhatsApp
+            </button>
           </div>
         </div>
 
@@ -123,8 +125,8 @@
   };
 
   const TARIEVEN = {
-    auto: { start: 4.31, km: 3.17, min: 0.52, label: 'Tesla Business Class', desc: 'Luxe Tesla uit het E-segment.' },
-    bus:  { start: 8.75, km: 3.63, min: 0.60, label: 'Personenbus (5-8p)', desc: 'Ideaal voor groepen en veel bagage.' }
+    auto: { start: 4.31, km: 3.17, min: 0.52, label: 'Tesla Business Class', desc: '1-4p | Luxe & Elektrisch' },
+    bus:  { start: 8.75, km: 3.63, min: 0.60, label: 'Personenbus', desc: '5-8p | Veel bagage' }
   };
 
   function nextStep(step) {
@@ -138,10 +140,11 @@
     document.getElementById('step-' + step).classList.remove('hidden');
     
     document.querySelectorAll('.step-tab').forEach((tab, i) => {
-      tab.classList.toggle('border-blue-600', (i + 1) === step);
-      tab.classList.toggle('text-blue-600', (i + 1) === step);
-      tab.classList.toggle('text-gray-400', (i + 1) !== step);
-      tab.classList.toggle('border-transparent', (i + 1) !== step);
+      const active = (i + 1) === step;
+      tab.classList.toggle('border-[#003399]', active);
+      tab.classList.toggle('text-[#003399]', active);
+      tab.classList.toggle('text-gray-400', !active);
+      tab.classList.toggle('border-transparent', !active);
     });
     window.scrollTo({ top: document.getElementById('prijs-calculator').offsetTop - 20, behavior: 'smooth' });
   }
@@ -151,7 +154,6 @@
     const destSelect = document.getElementById('destination-select');
     const destCoords = destSelect.value;
     
-    // Simpele geo-lookup voor demo (in praktijk gebruik je de geselecteerde coords van autocomplete)
     try {
       const res = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(pickup)}&limit=1`);
       const data = await res.json();
@@ -173,17 +175,16 @@
         const prijs = Math.floor(basis * 0.90);
         
         const card = document.createElement('div');
-        card.className = "p-5 border-2 rounded-xl cursor-pointer hover:border-blue-500 transition flex justify-between items-center dark:border-slate-700 bg-white dark:bg-slate-800";
+        card.className = "p-4 border border-gray-100 rounded-xl cursor-pointer hover:border-[#003399] hover:bg-blue-50/30 transition-all flex justify-between items-center bg-white shadow-sm hover:shadow-md";
         card.onclick = () => selectVehicle(type, prijs);
         card.innerHTML = `
           <div>
-            <h3 class="font-bold text-lg">${t.label}</h3>
-            <p class="text-xs text-gray-500">${t.desc}</p>
-            <p class="text-xs font-bold text-green-600 mt-1">✓ Bagage inclusief ✓ 10% korting</p>
+            <h3 class="font-bold text-sm text-gray-800">${t.label}</h3>
+            <p class="text-[10px] text-gray-500">${t.desc}</p>
           </div>
           <div class="text-right">
-            <span class="block text-2xl font-black text-blue-600">€ ${prijs},-</span>
-            <button class="bg-blue-600 text-white text-xs px-4 py-2 rounded mt-2 uppercase font-bold">Selecteer</button>
+            <span class="block text-xl font-black text-[#003399]">€ ${prijs},-</span>
+            <span class="text-[9px] font-bold text-green-600 uppercase tracking-tighter">10% Korting Toegepast</span>
           </div>
         `;
         container.appendChild(card);
@@ -221,18 +222,16 @@
       `🚕 NIEUWE RESERVERING\n\n` +
       `👤 Klant: ${fName} ${lName}\n` +
       `📞 Tel: ${phone}\n` +
-      `📧 E-mail: ${email}\n\n` +
       `📅 Datum: ${tripData.time}\n` +
       `📍 Van: ${tripData.pickup} ${tripData.house}\n` +
       `🏁 Naar: ${tripData.destName}\n` +
       `🚗 Type: ${TARIEVEN[tripData.vehicle].label}\n` +
-      `💰 Prijs: €${tripData.price},-\n\n` +
+      `💰 Vaste Prijs: €${tripData.price},-\n\n` +
       `📝 Opmerking: ${notes || 'Geen'}`
     );
     window.open(`https://wa.me/31642277607?text=${msg}`, '_blank');
   };
 
-  // Autocomplete functionaliteit
   const pickupInput = document.getElementById('pickup-input');
   const resultsDiv = document.getElementById('autocomplete-results');
   pickupInput.addEventListener('input', async (e) => {
@@ -243,7 +242,7 @@
     resultsDiv.innerHTML = '';
     data.features.forEach(f => {
       const div = document.createElement('div');
-      div.className = 'p-3 hover:bg-gray-100 cursor-pointer text-sm dark:text-white dark:hover:bg-slate-700';
+      div.className = 'p-2.5 hover:bg-blue-50 cursor-pointer text-xs dark:text-white dark:hover:bg-slate-700';
       div.innerText = `${f.properties.name || ''} ${f.properties.city || ''}`;
       div.onclick = () => { pickupInput.value = div.innerText; resultsDiv.classList.add('hidden'); };
       resultsDiv.appendChild(div);
