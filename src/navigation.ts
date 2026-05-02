@@ -1,10 +1,9 @@
 import { getPermalink, getAsset } from './utils/permalinks';
 
 export const headerData = {
-  // Hier voegen we de logo-instellingen toe
   showLogo: true,
-  logoText: 'InTaxi', // Tekst voor SEO/alt-tag
-  logoImage: getAsset('~/assets/images/nad_logo.webp'), // Verander naar .jpg als je hem nog niet hebt omgezet
+  logoText: 'InTaxi',
+  logoImage: getAsset('~/assets/images/nad_logo.webp'),
 
   links: [
     {
@@ -12,25 +11,43 @@ export const headerData = {
       href: getPermalink('/'),
     },
     {
-      text: 'Tarieven',
+      text: 'Over ons',
+      href: getPermalink('/about'),
+    },
+    {
+      text: 'Taxiservices',
       href: getPermalink('/#tarieven'),
     },
     {
-      text: 'Over ons',
-      href: getPermalink('/about'),
+      text: 'Help',
+      href: getPermalink('/help'),
     },
     {
       text: 'Contact',
       href: getPermalink('/contact'),
     },
   ],
-  actions: [{ 
-    text: 'Reserveer via WhatsApp', 
-    href: 'https://wa.me/31642277607?text=Ik%20wil%20graag%20een%20luxe%20Tesla%20taxi%20boeken', 
-    target: '_blank',
-    variant: 'primary',
-    icon: 'tabler:brand-whatsapp',
-  }],
+  actions: [
+    {
+      text: '+31 6 42 27 76 07',
+      href: 'tel:+31642277607',
+      variant: 'secondary',
+      icon: 'tabler:phone',
+    },
+    {
+      text: 'info@intaxi.nl',
+      href: 'mailto:info@intaxi.nl',
+      variant: 'secondary',
+      icon: 'tabler:mail',
+    },
+    { 
+      text: 'Reserveer via WhatsApp', 
+      href: 'https://wa.me/31642277607?text=Ik%20wil%20graag%20een%20luxe%20Tesla%20taxi%20boeken%20voor%20een%20vaste%20prijs', 
+      target: '_blank',
+      variant: 'primary',
+      icon: 'tabler:brand-whatsapp',
+    },
+  ],
 };
 
 export const footerData = {
@@ -40,7 +57,7 @@ export const footerData = {
       links: [
         { text: 'Schiphol Taxi', href: '#' },
         { text: 'Zakelijk Vervoer', href: '#' },
-        { text: 'Tarieven', href: '#tarieven' },
+        { text: 'Prijs berekenen', href: '#tarieven' },
         { text: 'Onze Tesla\'s', href: '#' },
       ],
     },
