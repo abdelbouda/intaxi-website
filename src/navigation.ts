@@ -46,8 +46,8 @@ export const headerData = {
       target: '_blank',
       variant: 'primary',
       icon: 'tabler:brand-whatsapp',
-    },
-  ],
+--    },
+--  ],
 };
 
 export const footerData = {
