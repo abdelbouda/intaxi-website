@@ -1,19 +1,16 @@
 ---
-/* PriceCalculator.astro - Ultra Compact & 3D Effect */
+/* PriceCalculator.astro - Updated with Charleroi & Fixed International Rates */
 ---
 
 <section id="prijs-calculator" class="bg-slate-50 dark:bg-slate-900 py-4 scroll-mt-20">
   <div class="max-w-4xl mx-auto px-4">
-    <!-- Hoofdcontainer met 3D schaduw en NAD Blauwe accenten -->
     <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-[0_20px_50px_rgba(0,51,153,0.15)] border border-gray-100 dark:border-slate-700 overflow-hidden">
-      
-      <!-- Top Bar met NAD Kleur -->
       <div class="bg-[#003399] h-1.5 w-full"></div>
 
       <div class="p-4 md:p-6">
         <div class="grid lg:grid-cols-2 gap-6 items-start">
           
-          <!-- LINKERKANT: REISDETAILS -->
+          <!-- LINKERKANT: REIS -->
           <div class="space-y-3">
             <div class="flex items-center gap-2 mb-1">
               <span class="bg-[#003399] text-white w-5 h-5 flex items-center justify-center rounded-full text-[10px] font-bold shadow-md">1</span>
@@ -21,47 +18,53 @@
             </div>
 
             <div class="grid gap-2">
-              <!-- Ophaalpunt -->
               <div class="relative group">
-                <div class="flex items-center bg-gray-50 dark:bg-slate-700 rounded-lg px-3 py-2 border border-gray-200 dark:border-slate-600 shadow-[inset_0_1px_2px_rgba(0,0,0,0.05)] focus-within:border-[#003399] transition-all">
+                <div class="flex items-center bg-gray-50 dark:bg-slate-700 rounded-lg px-3 py-2 border border-gray-200 dark:border-slate-600 shadow-[inset_0_1px_2px_rgba(0,0,0,0.05)] focus-within:border-[#003399]">
                   <span class="text-xs mr-2">📍</span>
-                  <input type="text" id="pickup-input" placeholder="Ophaaladres..." class="w-full bg-transparent outline-none text-xs font-semibold" />
+                  <input type="text" id="pickup-input" placeholder="Straat en stad..." class="w-full bg-transparent outline-none text-xs font-semibold" />
                 </div>
                 <div id="autocomplete-results" class="absolute z-50 w-full bg-white shadow-xl hidden max-h-32 overflow-y-auto border rounded-b-lg text-[11px]"></div>
               </div>
 
-              <!-- Bestemming & Tijd Grid -->
+              <!-- Huisnummer -->
+              <div class="bg-gray-50 dark:bg-slate-700 rounded-lg px-3 py-2 border border-gray-200 dark:border-slate-600 shadow-[inset_0_1px_2px_rgba(0,0,0,0.05)]">
+                <input type="text" id="house-number" placeholder="Huisnummer + Toevoeging..." class="w-full bg-transparent outline-none text-xs font-semibold" />
+              </div>
+
               <div class="grid grid-cols-2 gap-2">
                 <div class="bg-gray-50 dark:bg-slate-700 rounded-lg px-3 py-2 border border-gray-200 dark:border-slate-600 shadow-[inset_0_1px_2px_rgba(0,0,0,0.05)]">
                   <select id="destination-select" class="w-full bg-transparent font-bold text-[11px] outline-none cursor-pointer">
-                    <option value="4.7683,52.3105">Schiphol (AMS)</option>
-                    <option value="4.4844,50.9010">Brussels (BRU)</option>
-                    <option value="4.4372,51.9225">Rotterdam (RTM)</option>
+                    <option value="4.7683,52.3105" data-fixed="false">Schiphol (AMS)</option>
+                    <option value="5.3912,51.4584" data-fixed="false">Eindhoven Airport (EIN)</option>
+                    <option value="4.4372,51.9225" data-fixed="false">Rotterdam (RTM)</option>
+                    <option value="4.4844,50.9010" data-fixed="true">Brussels Airport (BRU)</option>
+                    <option value="4.4538,50.4592" data-fixed="true">Charleroi (CRL)</option>
+                    <option value="6.1422,51.6024" data-fixed="true">Weeze Airport (NRN)</option>
+                    <option value="6.7663,51.2895" data-fixed="true">Düsseldorf (DUS)</option>
                   </select>
                 </div>
                 <div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg px-3 py-2 border border-blue-100 flex justify-between items-center shadow-sm">
-                   <span class="text-[9px] uppercase font-bold text-blue-400">Tijd:</span>
+                   <span class="text-[9px] uppercase font-bold text-blue-400">Reistijd:</span>
                    <p class="text-xs font-black text-[#003399] dark:text-blue-300"><span id="est-time">--</span> min</p>
                 </div>
               </div>
 
-              <!-- Datum & Tijd -->
               <div class="grid grid-cols-2 gap-2">
-                <input type="date" id="pickup-date" class="bg-gray-50 dark:bg-slate-700 rounded-lg px-3 py-2 border border-gray-200 dark:border-slate-600 text-[11px] font-bold outline-none shadow-[inset_0_1px_2px_rgba(0,0,0,0.05)]" />
-                <input type="time" id="pickup-time" class="bg-gray-50 dark:bg-slate-700 rounded-lg px-3 py-2 border border-gray-200 dark:border-slate-600 text-[11px] font-bold outline-none shadow-[inset_0_1px_2px_rgba(0,0,0,0.05)]" />
+                <input type="date" id="pickup-date" class="bg-gray-50 dark:bg-slate-700 rounded-lg px-3 py-2 border border-gray-200 dark:border-slate-600 text-[11px] font-bold outline-none" />
+                <input type="time" id="pickup-time" class="bg-gray-50 dark:bg-slate-700 rounded-lg px-3 py-2 border border-gray-200 dark:border-slate-600 text-[11px] font-bold outline-none" />
               </div>
             </div>
 
-            <!-- Voertuigen - 3D Look -->
+            <!-- Voertuigen -->
             <div class="grid grid-cols-2 gap-2 pt-1">
-              <div id="v-auto" onclick="setVehicle('auto')" class="group relative bg-white dark:bg-slate-700 border-b-4 border-gray-200 dark:border-slate-900 p-2 rounded-xl cursor-pointer transition-all active:translate-y-1 active:border-b-0">
+              <div id="v-auto" onclick="setVehicle('auto')" class="group relative bg-white dark:bg-slate-700 border-b-4 border-gray-200 p-2 rounded-xl cursor-pointer transition-all active:translate-y-1">
                 <div class="flex flex-col items-center text-center">
                   <span class="text-xl mb-1">🚗</span>
                   <span class="text-[10px] font-bold block">Tesla</span>
                   <span id="price-auto" class="text-xs font-black text-[#003399]">€ --</span>
                 </div>
               </div>
-              <div id="v-bus" onclick="setVehicle('bus')" class="group relative bg-white dark:bg-slate-700 border-b-4 border-gray-200 dark:border-slate-900 p-2 rounded-xl cursor-pointer transition-all active:translate-y-1 active:border-b-0">
+              <div id="v-bus" onclick="setVehicle('bus')" class="group relative bg-white dark:bg-slate-700 border-b-4 border-gray-200 p-2 rounded-xl cursor-pointer transition-all active:translate-y-1">
                 <div class="flex flex-col items-center text-center">
                   <span class="text-xl mb-1">🚐</span>
                   <span class="text-[10px] font-bold block">Busje</span>
@@ -72,28 +75,25 @@
           </div>
 
           <!-- RECHTERKANT: CONTACT -->
-          <div class="space-y-3 lg:border-l border-gray-100 dark:border-slate-700 lg:pl-6">
+          <div class="space-y-3 lg:border-l border-gray-100 lg:pl-6">
             <div class="flex items-center gap-2 mb-1">
               <span class="bg-[#003399] text-white w-5 h-5 flex items-center justify-center rounded-full text-[10px] font-bold shadow-md">2</span>
               <h2 class="text-sm font-black text-[#003399] uppercase tracking-wider">Contact</h2>
             </div>
 
             <div class="grid grid-cols-2 gap-2">
-              <input type="text" id="cust-first-name" placeholder="Voornaam *" class="p-2.5 text-xs bg-gray-50 dark:bg-slate-700 border border-gray-200 dark:border-slate-600 rounded-lg outline-none shadow-[inset_0_1px_2px_rgba(0,0,0,0.05)]" />
-              <input type="text" id="cust-last-name" placeholder="Achternaam" class="p-2.5 text-xs bg-gray-50 dark:bg-slate-700 border border-gray-200 dark:border-slate-600 rounded-lg outline-none shadow-[inset_0_1px_2px_rgba(0,0,0,0.05)]" />
+              <input type="text" id="cust-first-name" placeholder="Voornaam *" class="p-2.5 text-xs bg-gray-50 dark:bg-slate-700 border border-gray-200 rounded-lg outline-none" />
+              <input type="text" id="cust-last-name" placeholder="Achternaam" class="p-2.5 text-xs bg-gray-50 dark:bg-slate-700 border border-gray-200 rounded-lg outline-none" />
             </div>
             
-            <input type="tel" id="cust-phone" placeholder="Telefoonnummer *" class="w-full p-2.5 text-xs bg-gray-50 dark:bg-slate-700 border border-gray-200 dark:border-slate-600 rounded-lg outline-none shadow-[inset_0_1px_2px_rgba(0,0,0,0.05)]" />
+            <input type="tel" id="cust-phone" placeholder="Telefoonnummer *" class="w-full p-2.5 text-xs bg-gray-50 dark:bg-slate-700 border border-gray-200 rounded-lg outline-none" />
             
-            <textarea id="cust-notes" placeholder="Opmerkingen..." class="w-full p-2.5 text-xs bg-gray-50 dark:bg-slate-700 border border-gray-200 dark:border-slate-600 rounded-lg h-16 outline-none shadow-[inset_0_1px_2px_rgba(0,0,0,0.05)]"></textarea>
+            <textarea id="cust-notes" placeholder="Vluchtnummer of andere opmerkingen..." class="w-full p-2.5 text-xs bg-gray-50 dark:bg-slate-700 border border-gray-200 rounded-lg h-20 outline-none"></textarea>
 
-            <!-- WhatsApp Knop met 3D schaduw -->
-            <button id="final-reserve-btn" class="w-full bg-[#25D366] text-white font-black py-3 rounded-xl shadow-[0_4px_0_rgb(28,175,85)] hover:shadow-[0_2px_0_rgb(28,175,85)] hover:translate-y-[2px] active:shadow-none active:translate-y-[4px] transition-all flex items-center justify-center gap-2 text-xs uppercase tracking-widest">
-              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.417-.003 6.557-5.338 11.892-11.893 11.892-1.997-.001-3.951-.5-5.688-1.448l-6.305 1.652zm6.599-3.835c1.406.836 2.492 1.24 4.39 1.24 5.33 0 9.675-4.346 9.678-9.677.001-2.583-1.003-5.01-2.827-6.834-1.825-1.825-4.253-2.83-6.837-2.831-5.33 0-9.673 4.346-9.676 9.677-.001 1.83.479 3.125 1.385 4.69l-.934 3.413 3.421-.899zm10.155-5.592c-.286-.143-1.688-.833-1.949-.928-.261-.095-.451-.143-.641.143-.19.286-.737.928-.903 1.118-.166.19-.333.214-.618.071-.285-.143-1.206-.444-2.298-1.417-.85-.758-1.423-1.694-1.59-1.979-.166-.286-.018-.44.125-.581.128-.128.286-.333.428-.5.143-.166.19-.286.286-.476.095-.19.048-.357-.024-.5-.071-.143-.641-1.545-.879-2.117-.231-.557-.466-.481-.641-.49-.166-.008-.356-.01-.546-.01s-.5.071-.76.357c-.26.286-.998.976-.998 2.38s1.022 2.761 1.164 2.951c.143.19 2.012 3.073 4.874 4.31.681.294 1.212.47 1.626.601.684.218 1.307.187 1.8.113.549-.082 1.688-.69 1.926-1.356.238-.666.238-1.237.166-1.356-.072-.119-.261-.19-.547-.333z"/></svg>
+            <button id="final-reserve-btn" class="w-full bg-[#25D366] text-white font-black py-3 rounded-xl shadow-[0_4px_0_rgb(28,175,85)] hover:translate-y-[2px] active:translate-y-[4px] transition-all flex items-center justify-center gap-2 text-xs uppercase tracking-widest">
               Nu Boeken
             </button>
           </div>
-
         </div>
       </div>
     </div>
@@ -101,12 +101,7 @@
 </section>
 
 <style>
-  .active-vehicle {
-    border-color: #003399 !important;
-    border-bottom: 0 !important;
-    background-color: #f0f7ff !important;
-    transform: translateY(4px);
-  }
+  .active-vehicle { border-color: #003399 !important; background-color: #f0f7ff !important; transform: translateY(4px); border-bottom: 0 !important; }
 </style>
 
 <script is:inline>
@@ -126,18 +121,30 @@
 
   async function updatePrices() {
     const pickup = document.getElementById('pickup-input').value;
+    const destSelect = document.getElementById('destination-select');
+    const isFixed = destSelect.options[destSelect.selectedIndex].getAttribute('data-fixed') === 'true';
+
+    // Logica voor vaste tarieven (Brussel, Charleroi, Weeze, Dusseldorf)
+    if (isFixed) {
+      document.getElementById('price-auto').innerText = `€ 250,-`;
+      document.getElementById('price-bus').innerText = `€ 300,-`;
+      document.getElementById('est-time').innerText = "--";
+      return;
+    }
+
     if (pickup.length < 5) return;
     try {
       const res = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(pickup)}&limit=1`);
       const data = await res.json();
       const coords = data.features[0].geometry.coordinates;
-      const destCoords = document.getElementById('destination-select').value;
+      const destCoords = destSelect.value;
       const routeRes = await fetch(`https://router.project-osrm.org/route/v1/driving/${coords[0]},${coords[1]};${destCoords}?overview=false`);
       const routeData = await routeRes.json();
       const r = routeData.routes[0];
       const km = r.distance / 1000;
       const min = r.duration / 60;
       document.getElementById('est-time').innerText = Math.round(min);
+      
       const tAuto = { start: 4.31, km: 3.17, min: 0.52 };
       const tBus = { start: 8.75, km: 3.63, min: 0.60 };
       document.getElementById('price-auto').innerText = `€ ${Math.floor((tAuto.start + (km * tAuto.km) + (min * tAuto.min)) * 0.90)},-`;
@@ -148,17 +155,23 @@
   document.getElementById('final-reserve-btn').onclick = () => {
     const fName = document.getElementById('cust-first-name').value;
     const phone = document.getElementById('cust-phone').value;
+    const house = document.getElementById('house-number').value;
     const price = selectedVehicle === 'auto' ? document.getElementById('price-auto').innerText : document.getElementById('price-bus').innerText;
-    if (!fName || !phone || price === '€ --') { alert("Vul alle velden in."); return; }
+    
+    if (!fName || !phone || !house || price === '€ --') { 
+      alert("Vul a.u.b. alle velden in (inclusief huisnummer)."); return; 
+    }
 
     const msg = encodeURIComponent(
       `🚕 INTAXI BOEKING\n\n` +
-      `Klant: ${fName}\n` +
-      `📍 Van: ${document.getElementById('pickup-input').value}\n` +
+      `Klant: ${fName} ${document.getElementById('cust-last-name').value}\n` +
+      `📞 Tel: ${phone}\n` +
+      `📍 Adres: ${document.getElementById('pickup-input').value} ${house}\n` +
       `🏁 Naar: ${document.getElementById('destination-select').options[document.getElementById('destination-select').selectedIndex].text}\n` +
       `📅 Datum: ${document.getElementById('pickup-date').value} om ${document.getElementById('pickup-time').value}\n` +
-      `🚗 Auto: ${selectedVehicle}\n` +
-      `💰 Prijs: ${price}`
+      `🚗 Auto: ${selectedVehicle === 'auto' ? 'Tesla' : 'Busje'}\n` +
+      `💰 Prijs: ${price}\n` +
+      `📝 Opmerkingen: ${document.getElementById('cust-notes').value || 'Geen'}`
     );
     window.open(`https://wa.me/31642277607?text=${msg}`, '_blank');
   };
