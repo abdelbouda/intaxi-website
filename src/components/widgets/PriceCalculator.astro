@@ -1,5 +1,7 @@
 ---
-/* PriceCalculator.astro - Update: Afstand, Logo & Prijs Capping */
+/* PriceCalculator.astro - Update: Werkend Logo, Afstand & Prijs Capping */
+import { Image } from 'astro:assets';
+import teslaLogo from '../assets/images/tesla_nad_services.webp';
 ---
 
 <section id="prijs-calculator" class="bg-slate-50 dark:bg-slate-900 py-4 scroll-mt-20">
@@ -59,7 +61,13 @@
             <div class="grid grid-cols-2 gap-2 pt-1">
               <div id="v-auto" onclick="setVehicle('auto')" class="group relative bg-white dark:bg-slate-700 border-b-4 border-gray-200 p-2 rounded-xl cursor-pointer transition-all active:translate-y-1">
                 <div class="flex flex-col items-center text-center">
-                  <img src="/logo-nad.png" alt="Tesla Logo" class="w-10 h-auto mb-1 object-contain" /> <!-- Miniatuur Tesla logo -->
+                  <Image 
+                    src={teslaLogo} 
+                    alt="Tesla NAD" 
+                    width={60} 
+                    height={30} 
+                    class="w-12 h-auto mb-1 object-contain"
+                  />
                   <span class="text-[10px] font-bold block">Tesla</span>
                   <span id="price-auto" class="text-xs font-black text-[#003399]">€ --</span>
                 </div>
@@ -172,16 +180,13 @@
       let totalAuto = tAuto.start + (km * tAuto.km) + (min * tAuto.min);
       let totalBus = tBus.start + (km * tBus.km) + (min * tBus.min);
 
-      // Algemene korting
       totalAuto *= 0.90;
       totalBus *= 0.90;
 
-      // NL Korting & Capping logica
       if (!isAirport && destInNL) {
         totalAuto *= 0.75;
         totalBus *= 0.75;
         
-        // Cap op €250 voor Tesla en €300 voor Busje
         if (totalAuto > 250) totalAuto = 250;
         if (totalBus > 300) totalBus = 300;
       }
@@ -227,11 +232,8 @@
         div.onclick = () => {
           input.value = name;
           results.classList.add('hidden');
-          
-          // Check of het een vliegveld is of in NL ligt
           isAirport = airports.some(a => name.includes(a.name));
           destInNL = f.properties.country === 'Netherlands' || f.properties.countrycode === 'NL';
-          
           onSelect(f.geometry.coordinates);
           calculatePrice();
         };
@@ -269,3 +271,12 @@
     window.open(`https://wa.me/31642277607?text=${msg}`, '_blank');
   };
 </script>
+
+<style>
+  .active-vehicle { 
+    border-color: #003399 !important; 
+    background-color: #f0f7ff !important; 
+    transform: translateY(4px); 
+    border-bottom: 0 !important; 
+  }
+</style>
