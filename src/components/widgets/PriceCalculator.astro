@@ -2,6 +2,7 @@
 /* PriceCalculator.astro - Update: Werkend Logo, Afstand & Prijs Capping */
 import { Image } from 'astro:assets';
 import teslaLogo from '../../assets/images/tesla_nad_services.webp';
+import vitoLogo from '../../assets/images/busje_nad_services.webp';
 ---
 
 <section id="prijs-calculator" class="bg-slate-50 dark:bg-slate-900 py-4 scroll-mt-20">
@@ -74,8 +75,14 @@ import teslaLogo from '../../assets/images/tesla_nad_services.webp';
               </div>
               <div id="v-bus" onclick="setVehicle('bus')" class="group relative bg-white dark:bg-slate-700 border-b-4 border-gray-200 p-2 rounded-xl cursor-pointer transition-all active:translate-y-1">
                 <div class="flex flex-col items-center text-center">
-                  <span class="text-xl mb-1">🚐</span>
-                  <span class="text-[10px] font-bold block">Busje</span>
+                   <Image 
+                    src={vitoLogo} 
+                    alt="Mercedes Vito NAD" 
+                    width={60} 
+                    height={30} 
+                    class="w-12 h-auto mb-1 object-contain"
+                  />
+                  <span class="text-[10px] font-bold block">Busje (Vito)</span>
                   <span id="price-bus" class="text-xs font-black text-[#003399]">€ --</span>
                 </div>
               </div>
