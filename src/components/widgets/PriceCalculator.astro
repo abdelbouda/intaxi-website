@@ -1,4 +1,96 @@
-<script>
+---
+/* PriceCalculator.astro - Volledig Hersteld & Robuust */
+---
+
+<section id="prijs-calculator" class="bg-blue-50 dark:bg-slate-900 py-12 border-t border-b border-gray-200 dark:border-slate-800 scroll-mt-20">
+  <div class="max-w-4xl mx-auto px-4">
+    <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-8 border border-blue-100 dark:border-slate-700">
+      
+      <div class="text-center mb-8">
+        <h2 class="text-3xl font-bold mb-2 text-[#003399] dark:text-blue-400">Bereken uw ritprijs</h2>
+        <p class="text-gray-600 dark:text-gray-400 font-medium">
+          Profiteer nu van <span class="text-green-600 font-bold">10% korting</span> op de officiële 2026 tarieven!
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8">
+        <!-- Linker kolom -->
+        <div class="space-y-5">
+          <div class="relative">
+            <label class="block text-sm font-semibold mb-1 text-gray-700 dark:text-gray-300">Straat / Stad</label>
+            <input 
+              type="text" 
+              id="pickup-input" 
+              placeholder="Typ ophaaladres..." 
+              class="w-full p-3 rounded-lg border border-gray-300 dark:bg-slate-700 dark:border-slate-600 outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 dark:text-white"
+              autocomplete="off"
+            />
+            <div id="autocomplete-results" class="absolute z-[100] w-full bg-white dark:bg-slate-800 shadow-2xl rounded-b-lg hidden max-h-60 overflow-y-auto border border-gray-200 dark:border-slate-600 mt-1"></div>
+          </div>
+
+          <div class="grid grid-cols-3 gap-3">
+            <div class="col-span-1">
+              <label class="block text-sm font-semibold mb-1 text-gray-700 dark:text-gray-300">Huisnr.</label>
+              <input type="text" id="house-number" placeholder="12" class="w-full p-3 rounded-lg border border-gray-300 dark:bg-slate-700 dark:border-slate-600 outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 dark:text-white" />
+            </div>
+            <div class="col-span-2">
+              <label class="block text-sm font-semibold mb-1 text-gray-700 dark:text-gray-300">Bestemming</label>
+              <select id="destination-select" class="w-full p-3 rounded-lg border border-gray-300 dark:bg-slate-700 dark:border-slate-600 outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 dark:text-white">
+                <option value="4.7683,52.3105">Schiphol Airport (AMS)</option>
+                <option value="4.4844,50.9010">Brussels Airport (BRU)</option>
+                <option value="6.7663,51.2895">Düsseldorf Airport (DUS)</option>
+                <option value="4.4372,51.9225">Rotterdam Airport (RTM)</option>
+                <option value="5.3916,51.4584">Eindhoven Airport (EIN)</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold mb-1 text-gray-700 dark:text-gray-300">Type Voertuig</label>
+            <div class="grid grid-cols-2 gap-2">
+              <button type="button" class="vehicle-btn active p-3 border-2 rounded-lg font-bold transition-colors border-[#003399] bg-blue-50 text-[#003399]" data-type="auto">Tesla (1-4p)</button>
+              <button type="button" class="vehicle-btn p-3 border-2 border-gray-200 dark:border-slate-600 rounded-lg font-bold transition-colors text-gray-500" data-type="bus">Bus (5-8p)</button>
+            </div>
+          </div>
+
+          <button id="calculate-btn" class="w-full bg-[#003399] text-white font-bold py-4 rounded-lg hover:bg-blue-800 transition shadow-lg">
+            Bereken Ritprijs
+          </button>
+        </div>
+
+        <!-- Rechter kolom -->
+        <div id="results-box" class="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-6 border-2 border-dashed border-slate-200 dark:border-slate-700 flex flex-col justify-center text-center min-h-[300px]">
+          <div id="calc-loader" class="hidden flex flex-col items-center">
+            <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600 mb-2"></div>
+            <p class="dark:text-white">Prijs berekenen...</p>
+          </div>
+          
+          <div id="calc-placeholder" class="text-gray-500 italic">
+            Voer uw adres in voor een scherpe aanbieding inclusief 10% korting.
+          </div>
+
+          <div id="calc-output" class="hidden space-y-3">
+             <div class="inline-block bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded mb-2 uppercase">10% Introductiekorting toegepast</div>
+             <p class="text-sm font-medium text-gray-500 line-through" id="old-price"></p>
+             <div class="py-2">
+               <span id="display-price" class="text-6xl font-black text-[#003399] dark:text-blue-400">€ 0</span>
+             </div>
+             <div id="route-info" class="text-xs font-bold text-gray-500 bg-white dark:bg-slate-800 py-1 px-3 rounded-full border inline-block mb-4"></div>
+             
+             <div class="pt-4">
+               <a href="#" id="whatsapp-link" target="_blank" class="inline-flex items-center justify-center bg-green-600 text-white px-6 py-4 rounded-full font-bold hover:bg-green-700 transition w-full shadow-md">
+                  Reserveer via WhatsApp
+               </a>
+             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  // Gebruik is:inline om Astro-optimalisatie problemen te voorkomen
   const TARIEVEN = { auto: { start: 4.31, km: 3.17, min: 0.52 }, bus: { start: 8.75, km: 3.63, min: 0.60 } };
   let selectedLonLat = null;
   let currentVehicleType = 'auto';
@@ -7,72 +99,60 @@
   const resultsDiv = document.getElementById('autocomplete-results');
   const vehicleBtns = document.querySelectorAll('.vehicle-btn');
 
+  // Voertuig switch
   vehicleBtns.forEach(btn => {
     btn.onclick = () => {
-      vehicleBtns.forEach(b => { b.classList.remove('active', 'border-[#003399]', 'bg-blue-50'); b.classList.add('text-gray-500'); });
-      btn.classList.add('active', 'border-[#003399]', 'bg-blue-50');
-      btn.classList.remove('text-gray-500');
-      currentVehicleType = btn.dataset.type;
+      vehicleBtns.forEach(b => { 
+        b.classList.remove('active', 'border-[#003399]', 'bg-blue-50', 'text-[#003399]'); 
+        b.classList.add('text-gray-500', 'border-gray-200'); 
+      });
+      btn.classList.add('active', 'border-[#003399]', 'bg-blue-50', 'text-[#003399]');
+      btn.classList.remove('text-gray-500', 'border-gray-200');
+      currentVehicleType = btn.getAttribute('data-type');
     };
   });
 
-  // OPEN ZOEKEN (Zonder harde filters)
+  // Zoekfunctie
   pickupInput.addEventListener('input', async (e) => {
     const val = e.target.value;
     if (val.length < 3) { resultsDiv.classList.add('hidden'); return; }
 
     try {
-      // We focussen op Amsterdam (52.36, 4.90) zodat lokale straten bovenaan komen
-      const res = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(val)}&limit=10&lang=nl&lat=52.3676&lon=4.9041&location_bias_scale=1.0`);
+      // Focus op Amsterdam voor snellere resultaten
+      const res = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(val)}&limit=10&lang=nl&lat=52.3676&lon=4.9041`);
       const data = await res.json();
       
       resultsDiv.innerHTML = '';
-      if(!data.features || data.features.length === 0) { 
-        resultsDiv.classList.add('hidden'); 
-        return; 
-      }
+      if(!data.features || data.features.length === 0) { resultsDiv.classList.add('hidden'); return; }
 
       data.features.forEach(f => {
         const p = f.properties;
         const div = document.createElement('div');
-        div.className = 'p-3 hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer border-b text-sm text-gray-900 dark:text-white dark:border-slate-700';
+        div.className = 'p-3 hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer border-b text-sm text-gray-800 dark:text-gray-200 dark:border-slate-700';
         
-        // Bouw label: Prioriteit aan straat, dan naam, dan stad
-        const main = p.street || p.name || '';
-        const sub = p.city || p.town || p.country || '';
-        const displayLabel = `${main}${sub ? ', ' + sub : ''}`;
+        const street = p.street || p.name || '';
+        const city = p.city || p.town || '';
+        const label = `${street}${city ? ', ' + city : ''}`;
 
-        div.innerText = displayLabel;
-        
+        div.innerText = label;
         div.onclick = () => {
-          pickupInput.value = displayLabel;
+          pickupInput.value = label;
           selectedLonLat = f.geometry.coordinates;
           resultsDiv.classList.add('hidden');
         };
         resultsDiv.appendChild(div);
       });
-      
       resultsDiv.classList.remove('hidden');
-    } catch (err) { 
-      console.error("Zoekfout:", err); 
-    }
+    } catch (err) { console.error(err); }
   });
 
-  // Sluit lijst bij klik buiten veld
-  document.addEventListener('click', (e) => {
-    if (e.target !== pickupInput) resultsDiv.classList.add('hidden');
-  });
-
+  // Berekening
   document.getElementById('calculate-btn').onclick = async () => {
-    if (!selectedLonLat) return alert("Selecteer eerst een adres uit de suggesties.");
+    if (!selectedLonLat) return alert("Selecteer een adres uit de lijst.");
     
-    const loader = document.getElementById('calc-loader');
-    const output = document.getElementById('calc-output');
-    const placeholder = document.getElementById('calc-placeholder');
-
-    placeholder.classList.add('hidden');
-    loader.classList.remove('hidden');
-    output.classList.add('hidden');
+    document.getElementById('calc-placeholder').classList.add('hidden');
+    document.getElementById('calc-loader').classList.remove('hidden');
+    document.getElementById('calc-output').classList.add('hidden');
 
     const destCoords = document.getElementById('destination-select').value;
     const t = TARIEVEN[currentVehicleType];
@@ -85,33 +165,31 @@
       const km = route.distance / 1000;
       const min = route.duration / 60;
 
-      const basisPrijs = t.start + (km * t.km) + (min * t.min);
-      const metKorting = basisPrijs * 0.90;
+      const basis = t.start + (km * t.km) + (min * t.min);
+      const metKorting = basis * 0.90;
       const afgerond = Math.floor(metKorting);
 
-      document.getElementById('old-price').innerText = `Normaal: €${basisPrijs.toFixed(2)}`;
+      document.getElementById('old-price').innerText = `Normaal: €${basis.toFixed(2)}`;
       document.getElementById('display-price').innerText = `€ ${afgerond}`;
       document.getElementById('route-info').innerText = `${km.toFixed(1)} km | ± ${Math.round(min)} min`;
       
       const huisnr = document.getElementById('house-number').value;
-      const notes = document.getElementById('notes-input').value;
       const destinationText = document.getElementById('destination-select').options[document.getElementById('destination-select').selectedIndex].text;
       
-      const msg = encodeURIComponent(
-        `Hallo InTaxi, ik wil een rit boeken:\n\n` +
-        `📍 Van: ${pickupInput.value} ${huisnr}\n` +
-        `🏁 Naar: ${destinationText}\n` +
-        `🚗 Auto: ${currentVehicleType === 'auto' ? 'Tesla' : 'Busje'}\n` +
-        `📝 Opmerking: ${notes || 'Geen'}\n\n` +
-        `💰 Prijs: €${afgerond},-`
-      );
+      const msg = encodeURIComponent(`Hallo InTaxi, ik wil boeken: ${pickupInput.value} ${huisnr} naar ${destinationText}. Prijs: €${afgerond},-`);
       document.getElementById('whatsapp-link').href = `https://wa.me/31642277607?text=${msg}`;
 
-      loader.classList.add('hidden');
-      output.classList.remove('hidden');
+      document.getElementById('calc-loader').classList.add('hidden');
+      document.getElementById('calc-output').classList.remove('hidden');
     } catch (err) {
-      alert("Routeberekening mislukt.");
-      loader.classList.add('hidden');
+      alert("Fout bij berekenen.");
+      document.getElementById('calc-loader').classList.add('hidden');
+      document.getElementById('calc-placeholder').classList.remove('hidden');
     }
   };
+
+  // Sluit lijst bij klik buiten
+  document.addEventListener('click', (e) => {
+    if (e.target !== pickupInput) resultsDiv.classList.add('hidden');
+  });
 </script>
