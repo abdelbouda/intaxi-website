@@ -1,222 +1,253 @@
 ---
-/* PriceCalculator.astro - Update: Huisnummer, Opmerkingen, 10% Korting & Afronding */
+/* PriceCalculator.astro - Volledige Multi-step Workflow met Checkout */
 ---
 
 <section id="prijs-calculator" class="bg-blue-50 dark:bg-slate-900 py-12 border-t border-b border-gray-200 dark:border-slate-800 scroll-mt-20">
   <div class="max-w-4xl mx-auto px-4">
-    <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-8 border border-blue-100 dark:border-slate-700">
+    <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-blue-100 dark:border-slate-700 overflow-hidden">
       
-      <div class="text-center mb-8">
-        <h2 class="text-3xl font-bold mb-2 text-[#003399] dark:text-blue-400">Bereken uw ritprijs</h2>
-        <p class="text-gray-600 dark:text-gray-400 font-medium">
-          Profiteer van <span class="text-green-600 font-bold">10% korting</span> op de officiële tarieven van 2026!
-        </p>
+      <div class="flex bg-slate-100 dark:bg-slate-700">
+        <div id="step-1-tab" class="step-tab flex-1 py-3 text-center text-xs font-bold uppercase border-b-4 border-blue-600 text-blue-600">1. Route</div>
+        <div id="step-2-tab" class="step-tab flex-1 py-3 text-center text-xs font-bold uppercase border-b-4 border-transparent text-gray-400">2. Bagage</div>
+        <div id="step-3-tab" class="step-tab flex-1 py-3 text-center text-xs font-bold uppercase border-b-4 border-transparent text-gray-400">3. Voertuig</div>
+        <div id="step-4-tab" class="step-tab flex-1 py-3 text-center text-xs font-bold uppercase border-b-4 border-transparent text-gray-400">4. Checkout</div>
       </div>
 
-      <div class="grid md:grid-cols-2 gap-8">
-        <!-- Linker kolom: Inputs -->
-        <div class="space-y-5">
-          <div class="relative">
-            <label class="block text-sm font-semibold mb-1 text-gray-700 dark:text-gray-300">Vertreklocatie (Straat + Stad)</label>
-            <input 
-              type="text" 
-              id="pickup-input" 
-              placeholder="Typ straat of stad..." 
-              class="w-full p-3 rounded-lg border border-gray-300 dark:bg-slate-700 dark:border-slate-600 outline-none focus:ring-2 focus:ring-blue-500 dark:text-white"
-              autocomplete="off"
-            />
-            <div id="autocomplete-results" class="absolute z-10 w-full bg-white dark:bg-slate-800 shadow-2xl rounded-b-lg hidden max-h-60 overflow-y-auto border border-gray-200 dark:border-slate-600"></div>
+      <div class="p-8">
+        <div id="step-1" class="step-content space-y-6">
+          <div class="text-center mb-6">
+            <h2 class="text-2xl font-bold text-[#003399] dark:text-blue-400">Waar wil je heen?</h2>
           </div>
-
-          <div class="grid grid-cols-3 gap-3">
-            <div class="col-span-1">
-              <label class="block text-sm font-semibold mb-1 text-gray-700 dark:text-gray-300">Huisnr.</label>
-              <input type="text" id="house-number" placeholder="12a" class="w-full p-3 rounded-lg border border-gray-300 dark:bg-slate-700 dark:border-slate-600 outline-none focus:ring-2 focus:ring-blue-500 dark:text-white" />
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="space-y-4">
+              <div class="relative">
+                <label class="block text-sm font-semibold mb-1">Van (Ophaaladres) *</label>
+                <input type="text" id="pickup-input" placeholder="Straatnaam en stad..." class="w-full p-3 rounded-lg border border-gray-300 dark:bg-slate-700 dark:text-white" required />
+                <div id="autocomplete-results" class="absolute z-50 w-full bg-white dark:bg-slate-800 shadow-xl hidden max-h-48 overflow-y-auto border border-gray-200"></div>
+              </div>
+              <div>
+                <label class="block text-sm font-semibold mb-1">Huisnummer *</label>
+                <input type="text" id="house-number" placeholder="Bijv. 12" class="w-full p-3 rounded-lg border border-gray-300 dark:bg-slate-700 dark:text-white" required />
+              </div>
+              <div>
+                <label class="block text-sm font-semibold mb-1">Naar (Bestemming)</label>
+                <select id="destination-select" class="w-full p-3 rounded-lg border border-gray-300 dark:bg-slate-700 dark:text-white">
+                  <option value="4.7683,52.3105">Schiphol Airport (AMS)</option>
+                  <option value="4.4844,50.9010">Brussels Airport (BRU)</option>
+                  <option value="4.4372,51.9225">Rotterdam Airport (RTM)</option>
+                </select>
+              </div>
             </div>
-            <div class="col-span-2">
-              <label class="block text-sm font-semibold mb-1 text-gray-700 dark:text-gray-300">Bestemming</label>
-              <select id="destination-select" class="w-full p-3 rounded-lg border border-gray-300 dark:bg-slate-700 dark:border-slate-600 outline-none focus:ring-2 focus:ring-blue-500 dark:text-white">
-                <option value="4.7683,52.3105">Luchthaven Schiphol (AMS)</option>
-                <option value="4.4844,50.9010">Brussels Airport (BRU)</option>
-                <option value="6.7663,51.2895">Düsseldorf Airport (DUS)</option>
-                <option value="4.4372,51.9225">Rotterdam The Hague (RTM)</option>
-                <option value="5.3916,51.4584">Eindhoven Airport (EIN)</option>
-              </select>
-            </div>
-          </div>
-
-          <div>
-            <label class="block text-sm font-semibold mb-1 text-gray-700 dark:text-gray-300">Opmerkingen (optioneel)</label>
-            <textarea id="notes-input" placeholder="Bijv. kinderzitje nodig of veel bagage..." class="w-full p-3 rounded-lg border border-gray-300 dark:bg-slate-700 dark:border-slate-600 outline-none focus:ring-2 focus:ring-blue-500 dark:text-white h-20 resize-none"></textarea>
-          </div>
-
-          <div>
-            <label class="block text-sm font-semibold mb-1 text-gray-700 dark:text-gray-300">Type Voertuig</label>
-            <div class="grid grid-cols-2 gap-2">
-              <button class="vehicle-btn active p-3 border-2 rounded-lg font-bold transition-colors" data-type="auto">
-                Tesla (1-4 pers.)
-              </button>
-              <button class="vehicle-btn p-3 border-2 border-gray-200 dark:border-slate-600 rounded-lg font-bold transition-colors text-gray-500 dark:text-gray-400" data-type="bus">
-                Bus (5-8 pers.)
-              </button>
+            <div class="space-y-4">
+              <div>
+                <label class="block text-sm font-semibold mb-1">Ophaalmoment *</label>
+                <input type="datetime-local" id="pickup-time" class="w-full p-3 rounded-lg border border-gray-300 dark:bg-slate-700 dark:text-white" required />
+              </div>
+              <div>
+                <label class="block text-sm font-semibold mb-1">Aantal reizigers</label>
+                <input type="number" id="passengers" value="1" min="1" max="8" class="w-full p-3 rounded-lg border border-gray-300 dark:bg-slate-700 dark:text-white" />
+              </div>
             </div>
           </div>
-
-          <button id="calculate-btn" class="w-full bg-[#003399] text-white font-bold py-4 rounded-lg hover:bg-blue-800 transition shadow-lg flex justify-center items-center gap-2">
-            Bereken Ritprijs
-          </button>
+          <button onclick="nextStep(2)" class="w-full bg-[#003399] text-white font-bold py-4 rounded-lg hover:bg-blue-800 transition">Bereken mijn ritprijs</button>
         </div>
 
-        <!-- Rechter kolom: Resultaat -->
-        <div id="results-box" class="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-6 border-2 border-dashed border-slate-200 dark:border-slate-700 flex flex-col justify-center text-center">
-          <div id="calc-loader" class="hidden flex flex-col items-center">
-            <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600 mb-2"></div>
-            <p class="dark:text-white">Route berekenen...</p>
+        <div id="step-2" class="step-content hidden space-y-6">
+          <div class="text-center mb-6">
+            <h2 class="text-2xl font-bold text-[#003399] dark:text-blue-400">Bagage</h2>
           </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="p-4 border rounded-xl text-center dark:border-slate-600">
+              <span class="block text-3xl mb-2">🧳</span>
+              <p class="font-bold text-sm">Grote koffer</p>
+              <input type="number" id="luggage-large" value="0" min="0" class="w-16 mx-auto mt-2 p-1 border rounded text-center dark:bg-slate-700" />
+            </div>
+            <div class="p-4 border rounded-xl text-center dark:border-slate-600">
+              <span class="block text-3xl mb-2">💼</span>
+              <p class="font-bold text-sm">Handbagage</p>
+              <input type="number" id="luggage-small" value="0" min="0" class="w-16 mx-auto mt-2 p-1 border rounded text-center dark:bg-slate-700" />
+            </div>
+            <div class="p-4 border rounded-xl text-center dark:border-slate-600">
+              <span class="block text-3xl mb-2">👶</span>
+              <p class="font-bold text-sm">Kinderzitje</p>
+              <input type="number" id="child-seat" value="0" min="0" class="w-16 mx-auto mt-2 p-1 border rounded text-center dark:bg-slate-700" />
+            </div>
+          </div>
+          <div class="flex gap-4">
+            <button onclick="nextStep(1)" class="w-1/3 bg-gray-200 py-4 rounded-lg font-bold">Terug</button>
+            <button onclick="calculateAndGoToStep3()" class="w-2/3 bg-[#003399] text-white py-4 rounded-lg font-bold">Bekijk Voertuigen</button>
+          </div>
+        </div>
+
+        <div id="step-3" class="step-content hidden space-y-4">
+          <div class="text-center mb-6">
+            <h2 class="text-2xl font-bold text-[#003399] dark:text-blue-400">Selecteer uw voertuig</h2>
+          </div>
+          <div id="vehicle-options" class="space-y-4">
+            </div>
+          <button onclick="nextStep(2)" class="w-full bg-gray-200 py-3 rounded-lg font-bold">Terug naar bagage</button>
+        </div>
+
+        <div id="step-4" class="step-content hidden space-y-6">
+          <div class="text-center">
+            <h2 class="text-2xl font-bold text-[#003399] dark:text-blue-400">Contactgegevens</h2>
+          </div>
+          <div class="bg-blue-50 dark:bg-slate-900/50 p-4 rounded-lg mb-6 border border-blue-100 dark:border-slate-700">
+            <p class="text-sm"><strong>Geselecteerde rit:</strong> <span id="summary-text">...</span></p>
+            <p class="text-xl font-bold text-blue-600 mt-2">Totaal: <span id="summary-price">€ 0</span></p>
+          </div>
+          <div class="grid md:grid-cols-2 gap-4">
+            <input type="text" id="cust-first-name" placeholder="Voornaam *" class="p-3 border rounded-lg dark:bg-slate-700 dark:text-white" required />
+            <input type="text" id="cust-last-name" placeholder="Achternaam *" class="p-3 border rounded-lg dark:bg-slate-700 dark:text-white" required />
+            <input type="email" id="cust-email" placeholder="E-mailadres *" class="p-3 border rounded-lg dark:bg-slate-700 dark:text-white" required />
+            <input type="tel" id="cust-phone" placeholder="Telefoonnummer *" class="p-3 border rounded-lg dark:bg-slate-700 dark:text-white" required />
+          </div>
+          <textarea id="cust-notes" placeholder="Vluchtnummer of extra opmerkingen..." class="w-full p-3 border rounded-lg dark:bg-slate-700 dark:text-white h-24"></textarea>
           
-          <div id="calc-placeholder" class="text-gray-500 italic">
-            Voer uw gegevens in voor een scherpe prijsopgave inclusief 10% korting.
-          </div>
-
-          <div id="calc-output" class="hidden space-y-4">
-             <div class="inline-block bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded">10% KORTING TOEGEPAST</div>
-             <p class="text-sm font-medium uppercase tracking-wider text-gray-500">Uw voordelige tarief</p>
-             <div class="py-2">
-               <span id="display-price" class="text-6xl font-black text-[#003399] dark:text-blue-400">€ 0</span>
-             </div>
-             <div id="route-info" class="text-sm font-semibold text-gray-600 dark:text-gray-400 bg-white dark:bg-slate-800 py-2 rounded-full inline-block px-4 border border-gray-100 dark:border-slate-700"></div>
-             
-             <div class="pt-4">
-               <a href="#" id="whatsapp-link" target="_blank" class="inline-flex items-center justify-center bg-green-600 text-white px-6 py-4 rounded-full font-bold hover:bg-green-700 transition w-full shadow-md">
-                 Reserveer via WhatsApp
-               </a>
-             </div>
+          <div class="flex gap-4">
+            <button onclick="nextStep(3)" class="w-1/3 bg-gray-200 py-4 rounded-lg font-bold">Terug</button>
+            <button id="final-reserve-btn" class="w-2/3 bg-green-600 text-white font-bold py-4 rounded-lg hover:bg-green-700 transition">Reserveer nu via WhatsApp</button>
           </div>
         </div>
-      </div>
 
-      <!-- Disclaimer -->
-      <div class="mt-8 pt-6 border-t border-gray-100 dark:border-slate-700 text-[11px] text-gray-500 dark:text-gray-400 leading-relaxed">
-        <p>De getoonde prijs is een vaste prijs inclusief 10% korting, gebaseerd op de snelste route. Afronding vindt plaats naar beneden op hele euro's.</p>
       </div>
     </div>
   </div>
 </section>
 
-<style>
-  .vehicle-btn.active {
-    border-color: #003399;
-    background-color: rgba(0, 51, 153, 0.05);
-    color: #003399;
-  }
-</style>
-
-<script>
-  const TARIEVEN = {
-    auto: { start: 4.31, km: 3.17, min: 0.52 },
-    bus:  { start: 8.75, km: 3.63, min: 0.60 }
+<script is:inline>
+  let tripData = {
+    pickup: '', house: '', destination: '', destName: '', time: '', passengers: 1,
+    luggage: { large: 0, small: 0, seats: 0 },
+    vehicle: 'auto', price: 0, km: 0
   };
 
-  let selectedLonLat = null;
-  let currentVehicleType = 'auto';
+  const TARIEVEN = {
+    auto: { start: 4.31, km: 3.17, min: 0.52, label: 'Tesla Business Class', desc: 'Luxe Tesla uit het E-segment.' },
+    bus:  { start: 8.75, km: 3.63, min: 0.60, label: 'Personenbus (5-8p)', desc: 'Ideaal voor groepen en veel bagage.' }
+  };
 
+  function nextStep(step) {
+    if (step === 2) {
+      if (!document.getElementById('pickup-input').value || !document.getElementById('house-number').value || !document.getElementById('pickup-time').value) {
+        alert("Vul a.u.b. alle verplichte velden (*) in."); return;
+      }
+    }
+    
+    document.querySelectorAll('.step-content').forEach(el => el.classList.add('hidden'));
+    document.getElementById('step-' + step).classList.remove('hidden');
+    
+    document.querySelectorAll('.step-tab').forEach((tab, i) => {
+      tab.classList.toggle('border-blue-600', (i + 1) === step);
+      tab.classList.toggle('text-blue-600', (i + 1) === step);
+      tab.classList.toggle('text-gray-400', (i + 1) !== step);
+      tab.classList.toggle('border-transparent', (i + 1) !== step);
+    });
+    window.scrollTo({ top: document.getElementById('prijs-calculator').offsetTop - 20, behavior: 'smooth' });
+  }
+
+  async function calculateAndGoToStep3() {
+    const pickup = document.getElementById('pickup-input').value;
+    const destSelect = document.getElementById('destination-select');
+    const destCoords = destSelect.value;
+    
+    // Simpele geo-lookup voor demo (in praktijk gebruik je de geselecteerde coords van autocomplete)
+    try {
+      const res = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(pickup)}&limit=1`);
+      const data = await res.json();
+      const coords = data.features[0].geometry.coordinates;
+      
+      const routeRes = await fetch(`https://router.project-osrm.org/route/v1/driving/${coords[0]},${coords[1]};${destCoords}?overview=false`);
+      const routeData = await routeRes.json();
+      const r = routeData.routes[0];
+      
+      tripData.km = r.distance / 1000;
+      const min = r.duration / 60;
+
+      const container = document.getElementById('vehicle-options');
+      container.innerHTML = '';
+
+      ['auto', 'bus'].forEach(type => {
+        const t = TARIEVEN[type];
+        const basis = t.start + (tripData.km * t.km) + (min * t.min);
+        const prijs = Math.floor(basis * 0.90);
+        
+        const card = document.createElement('div');
+        card.className = "p-5 border-2 rounded-xl cursor-pointer hover:border-blue-500 transition flex justify-between items-center dark:border-slate-700 bg-white dark:bg-slate-800";
+        card.onclick = () => selectVehicle(type, prijs);
+        card.innerHTML = `
+          <div>
+            <h3 class="font-bold text-lg">${t.label}</h3>
+            <p class="text-xs text-gray-500">${t.desc}</p>
+            <p class="text-xs font-bold text-green-600 mt-1">✓ Bagage inclusief ✓ 10% korting</p>
+          </div>
+          <div class="text-right">
+            <span class="block text-2xl font-black text-blue-600">€ ${prijs},-</span>
+            <button class="bg-blue-600 text-white text-xs px-4 py-2 rounded mt-2 uppercase font-bold">Selecteer</button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      nextStep(3);
+    } catch (e) { alert("Kon route niet berekenen. Controleer het adres."); }
+  }
+
+  function selectVehicle(type, prijs) {
+    tripData.vehicle = type;
+    tripData.price = prijs;
+    tripData.pickup = document.getElementById('pickup-input').value;
+    tripData.house = document.getElementById('house-number').value;
+    tripData.time = document.getElementById('pickup-time').value;
+    tripData.destName = document.getElementById('destination-select').options[document.getElementById('destination-select').selectedIndex].text;
+    
+    document.getElementById('summary-text').innerText = `${tripData.pickup} (${tripData.house}) ➔ ${tripData.destName}`;
+    document.getElementById('summary-price').innerText = `€ ${prijs},-`;
+    nextStep(4);
+  }
+
+  document.getElementById('final-reserve-btn').onclick = () => {
+    const fName = document.getElementById('cust-first-name').value;
+    const lName = document.getElementById('cust-last-name').value;
+    const email = document.getElementById('cust-email').value;
+    const phone = document.getElementById('cust-phone').value;
+    const notes = document.getElementById('cust-notes').value;
+
+    if (!fName || !lName || !email || !phone) {
+      alert("Vul a.u.b. uw contactgegevens in."); return;
+    }
+
+    const msg = encodeURIComponent(
+      `🚕 NIEUWE RESERVERING\n\n` +
+      `👤 Klant: ${fName} ${lName}\n` +
+      `📞 Tel: ${phone}\n` +
+      `📧 E-mail: ${email}\n\n` +
+      `📅 Datum: ${tripData.time}\n` +
+      `📍 Van: ${tripData.pickup} ${tripData.house}\n` +
+      `🏁 Naar: ${tripData.destName}\n` +
+      `🚗 Type: ${TARIEVEN[tripData.vehicle].label}\n` +
+      `💰 Prijs: €${tripData.price},-\n\n` +
+      `📝 Opmerking: ${notes || 'Geen'}`
+    );
+    window.open(`https://wa.me/31642277607?text=${msg}`, '_blank');
+  };
+
+  // Autocomplete functionaliteit
   const pickupInput = document.getElementById('pickup-input');
   const resultsDiv = document.getElementById('autocomplete-results');
-  const vehicleBtns = document.querySelectorAll('.vehicle-btn');
-
-  // Voertuig switch
-  vehicleBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      vehicleBtns.forEach(b => {
-        b.classList.remove('active', 'border-[#003399]', 'bg-blue-50');
-        b.classList.add('border-gray-200', 'dark:border-slate-600', 'text-gray-500');
-      });
-      btn.classList.add('active', 'border-[#003399]', 'bg-blue-50');
-      btn.classList.remove('border-gray-200', 'text-gray-500');
-      currentVehicleType = btn.getAttribute('data-type');
-    });
-  });
-
-  // Autocomplete
   pickupInput.addEventListener('input', async (e) => {
     const val = e.target.value;
     if (val.length < 3) { resultsDiv.classList.add('hidden'); return; }
-    try {
-      const res = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(val)}&limit=5`);
-      const data = await res.json();
-      resultsDiv.innerHTML = '';
-      data.features.forEach(f => {
-        const div = document.createElement('div');
-        div.className = 'p-3 hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer border-b dark:border-slate-700 text-sm dark:text-white';
-        const p = f.properties;
-        div.innerText = `${p.name || ''}${p.street ? ', ' + p.street : ''} ${p.city || ''} (${p.country || ''})`;
-        div.onclick = () => {
-          pickupInput.value = div.innerText;
-          selectedLonLat = f.geometry.coordinates;
-          resultsDiv.classList.add('hidden');
-        };
-        resultsDiv.appendChild(div);
-      });
-      resultsDiv.classList.remove('hidden');
-    } catch (err) { console.error(err); }
+    const res = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(val)}&limit=5`);
+    const data = await res.json();
+    resultsDiv.innerHTML = '';
+    data.features.forEach(f => {
+      const div = document.createElement('div');
+      div.className = 'p-3 hover:bg-gray-100 cursor-pointer text-sm dark:text-white dark:hover:bg-slate-700';
+      div.innerText = `${f.properties.name || ''} ${f.properties.city || ''}`;
+      div.onclick = () => { pickupInput.value = div.innerText; resultsDiv.classList.add('hidden'); };
+      resultsDiv.appendChild(div);
+    });
+    resultsDiv.classList.remove('hidden');
   });
-
-  document.addEventListener('click', (e) => {
-    if (e.target !== pickupInput) resultsDiv.classList.add('hidden');
-  });
-
-  // Berekening
-  document.getElementById('calculate-btn').onclick = async () => {
-    if (!selectedLonLat) return alert("Selecteer eerst een ophaaladres uit de lijst.");
-    
-    const loader = document.getElementById('calc-loader');
-    const output = document.getElementById('calc-output');
-    const placeholder = document.getElementById('calc-placeholder');
-
-    placeholder.classList.add('hidden');
-    loader.classList.remove('hidden');
-    output.classList.add('hidden');
-
-    const destCoords = document.getElementById('destination-select').value;
-    const houseNum = document.getElementById('house-number').value;
-    const notes = document.getElementById('notes-input').value;
-    const t = TARIEVEN[currentVehicleType];
-
-    try {
-      const res = await fetch(`https://router.project-osrm.org/route/v1/driving/${selectedLonLat[0]},${selectedLonLat[1]};${destCoords}?overview=false`);
-      const data = await res.json();
-      const route = data.routes[0];
-
-      const km = route.distance / 1000;
-      const min = route.duration / 60;
-
-      // Berekening met 10% korting en afronden naar beneden (Math.floor)
-      const basisPrijs = t.start + (km * t.km) + (min * t.min);
-      const metKorting = basisPrijs * 0.90;
-      const eindBedrag = Math.floor(metKorting);
-
-      document.getElementById('display-price').innerText = `€ ${eindBedrag},-`;
-      document.getElementById('route-info').innerText = `${km.toFixed(1)} km | ± ${Math.round(min)} min`;
-      
-      // WhatsApp link
-      const vehicleName = currentVehicleType === 'auto' ? 'Tesla' : 'Busje';
-      const destinationText = document.getElementById('destination-select').options[document.getElementById('destination-select').selectedIndex].text;
-      
-      let msg = `Hallo InTaxi, ik wil graag een rit boeken:\n\n`;
-      msg += `🚗 Voertuig: ${vehicleName}\n`;
-      msg += `📍 Van: ${pickupInput.value} ${houseNum}\n`;
-      msg += `🏁 Naar: ${destinationText}\n`;
-      if(notes) msg += `📝 Opmerking: ${notes}\n`;
-      msg += `💰 Prijs: €${eindBedrag},- (inclusief 10% korting)`;
-
-      document.getElementById('whatsapp-link').href = `https://wa.me/31642277607?text=${encodeURIComponent(msg)}`;
-
-      loader.classList.add('hidden');
-      output.classList.remove('hidden');
-    } catch (err) {
-      alert("Fout bij routeberekening.");
-      loader.classList.add('hidden');
-      placeholder.classList.remove('hidden');
-    }
-  };
 </script>
