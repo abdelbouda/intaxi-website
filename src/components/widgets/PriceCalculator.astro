@@ -1,5 +1,5 @@
 ---
-/* PriceCalculator.astro - 10% Discount, Round Down, NL Only (BBox) & Extra Fields */
+/* PriceCalculator.astro - 10% Discount, Round Down, Smart NL Search & Extra Fields */
 ---
 
 <section id="prijs-calculator" class="bg-blue-50 dark:bg-slate-900 py-12 border-t border-b border-gray-200 dark:border-slate-800 scroll-mt-20">
@@ -25,17 +25,18 @@
               class="w-full p-3 rounded-lg border border-gray-300 dark:bg-slate-700 dark:border-slate-600 outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 dark:text-white"
               autocomplete="off"
             />
-            <div id="autocomplete-results" class="absolute z-20 w-full bg-white dark:bg-slate-800 shadow-2xl rounded-b-lg hidden max-h-60 overflow-y-auto border border-gray-200 dark:border-slate-600"></div>
+            <!-- Verbeterde resultatenlijst met hogere z-index -->
+            <div id="autocomplete-results" class="absolute z-[100] w-full bg-white dark:bg-slate-800 shadow-2xl rounded-b-lg hidden max-h-60 overflow-y-auto border border-gray-200 dark:border-slate-600 mt-1"></div>
           </div>
 
           <div class="grid grid-cols-3 gap-3">
             <div class="col-span-1">
               <label class="block text-sm font-semibold mb-1 text-gray-700 dark:text-gray-300">Huisnr.</label>
-              <input type="text" id="house-number" placeholder="12a" class="w-full p-3 rounded-lg border border-gray-300 dark:bg-slate-700 dark:border-slate-600 outline-none focus:ring-2 focus:ring-blue-500" />
+              <input type="text" id="house-number" placeholder="12a" class="w-full p-3 rounded-lg border border-gray-300 dark:bg-slate-700 dark:border-slate-600 outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 dark:text-white" />
             </div>
             <div class="col-span-2">
               <label class="block text-sm font-semibold mb-1 text-gray-700 dark:text-gray-300">Bestemming</label>
-              <select id="destination-select" class="w-full p-3 rounded-lg border border-gray-300 dark:bg-slate-700 dark:border-slate-600 outline-none focus:ring-2 focus:ring-blue-500">
+              <select id="destination-select" class="w-full p-3 rounded-lg border border-gray-300 dark:bg-slate-700 dark:border-slate-600 outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 dark:text-white">
                 <option value="4.7683,52.3105">Schiphol Airport (AMS)</option>
                 <option value="4.4844,50.9010">Brussels Airport (BRU)</option>
                 <option value="6.7663,51.2895">Düsseldorf Airport (DUS)</option>
@@ -47,7 +48,7 @@
 
           <div>
             <label class="block text-sm font-semibold mb-1 text-gray-700 dark:text-gray-300">Opmerkingen (optioneel)</label>
-            <textarea id="notes-input" placeholder="Bijv. vluchtnummer of extra bagage..." class="w-full p-3 rounded-lg border border-gray-300 dark:bg-slate-700 dark:border-slate-600 outline-none focus:ring-2 focus:ring-blue-500" rows="2"></textarea>
+            <textarea id="notes-input" placeholder="Bijv. vluchtnummer of extra bagage..." class="w-full p-3 rounded-lg border border-gray-300 dark:bg-slate-700 dark:border-slate-600 outline-none focus:ring-2 focus:ring-blue-500 text-gray-800 dark:text-white" rows="2"></textarea>
           </div>
 
           <div>
@@ -67,7 +68,7 @@
         <div id="results-box" class="bg-slate-50 dark:bg-slate-900/50 rounded-xl p-6 border-2 border-dashed border-slate-200 dark:border-slate-700 flex flex-col justify-center text-center relative overflow-hidden">
           <div id="calc-loader" class="hidden flex flex-col items-center">
             <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600 mb-2"></div>
-            <p>Prijs berekenen...</p>
+            <p class="dark:text-white">Prijs berekenen...</p>
           </div>
           
           <div id="calc-placeholder" class="text-gray-500 italic">
@@ -120,15 +121,14 @@
     };
   });
 
-  // Robuuste Adres Autocomplete (Nederland Only via BBox)
+  // Verbeterde Adres Autocomplete
   pickupInput.addEventListener('input', async (e) => {
     const val = e.target.value;
     if (val.length < 3) { resultsDiv.classList.add('hidden'); return; }
 
     try {
-      // Gebruik bbox voor Nederland om resultaten te forceren naar NL
-      const bbox = '3.314971,50.750367,7.227498,53.576443';
-      const res = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(val)}&limit=10&bbox=${bbox}&lang=nl`);
+      // We gebruiken lat/lon van het centrum van NL (Utrecht) als bias om NL resultaten bovenaan te krijgen
+      const res = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(val)}&limit=10&lang=nl&lat=52.0907&lon=5.1214&location_bias_scale=0.9`);
       const data = await res.json();
       
       resultsDiv.innerHTML = '';
@@ -136,11 +136,14 @@
 
       data.features.forEach(f => {
         const p = f.properties;
+        // Alleen resultaten in Nederland tonen aan de klant
+        if (p.countrycode !== 'NL' && p.country !== 'Netherlands') return;
+
         const div = document.createElement('div');
         div.className = 'p-3 hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer border-b text-sm text-gray-800 dark:text-gray-200 dark:border-slate-700';
         
         const street = p.street ? p.street : (p.name || '');
-        const city = p.city || p.state || '';
+        const city = p.city || p.town || p.village || '';
         const displayLabel = `${street}${city ? ', ' + city : ''}`;
 
         div.innerText = displayLabel;
@@ -153,7 +156,7 @@
         resultsDiv.appendChild(div);
       });
       resultsDiv.classList.remove('hidden');
-    } catch (err) { console.error(err); }
+    } catch (err) { console.error("Autocomplete error:", err); }
   });
 
   document.addEventListener('click', (e) => {
@@ -161,7 +164,7 @@
   });
 
   document.getElementById('calculate-btn').onclick = async () => {
-    if (!selectedLonLat) return alert("Selecteer een ophaaladres uit de lijst.");
+    if (!selectedLonLat) return alert("Selecteer een ophaaladres uit de lijst die verschijnt tijdens het typen.");
     
     const loader = document.getElementById('calc-loader');
     const output = document.getElementById('calc-output');
@@ -177,12 +180,14 @@
     try {
       const res = await fetch(`https://router.project-osrm.org/route/v1/driving/${selectedLonLat[0]},${selectedLonLat[1]};${destCoords}?overview=false`);
       const data = await res.json();
+      
+      if (!data.routes || data.routes.length === 0) throw new Error("Geen route gevonden");
+      
       const route = data.routes[0];
-
       const km = route.distance / 1000;
       const min = route.duration / 60;
 
-      // Berekening: 10% korting en afronden naar beneden
+      // Berekening: 10% korting en afronden naar beneden (Floor)
       const basisPrijs = t.start + (km * t.km) + (min * t.min);
       const metKorting = basisPrijs * 0.90;
       const afgerond = Math.floor(metKorting);
@@ -191,7 +196,6 @@
       document.getElementById('display-price').innerText = `€ ${afgerond}`;
       document.getElementById('route-info').innerText = `${km.toFixed(1)} km | ± ${Math.round(min)} min`;
       
-      // WhatsApp link met alle details
       const huisnr = document.getElementById('house-number').value;
       const notes = document.getElementById('notes-input').value;
       const destinationText = document.getElementById('destination-select').options[document.getElementById('destination-select').selectedIndex].text;
@@ -209,8 +213,9 @@
       loader.classList.add('hidden');
       output.classList.remove('hidden');
     } catch (err) {
-      alert("Fout bij berekening.");
+      alert("Er is iets misgegaan bij het berekenen van de route. Probeer het ophaaladres opnieuw te selecteren.");
       loader.classList.add('hidden');
+      placeholder.classList.remove('hidden');
     }
   };
 </script>
