@@ -64,6 +64,21 @@ const transformText = (text: string) => {
   {...isSticky ? { 'data-aw-sticky-header': true } : {}}
   {...id ? { id } : {}}
 >
+  <!-- Top Bar voor Taalvlaggetjes -->
+  <div class="bg-gray-50 dark:bg-slate-800 border-b border-gray-200 dark:border-slate-700">
+    <div class="max-w-7xl mx-auto px-4 py-1.5 flex justify-end items-center gap-3">
+      <button title="Nederlands" class="hover:opacity-80 transition flex items-center gap-1 text-[10px] font-bold uppercase text-gray-600 dark:text-slate-400">
+        <img src="https://flagcdn.com/w40/nl.png" width="18" alt="NL" class="rounded-sm shadow-sm" />
+        NL
+      </button>
+      <div class="w-px h-3 bg-gray-300 dark:bg-slate-600"></div>
+      <button title="English" class="hover:opacity-80 transition flex items-center gap-1 text-[10px] font-bold uppercase text-gray-600 dark:text-slate-400">
+        <img src="https://flagcdn.com/w40/gb.png" width="18" alt="EN" class="rounded-sm shadow-sm" />
+        EN
+      </button>
+    </div>
+  </div>
+
   <div class="absolute inset-0"></div>
   <div
     class:list={[
