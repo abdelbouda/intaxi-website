@@ -18,24 +18,12 @@ export const headerData = {
       text: 'Taxiservices',
       href: getPermalink('/#tarieven'),
     },
-    // Help is hier verwijderd conform verzoek
     {
       text: 'Contact',
       href: getPermalink('/contact'),
     },
   ],
   actions: [
-    // Taalschakelaar met vlaggen
-    { 
-      text: '🇳🇱', 
-      href: '#', 
-      class: 'text-2xl px-2 py-0' 
-    },
-    { 
-      text: '🇬🇧', 
-      href: '#', 
-      class: 'text-2xl px-2 py-0' 
-    },
     { 
       text: 'Contact via WhatsApp', 
       href: 'https://wa.me/31642277607?text=Ik%20wil%20graag%20een%20luxe%20Tesla%20taxi%20boeken%20voor%20een%20vaste%20prijs', 
