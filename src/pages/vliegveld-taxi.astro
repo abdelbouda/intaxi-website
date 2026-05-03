@@ -1,0 +1,170 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Features2 from '~/components/widgets/Features2.astro';
+import Steps from '~/components/widgets/Steps.astro';
+import Content from '~/components/widgets/Content.astro';
+import Prices from '~/components/widgets/Prices.astro';
+
+const metadata = {
+  title: 'Vliegveld Taxi Amsterdam | Vaste Tarieven naar alle Luchthavens',
+  description: 'Boek uw taxi van Amsterdam naar Schiphol, Brussel, of Düsseldorf voor een vast tarief. Luxe Tesla service tot 250km rondom Amsterdam.',
+};
+---
+
+<Layout metadata={metadata}>
+  <!-- Hero Section met SEO keywords -->
+  <Hero
+    tagline="Vaste Tarieven & Luxe Vervoer"
+    actions={[
+      {
+        variant: 'primary',
+        text: 'Bereken ritprijs via WhatsApp',
+        href: 'https://wa.me/31642277607',
+        target: '_blank',
+        icon: 'tabler:brand-whatsapp',
+      },
+      { text: 'Bekijk tarieven', href: '#tarieven' },
+    ]}
+    image={{ src: '~/assets/images/hero_image.jpg', alt: 'InTaxi Amsterdam Airport Service' }}
+  >
+    <Fragment slot="title">
+      Taxi naar het vliegveld voor een <span class="text-accent dark:text-white highlight">vaste prijs</span>
+    </Fragment>
+
+    <Fragment slot="subtitle">
+      Bij <strong>InTaxi Amsterdam</strong> reist u zorgeloos naar elke luchthaven binnen een straal van 250 km. 
+      Of het nu gaat om Schiphol, Brussel of Düsseldorf; u geniet van een luxe Tesla, ervaren chauffeurs en 
+      <strong>geen verrassingen achteraf</strong>.
+    </Fragment>
+  </Hero>
+
+  <!-- De SEO Prijs Tabel -->
+  <section id="tarieven" class="relative py-12 md:py-20 bg-blue-50 dark:bg-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <div class="text-center mb-10">
+        <h2 class="text-3xl md:text-4xl font-bold leading-tighter tracking-tighter mb-4 font-heading">
+          Tarieven Luchthavenvervoer
+        </h2>
+        <p class="text-xl text-muted dark:text-slate-400">
+          Vaste prijzen vanuit regio Amsterdam (incl. Amstelveen, Badhoevedorp, Hoofddorp).
+        </p>
+      </div>
+
+      <div class="overflow-x-auto bg-white dark:bg-slate-900 rounded-lg shadow-xl">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-[#003399] text-white">
+              <th class="p-4 font-bold">Bestemming</th>
+              <th class="p-4 font-bold">Afstand</th>
+              <th class="p-4 font-bold">Tesla / Sedan</th>
+              <th class="p-4 font-bold">Busje (t/m 8p)</th>
+            </tr>
+          </thead>
+          <tbody class="text-gray-700 dark:text-slate-300">
+            <tr class="border-b border-gray-200 dark:border-slate-700">
+              <td class="p-4 font-semibold">Schiphol Airport (AMS)</td>
+              <td class="p-4">20 km</td>
+              <td class="p-4 text-blue-700 dark:text-blue-400 font-bold">v.a. € 45,-</td>
+              <td class="p-4 text-blue-700 dark:text-blue-400 font-bold">v.a. € 65,-</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800">
+              <td class="p-4 font-semibold">Rotterdam The Hague (RTM)</td>
+              <td class="p-4">75 km</td>
+              <td class="p-4 text-blue-700 dark:text-blue-400 font-bold">v.a. € 125,-</td>
+              <td class="p-4 text-blue-700 dark:text-blue-400 font-bold">v.a. € 160,-</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-slate-700">
+              <td class="p-4 font-semibold">Eindhoven Airport (EIN)</td>
+              <td class="p-4">125 km</td>
+              <td class="p-4 text-blue-700 dark:text-blue-400 font-bold">v.a. € 185,-</td>
+              <td class="p-4 text-blue-700 dark:text-blue-400 font-bold">v.a. € 230,-</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-800">
+              <td class="p-4 font-semibold">Brussel Zaventem (BRU)</td>
+              <td class="p-4">210 km</td>
+              <td class="p-4 text-blue-700 dark:text-blue-400 font-bold">v.a. € 325,-</td>
+              <td class="p-4 text-blue-700 dark:text-blue-400 font-bold">v.a. € 395,-</td>
+            </tr>
+            <tr class="border-b border-gray-200 dark:border-slate-700">
+              <td class="p-4 font-semibold">Düsseldorf Airport (DUS)</td>
+              <td class="p-4">225 km</td>
+              <td class="p-4 text-blue-700 dark:text-blue-400 font-bold">v.a. € 345,-</td>
+              <td class="p-4 text-blue-700 dark:text-blue-400 font-bold">v.a. € 415,-</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="mt-4 text-sm text-center text-gray-500 italic">
+        * Genoemde prijzen zijn indicatieve vanaf-prijzen. Neem contact op voor een exacte prijsopgave op maat.
+      </p>
+    </div>
+  </section>
+
+  <!-- Content Section voor SEO tekst -->
+  <Content
+    isReversed
+    tagline="Waarom InTaxi?"
+    title="Uw betrouwbare partner voor internationaal vliegveldvervoer"
+    items={[
+      {
+        title: 'Geen Meter, Geen Stress',
+        description: 'Wij werken uitsluitend met vaste prijzen. File op de A1 of A2? Uw prijs blijft hetzelfde.',
+        icon: 'tabler:check',
+      },
+      {
+        title: '100% Elektrisch Comfort',
+        description: 'Reis in stijl met onze Tesla vloot. Stil, duurzaam en voorzien van alle luxe.',
+        icon: 'tabler:leaf',
+      },
+      {
+        title: 'Meet & Greet Service',
+        description: 'Bij terugkomst staat onze chauffeur voor u klaar bij het meeting point met een naambordje.',
+        icon: 'tabler:user-check',
+      },
+    ]}
+    image={{
+      src: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=2070',
+      alt: 'Luxe Taxi Service',
+    }}
+  >
+    <Fragment slot="content">
+      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">
+        Vervoer tot 250 kilometer rondom Amsterdam
+      </h3>
+      Wij zijn gespecialiseerd in lange-afstandsvervoer. Of u nu naar Antwerpen, Weeze of Charleroi moet, InTaxi Amsterdam biedt de meest competitieve tarieven voor premium vervoer.
+    </Fragment>
+  </Content>
+
+  <!-- Features2: Bestemmingen -->
+  <Features2
+    title="Populaire Luchthavens"
+    subtitle="Wij rijden dagelijks naar de volgende bestemmingen voor een vast laag tarief"
+    items={[
+      { title: 'Schiphol', description: 'De snelste verbinding vanuit Amsterdam.', icon: 'tabler:plane' },
+      { title: 'Brussel Zaventem', description: 'Comfortabel naar onze zuiderburen.', icon: 'tabler:map-pin' },
+      { title: 'Düsseldorf', description: 'Zakelijk of vakantie vervoer naar Duitsland.', icon: 'tabler:building-community' },
+      { title: 'Eindhoven', description: 'Voordelig naar de low-cost carrier hub.', icon: 'tabler:plane-departure' },
+      { title: 'Rotterdam The Hague', description: 'Snelle service voor regionale vluchten.', icon: 'tabler:anchor' },
+      { title: 'Weeze / Charleroi', description: 'Vaste prijzen voor de verdere luchthavens.', icon: 'tabler:world' },
+    ]}
+  />
+
+  <!-- Call to Action -->
+  <Features2
+    title="Direct reserveren?"
+    subtitle="Stuur ons een bericht via WhatsApp voor een directe prijsbevestiging en boeking."
+    items={[
+      {
+        title: 'WhatsApp',
+        description: '+31 6 422 77 607',
+        icon: 'tabler:brand-whatsapp',
+      },
+      {
+        title: 'E-mail',
+        description: 'info@intaxi.nl',
+        icon: 'tabler:mail',
+      },
+    ]}
+  />
+</Layout>
