@@ -17,31 +17,46 @@ const metadata = {
 
 <Layout metadata={metadata}>
 
-  <!-- De PriceCalculator is nu verhuisd naar de 'content' slot van de Hero -->
-  <Hero
-    actions={[
-      {
-        variant: 'primary',
-        text: 'Direct contact via WhatsApp',
-        href: 'https://wa.me/31642277607?text=Ik%20wil%20graag%20een%20luxe%20Tesla%20taxi%20boeken%20voor%20een%20vaste%20prijs',
-        target: '_blank',
-        icon: 'tabler:brand-whatsapp',
-      },
-    ]}
-  >
+  <Hero>
+    <!-- 1. Tekst bovenaan -->
     <Fragment slot="title">
       Luxe vervoer in een <span class="text-blue-400">Tesla</span>
     </Fragment>
 
     <Fragment slot="subtitle">
-      <span class="font-semibold text-white">InTaxi powered by (NAD Service)</span> biedt premium luchthavenvervoer vanuit Amsterdam. 
-      Reis volledig elektrisch voor een <span class="font-bold text-blue-400">vaste prijs</span>.
+      <div class="mb-4">
+        <span class="font-semibold text-white">InTaxi powered by (NAD Service)</span> biedt premium luchthavenvervoer vanuit Amsterdam.
+      </div>
+      <div class="flex justify-center gap-4">
+         <span class="bg-blue-600/20 text-blue-300 px-3 py-1 rounded-full text-xs border border-blue-400/30 uppercase tracking-wider font-semibold">100% Elektrisch</span>
+         <span class="bg-blue-600/20 text-blue-300 px-3 py-1 rounded-full text-xs border border-blue-400/30 uppercase tracking-wider font-semibold">Vaste Tarieven</span>
+      </div>
     </Fragment>
 
-    <!-- Hier plaatsen we de calculator midden in de Hero over de video heen -->
+    <!-- 2. De zwevende PriceCalculator in het midden -->
     <Fragment slot="content">
-      <div class="mt-8 max-w-4xl mx-auto text-left pointer-events-auto">
-        <PriceCalculator />
+      <div class="relative mt-10 max-w-4xl mx-auto pointer-events-auto">
+        <div class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md p-2 md:p-4 rounded-3xl shadow-2xl border border-white/20 transform transition-all">
+          <PriceCalculator />
+        </div>
+        
+        <p class="text-white/70 text-[11px] mt-4 text-center italic font-medium">
+          Bereken direct uw voordelige vaste tarief en boek via WhatsApp.
+        </p>
+      </div>
+    </Fragment>
+
+    <!-- 3. Actieknop onderaan de calculator -->
+    <Fragment slot="actions">
+      <div class="mt-4 flex justify-center">
+        <a 
+          href="https://wa.me/31642277607?text=Ik%20wil%20graag%20een%20luxe%20Tesla%20taxi%20boeken" 
+          target="_blank"
+          class="flex items-center gap-2 bg-[#25D366] hover:bg-[#128C7E] text-white font-bold py-3 px-8 rounded-full shadow-lg transition-all hover:scale-105"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-brand-whatsapp"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M3 21l1.65 -3.8a9 9 0 1 1 3.4 2.9l-5.05 .9"></path><path d="M9 10a.5 .5 0 0 0 1 0v-1a.5 .5 0 0 0 -1 0v1a5 5 0 0 0 5 5h1a.5 .5 0 0 0 0 -1h-1a.5 .5 0 0 0 0 1"></path></svg>
+          Direct contact via WhatsApp
+        </a>
       </div>
     </Fragment>
   </Hero>
