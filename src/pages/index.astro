@@ -5,13 +5,9 @@ import Hero from '~/components/widgets/Hero.astro';
 import Note from '~/components/widgets/Note.astro';
 import Features from '~/components/widgets/Features.astro';
 import Steps from '~/components/widgets/Steps.astro';
-import Content from '~/components/widgets/Content.astro';
 import FAQs from '~/components/widgets/FAQs.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
 import PriceCalculator from '~/components/widgets/PriceCalculator.astro';
-
-// Importeer je eigen Tesla afbeelding
-import teslaImg from '~/assets/images/tesla_nad_services.webp';
 
 const metadata = {
   title: 'InTaxi — Luxe Tesla Taxi naar Schiphol met vaste tarieven',
@@ -21,19 +17,12 @@ const metadata = {
 
 <Layout metadata={metadata}>
 
-  <!-- 1. Tariefcalculator Sectie (Nu als eerste) *********** -->
-  <section class="bg-blue-50 dark:bg-slate-800 py-8">
-    <div class="max-w-7xl mx-auto">
-      <PriceCalculator />
-    </div>
-  </section>
-
-  <!-- 2. Hero Widget (Nu onder de calculator) ******************* -->
+  <!-- De PriceCalculator is nu verhuisd naar de 'content' slot van de Hero -->
   <Hero
     actions={[
       {
         variant: 'primary',
-        text: 'Boek via WhatsApp',
+        text: 'Direct contact via WhatsApp',
         href: 'https://wa.me/31642277607?text=Ik%20wil%20graag%20een%20luxe%20Tesla%20taxi%20boeken%20voor%20een%20vaste%20prijs',
         target: '_blank',
         icon: 'tabler:brand-whatsapp',
@@ -41,32 +30,26 @@ const metadata = {
     ]}
   >
     <Fragment slot="title">
-      Luxe vervoer in een <span class="text-[#003399] dark:text-blue-400">Tesla</span>
+      Luxe vervoer in een <span class="text-blue-400">Tesla</span>
     </Fragment>
 
     <Fragment slot="subtitle">
-      <span class="font-semibold text-gray-900 dark:text-white">InTaxi powered by (NAD Service)</span> biedt premium luchthavenvervoer vanuit Amsterdam. 
-      Reis volledig elektrisch voor een <span class="font-bold text-[#003399] dark:text-blue-400">vaste prijs</span>.
+      <span class="font-semibold text-white">InTaxi powered by (NAD Service)</span> biedt premium luchthavenvervoer vanuit Amsterdam. 
+      Reis volledig elektrisch voor een <span class="font-bold text-blue-400">vaste prijs</span>.
     </Fragment>
 
-    <Fragment slot="image">
-      <div class="relative m-auto max-w-2xl">
-        <img 
-          src={teslaImg.src} 
-          alt="InTaxi Tesla NAD Service" 
-          class="mx-auto rounded-md w-full shadow-lg bg-gray-400 dark:bg-slate-700"
-          loading="eager"
-          width={672} 
-          height={364}
-        />
+    <!-- Hier plaatsen we de calculator midden in de Hero over de video heen -->
+    <Fragment slot="content">
+      <div class="mt-8 max-w-4xl mx-auto text-left pointer-events-auto">
+        <PriceCalculator />
       </div>
     </Fragment>
   </Hero>
 
-  <!-- 3. Note Widget ******************* -->
+  <!-- 2. Note Widget ******************* -->
   <Note title="Onze belofte:" description="Duurzaamheid, Punctualiteit en Luxe op basis van vaste, transparante tarieven." />
 
-  <!-- 4. Features Widget *************** -->
+  <!-- 3. Features Widget *************** -->
   <Features
     id="tarieven"
     tagline="Tarieven & Service"
@@ -95,8 +78,6 @@ const metadata = {
     ]}
   />
 
-  <!-- ... (rest van de widgets: Content, Steps, FAQs, CallToAction blijven hetzelfde) -->
-  
   <Steps
     title="Hoe werkt het?"
     items={[
@@ -127,7 +108,7 @@ const metadata = {
       },
       {
         title: 'Hoe reserveer ik na de berekening?',
-        description: "Klik op de knop om de ritgegevens via WhatsApp te versturen; wij bevestigen de rit dan direct.",
+        description: "Klik op de knop in de calculator om de gegevens via WhatsApp te versturen; wij bevestigen direct.",
       },
     ]}
   />
@@ -144,6 +125,6 @@ const metadata = {
     ]}
   >
     <Fragment slot="title">Klaar om te vertrekken?</Fragment>
-    <Fragment slot="subtitle">Bereken nu uw ritprijs bovenaan de pagina en boek binnen 1 minuut.</Fragment>
+    <Fragment slot="subtitle">Bereken nu uw ritprijs in de calculator en boek binnen 1 minuut.</Fragment>
   </CallToAction>
 </Layout>
