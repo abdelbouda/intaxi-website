@@ -21,7 +21,8 @@ const today = new Date().toISOString().split('T')[0];
 
       <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl border border-gray-100 dark:border-slate-700 overflow-hidden">
         <div class="p-6 md:p-10">
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <!-- Aanpassing grid-cols: lg:grid-cols-[1.2fr_0.8fr] maakt de rechterkant smaller -->
+          <div class="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-8 italic">
             
             <!-- 1. Luchthaven Selectie -->
             <div>
@@ -42,11 +43,11 @@ const today = new Date().toISOString().split('T')[0];
                   </thead>
                   <tbody class="text-sm text-[#003399]">
                     {[
-                      { id: 'ams', name: 'Schiphol Airport (AMS)', prices: ['€ 45,-', '€ 65,-'] },
-                      { id: 'rtm', name: 'Rotterdam The Hague (RTM)', prices: ['€ 125,-', '€ 160,-'] },
-                      { id: 'ein', name: 'Eindhoven Airport (EIN)', prices: ['€ 185,-', '€ 230,-'] },
-                      { id: 'bru', name: 'Brussel Zaventem (BRU)', prices: ['€ 325,-', '€ 395,-'] },
-                      { id: 'dus', name: 'Düsseldorf / Weeze', prices: ['€ 345,-', '€ 415,-'] }
+                      { name: 'Schiphol Airport (AMS)', prices: ['€ 45,-', '€ 65,-'] },
+                      { name: 'Rotterdam The Hague (RTM)', prices: ['€ 125,-', '€ 160,-'] },
+                      { name: 'Eindhoven Airport (EIN)', prices: ['€ 185,-', '€ 230,-'] },
+                      { name: 'Brussel Zaventem (BRU)', prices: ['€ 325,-', '€ 395,-'] },
+                      { name: 'Düsseldorf / Weeze', prices: ['€ 345,-', '€ 415,-'] }
                     ].map((item, i) => (
                       <tr class="border-b border-gray-100 dark:border-slate-700 hover:bg-blue-50 cursor-pointer airport-row">
                         <td class="p-3 text-center">
@@ -62,29 +63,33 @@ const today = new Date().toISOString().split('T')[0];
               </div>
             </div>
 
-            <!-- 2. Formulier -->
-            <div class="flex flex-col justify-center">
+            <!-- 2. Formulier (Compacter gemaakt) -->
+            <div class="flex flex-col justify-start">
               <div class="flex items-center mb-6">
                 <span class="flex items-center justify-center w-8 h-8 rounded-full bg-[#003399] text-white font-bold mr-3">2</span>
                 <h2 class="text-xl font-bold text-[#003399]">Uw Gegevens</h2>
               </div>
 
-              <div class="space-y-4">
-                <div class="relative" id="autocomplete-container">
-                  <input id="ophaal-adres" type="text" autocomplete="off" placeholder="Vul uw ophaaladres in..." class="block w-full p-4 border border-gray-200 rounded-xl bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none dark:bg-slate-700 dark:text-white" />
-                  <div id="suggestions" class="absolute z-[9999] w-full bg-white border border-gray-300 rounded-b-xl shadow-2xl hidden max-h-60 overflow-y-auto"></div>
+              <div class="space-y-3">
+                <!-- Straat en Huisnummer op één regel -->
+                <div class="flex gap-2 relative" id="autocomplete-container">
+                  <div class="flex-[3] relative">
+                    <input id="ophaal-adres" type="text" autocomplete="off" placeholder="Straatnaam" class="block w-full p-3 border border-gray-200 rounded-xl bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none text-sm" />
+                    <div id="suggestions" class="absolute z-[9999] w-full bg-white border border-gray-300 rounded-b-xl shadow-2xl hidden max-h-48 overflow-y-auto"></div>
+                  </div>
+                  <input id="huisnummer" type="text" placeholder="Nr." class="flex-[1] p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm" />
                 </div>
 
-                <div class="grid grid-cols-2 gap-4">
-                  <input id="datum" type="date" value={today} class="p-4 border border-gray-200 rounded-xl bg-gray-50 outline-none" />
-                  <input id="tijd" type="time" value="12:00" class="p-4 border border-gray-200 rounded-xl bg-gray-50 outline-none" />
+                <div class="grid grid-cols-2 gap-2">
+                  <input id="datum" type="date" value={today} class="p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm" />
+                  <input id="tijd" type="time" value="12:00" class="p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm" />
                 </div>
 
-                <input id="klant-naam" type="text" placeholder="Naam" class="w-full p-4 border border-gray-200 rounded-xl bg-gray-50 outline-none" />
-                <input id="klant-tel" type="tel" placeholder="Telefoonnummer" class="w-full p-4 border border-gray-200 rounded-xl bg-gray-50 outline-none" />
+                <input id="klant-naam" type="text" placeholder="Naam" class="w-full p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm" />
+                <input id="klant-tel" type="tel" placeholder="Telefoonnummer" class="w-full p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm" />
 
-                <button id="whatsapp-btn" class="w-full bg-[#003399] text-white font-bold py-4 rounded-xl hover:bg-blue-800 transition-colors shadow-lg">
-                  RESERVEREN VIA WHATSAPP
+                <button id="whatsapp-btn" class="w-full bg-[#003399] text-white font-bold py-3.5 rounded-xl hover:bg-blue-800 transition-colors shadow-lg mt-2 uppercase text-sm">
+                  Reserveren via WhatsApp
                 </button>
               </div>
             </div>
@@ -105,7 +110,6 @@ const today = new Date().toISOString().split('T')[0];
 
         if (!input || !suggestionsBox) return;
 
-        // Adres Autocomplete
         input.addEventListener('input', () => {
           clearTimeout(timeout);
           const q = input.value;
@@ -124,12 +128,15 @@ const today = new Date().toISOString().split('T')[0];
                 suggestionsBox.classList.remove('hidden');
                 data.forEach(item => {
                   const div = document.createElement('div');
-                  div.className = 'p-3 hover:bg-gray-100 cursor-pointer border-b text-sm text-black';
-                  div.textContent = item.display_name.split(',').slice(0, 3).join(',');
+                  div.className = 'p-2.5 hover:bg-gray-100 cursor-pointer border-b text-xs text-black italic';
+                  // Alleen straat en stad tonen in de suggestie voor een cleaner uiterlijk
+                  const label = item.display_name.split(',').slice(0, 2).join(',');
+                  div.textContent = label;
                   div.onclick = () => {
-                    input.value = div.textContent;
-                    suggestionsBox.classList.add('hidden'); // Verberg direct
+                    input.value = label;
+                    suggestionsBox.classList.add('hidden');
                     suggestionsBox.innerHTML = '';
+                    document.getElementById('huisnummer').focus();
                   };
                   suggestionsBox.appendChild(div);
                 });
@@ -138,26 +145,22 @@ const today = new Date().toISOString().split('T')[0];
           }, 300);
         });
 
-        // Sluit lijst bij klikken buitenveld
         document.addEventListener('click', (e) => {
           if (!input.contains(e.target)) suggestionsBox.classList.add('hidden');
         });
 
-        // WhatsApp Verzenden
         btn.onclick = () => {
           const v = (id) => document.getElementById(id).value;
           const airport = document.querySelector('input[name="airport"]:checked').value;
-          const msg = `Nieuwe Boeking:%0A- Naar: ${airport}%0A- Van: ${v('ophaal-adres')}%0A- Datum: ${v('datum')} om ${v('tijd')}%0A- Naam: ${v('klant-naam')}%0A- Tel: ${v('klant-tel')}`;
+          const msg = `Nieuwe Boeking:%0A- Naar: ${airport}%0A- Adres: ${v('ophaal-adres')} ${v('huisnummer')}%0A- Datum: ${v('datum')} om ${v('tijd')}%0A- Naam: ${v('klant-naam')}%0A- Tel: ${v('klant-tel')}`;
           window.open(`https://wa.me/31642277607?text=${msg}`, '_blank');
         };
 
-        // Tabel rijen selecteren
         document.querySelectorAll('.airport-row').forEach(row => {
           row.onclick = () => row.querySelector('input').checked = true;
         });
       }
 
-      // Start direct en na Astro transities
       initBooking();
       document.addEventListener('astro:page-load', initBooking);
     })();
