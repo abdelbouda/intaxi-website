@@ -1,17 +1,19 @@
 ---
-import { SITE } from 'astrowind:config';
-// We importeren nu de Tesla afbeelding als het nieuwe miniatuur-logo
+// We importeren de Tesla afbeelding als het miniatuur-logo
 import logoImg from '~/assets/images/tesla_nad_services.webp';
 ---
 
 <span class="self-center ml-2 rtl:ml-0 rtl:mr-2 flex items-center gap-3">
+  <!-- Het auto-icoon -->
   <img 
     src={logoImg.src} 
-    alt="InTaxi Tesla Logo" 
-    class="h-10 md:h-12 w-auto object-cover aspect-video rounded-sm shadow-sm border border-gray-100 dark:border-slate-700"
+    alt="InTaxi Amsterdam Logo" 
+    class="h-10 md:h-12 w-auto object-contain"
     loading="eager"
   />
-  <span class="text-xl md:text-2xl font-bold text-gray-900 whitespace-nowrap dark:text-white">
-    {SITE?.name}
+  
+  <!-- De tekst: InTaxi Amsterdam -->
+  <span class="text-xl md:text-2xl font-black text-[#003399] whitespace-nowrap dark:text-white tracking-tighter">
+    InTaxi <span class="text-blue-500 font-extrabold">Amsterdam</span>
   </span>
 </span>
