@@ -2,9 +2,10 @@ import { getPermalink, getAsset } from './utils/permalinks';
 
 export const headerData = {
   showLogo: true,
-  // 1. Tekst aangepast naar InTaxi Amsterdam
+  // 1. Tekst overal consistent als InTaxi Amsterdam
   logoText: 'InTaxi Amsterdam', 
-  logoImage: getAsset('~/assets/images/nad_logo.webp'),
+  // 2. Pad naar je nieuwe logo doorgevoerd
+  logoImage: getAsset('~/assets/images/intaxi_logo.webp'),
 
   links: [
     {
@@ -47,15 +48,15 @@ export const footerData = {
         { text: 'Schiphol Taxi', href: '#' },
         { text: 'Zakelijk Vervoer', href: '#' },
         { text: 'Prijs berekenen', href: '#tarieven' },
-        { text: "Onze Tesla's", href: '#' },
+        { text: "Onze Tesla vloot", href: '#' },
       ],
     },
     {
       title: 'Bedrijf',
       links: [
-        { text: 'Over NAD Service', href: getPermalink('/about') },
-        { text: 'Contact', href: getPermalink('/contact') },
-        { text: 'Werken bij', href: '#' },
+        { text: 'Over InTaxi Amsterdam', href: getPermalink('/about') },
+        { text: 'Contact opnemen', href: getPermalink('/contact') },
+        { text: 'Chauffeurs gezocht', href: '#' },
       ],
     },
   ],
@@ -70,6 +71,6 @@ export const footerData = {
     { ariaLabel: 'WhatsApp', icon: 'tabler:brand-whatsapp', href: 'https://wa.me/31642277607' },
   ],
   footNote: `
-    © ${new Date().getFullYear()} <strong>InTaxi Amsterdam</strong> · Een service van <a class="text-blue-900 font-bold underline dark:text-muted" href="/"> NAD Service</a> · Alle rechten voorbehouden.
+    © ${new Date().getFullYear()} <strong>InTaxi Amsterdam</strong> · Onderdeel van <a class="text-blue-900 font-bold underline dark:text-muted" href="/"> NAD Service</a> · Alle rechten voorbehouden.
   `,
 };
