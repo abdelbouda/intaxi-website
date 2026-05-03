@@ -21,7 +21,6 @@ const today = new Date().toISOString().split('T')[0];
 
       <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl border border-gray-100 dark:border-slate-700 overflow-hidden">
         <div class="p-6 md:p-10">
-          <!-- Aanpassing grid-cols: lg:grid-cols-[1.2fr_0.8fr] maakt de rechterkant smaller -->
           <div class="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-8 italic">
             
             <!-- 1. Luchthaven Selectie -->
@@ -63,7 +62,7 @@ const today = new Date().toISOString().split('T')[0];
               </div>
             </div>
 
-            <!-- 2. Formulier (Compacter gemaakt) -->
+            <!-- 2. Formulier -->
             <div class="flex flex-col justify-start">
               <div class="flex items-center mb-6">
                 <span class="flex items-center justify-center w-8 h-8 rounded-full bg-[#003399] text-white font-bold mr-3">2</span>
@@ -71,7 +70,6 @@ const today = new Date().toISOString().split('T')[0];
               </div>
 
               <div class="space-y-3">
-                <!-- Straat en Huisnummer op één regel -->
                 <div class="flex gap-2 relative" id="autocomplete-container">
                   <div class="flex-[3] relative">
                     <input id="ophaal-adres" type="text" autocomplete="off" placeholder="Straatnaam" class="block w-full p-3 border border-gray-200 rounded-xl bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none text-sm" />
@@ -115,6 +113,7 @@ const today = new Date().toISOString().split('T')[0];
           const q = input.value;
           if (q.length < 3) {
             suggestionsBox.classList.add('hidden');
+            suggestionsBox.style.display = 'none';
             return;
           }
 
@@ -126,43 +125,59 @@ const today = new Date().toISOString().split('T')[0];
               suggestionsBox.innerHTML = '';
               if (data.length > 0) {
                 suggestionsBox.classList.remove('hidden');
+                suggestionsBox.style.display = 'block';
                 data.forEach(item => {
                   const div = document.createElement('div');
                   div.className = 'p-2.5 hover:bg-gray-100 cursor-pointer border-b text-xs text-black italic';
-                  // Alleen straat en stad tonen in de suggestie voor een cleaner uiterlijk
                   const label = item.display_name.split(',').slice(0, 2).join(',');
                   div.textContent = label;
-                  div.onclick = () => {
+                  
+                  div.onclick = (e) => {
+                    e.preventDefault();
                     input.value = label;
+                    // Verberg de box direct en forceer onzichtbaarheid
                     suggestionsBox.classList.add('hidden');
+                    suggestionsBox.style.display = 'none';
                     suggestionsBox.innerHTML = '';
                     document.getElementById('huisnummer').focus();
                   };
                   suggestionsBox.appendChild(div);
                 });
+              } else {
+                suggestionsBox.style.display = 'none';
               }
             } catch (e) { console.error(e); }
           }, 300);
         });
 
         document.addEventListener('click', (e) => {
-          if (!input.contains(e.target)) suggestionsBox.classList.add('hidden');
+          if (!input.contains(e.target) && !suggestionsBox.contains(e.target)) {
+            suggestionsBox.classList.add('hidden');
+            suggestionsBox.style.display = 'none';
+          }
         });
 
-        btn.onclick = () => {
-          const v = (id) => document.getElementById(id).value;
-          const airport = document.querySelector('input[name="airport"]:checked').value;
-          const msg = `Nieuwe Boeking:%0A- Naar: ${airport}%0A- Adres: ${v('ophaal-adres')} ${v('huisnummer')}%0A- Datum: ${v('datum')} om ${v('tijd')}%0A- Naam: ${v('klant-naam')}%0A- Tel: ${v('klant-tel')}`;
-          window.open(`https://wa.me/31642277607?text=${msg}`, '_blank');
-        };
+        if (btn) {
+          btn.onclick = () => {
+            const v = (id) => document.getElementById(id).value;
+            const airport = document.querySelector('input[name="airport"]:checked').value;
+            const msg = `Nieuwe Boeking:%0A- Naar: ${airport}%0A- Adres: ${v('ophaal-adres')} ${v('huisnummer')}%0A- Datum: ${v('datum')} om ${v('tijd')}%0A- Naam: ${v('klant-naam')}%0A- Tel: ${v('klant-tel')}`;
+            window.open(`https://wa.me/31642277607?text=${msg}`, '_blank');
+          };
+        }
 
         document.querySelectorAll('.airport-row').forEach(row => {
-          row.onclick = () => row.querySelector('input').checked = true;
+          row.onclick = () => {
+            const radio = row.querySelector('input');
+            if (radio) radio.checked = true;
+          };
         });
       }
 
+      // Initialiseer op alle mogelijke Astro navigatie momenten
       initBooking();
       document.addEventListener('astro:page-load', initBooking);
+      document.addEventListener('astro:after-swap', initBooking);
     })();
   </script>
 </Layout>
