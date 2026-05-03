@@ -62,15 +62,9 @@ const transformText = (text: string) => {
   <div
     class:list={[
       'relative text-default py-3 px-3 md:px-6 mx-auto w-full',
-      {
-        'md:flex md:justify-between': position !== 'center',
-      },
-      {
-        'md:grid md:grid-cols-3 md:items-center': position === 'center',
-      },
-      {
-        'max-w-7xl': !isFullWidth,
-      },
+      { 'md:flex md:justify-between': position !== 'center' },
+      { 'md:grid md:grid-cols-3 md:items-center': position === 'center' },
+      { 'max-w-7xl': !isFullWidth },
     ]}
   >
     <div class:list={[{ 'mr-auto rtl:mr-0 rtl:ml-auto': position === 'right' }, 'flex justify-between']}>
@@ -81,35 +75,25 @@ const transformText = (text: string) => {
         <ToggleMenu />
       </div>
     </div>
+    
     <nav
       class="items-center w-full md:w-auto hidden md:flex md:mx-5 text-default overflow-y-auto overflow-x-hidden md:overflow-y-visible md:overflow-x-auto md:justify-self-center"
       aria-label="Main navigation"
     >
-      <ul
-        class="flex flex-col md:flex-row md:self-center w-full md:w-auto text-xl md:text-[0.9375rem] tracking-[0.01rem] font-bold md:justify-center"
-      >
+      <ul class="flex flex-col md:flex-row md:self-center w-full md:w-auto text-xl md:text-[0.9375rem] tracking-[0.01rem] font-bold md:justify-center">
         {
           links.map(({ text, href, links: sublinks }) => (
             <li class={sublinks?.length ? 'dropdown' : ''}>
               {sublinks?.length ? (
                 <>
-                  <button
-                    type="button"
-                    class="text-[#003399] hover:text-blue-600 dark:text-white px-4 py-3 flex items-center whitespace-nowrap"
-                  >
-                    {transformText(text || '')}{' '}
-                    <Icon name="tabler:chevron-down" class="w-3.5 h-3.5 ml-0.5 rtl:ml-0 rtl:mr-0.5 hidden md:inline" />
+                  <button type="button" class="text-[#003399] hover:text-blue-600 dark:text-white px-4 py-3 flex items-center whitespace-nowrap">
+                    {transformText(text || '')}
+                    <Icon name="tabler:chevron-down" class="w-3.5 h-3.5 ml-0.5 hidden md:inline" />
                   </button>
                   <ul class="dropdown-menu md:backdrop-blur-md dark:md:bg-dark rounded md:absolute pl-4 md:pl-0 md:hidden font-medium md:bg-white/90 md:min-w-[200px] drop-shadow-xl">
                     {sublinks.map(({ text: text2, href: href2 }) => (
                       <li>
-                        <a
-                          class:list={[
-                            'first:rounded-t last:rounded-b md:hover:bg-gray-100 text-[#003399] hover:text-link dark:text-white dark:hover:bg-gray-700 py-2 px-5 block whitespace-no-wrap',
-                            { 'aw-link-active': href2 === currentPath },
-                          ]}
-                          href={href2}
-                        >
+                        <a class:list={['first:rounded-t last:rounded-b md:hover:bg-gray-100 text-[#003399] hover:text-link dark:text-white dark:hover:bg-gray-700 py-2 px-5 block whitespace-no-wrap', { 'aw-link-active': href2 === currentPath }]} href={href2}>
                           {transformText(text2 || '')}
                         </a>
                       </li>
@@ -117,59 +101,30 @@ const transformText = (text: string) => {
                   </ul>
                 </>
               ) : (
-                <a
-                  class:list={[
-                    'text-[#003399] hover:text-blue-800 dark:text-white dark:hover:text-blue-400 px-4 py-3 flex items-center whitespace-nowrap',
-                    { 'aw-link-active': href === currentPath },
-                  ]}
-                  href={href}
-                >
+                <a class:list={['text-[#003399] hover:text-blue-800 dark:text-white dark:hover:text-blue-400 px-4 py-3 flex items-center whitespace-nowrap', { 'aw-link-active': href === currentPath }]} href={href}>
                   {transformText(text || '')}
                 </a>
-              )
-            }
+              )}
             </li>
           ))
         }
       </ul>
     </nav>
-    <div
-      class:list={[
-        { 'ml-auto rtl:ml-0 rtl:mr-auto': position === 'left' },
-        'hidden md:self-center md:flex items-center md:mb-0 fixed w-full md:w-auto md:static justify-end left-0 rtl:left-auto rtl:right-0 bottom-0 p-3 md:p-0 md:justify-self-end',
-      ]}
-    >
-      <div class="items-center flex justify-between w-full md:w-auto">
-        <div class="flex items-center">
-          
-          <!-- TAALKEUZE VLAGGEN -->
-          <div class="flex items-center gap-2 bg-gray-50 dark:bg-slate-800 p-1.5 rounded-full border border-gray-200 dark:border-slate-700 shadow-sm mr-2">
-            <button class="w-7 h-7 flex items-center justify-center hover:scale-125 transition-transform cursor-pointer" title="Nederlands">
-              <span class="text-xl leading-none">🇳🇱</span>
-            </button>
-            <div class="w-[1px] h-4 bg-gray-300 dark:bg-slate-600"></div>
-            <button class="w-7 h-7 flex items-center justify-center hover:scale-125 transition-transform opacity-60 hover:opacity-100 cursor-pointer" title="English">
-              <span class="text-xl leading-none">🇬🇧</span>
-            </button>
-          </div>
 
-          {
-            showRssFeed && (
-              <a
-                class="text-muted dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-200 rounded-lg text-sm p-2.5 inline-flex items-center"
-                aria-label="RSS Feed"
-                href={getAsset('/rss.xml')}
-              >
-                <Icon name="tabler:rss" class="w-5 h-5" />
-              </a>
-            )
-          }
+    <div class:list={[{ 'ml-auto rtl:ml-0 rtl:mr-auto': position === 'left' }, 'hidden md:self-center md:flex items-center md:mb-0 fixed w-full md:w-auto md:static justify-end left-0 rtl:left-auto rtl:right-0 bottom-0 p-3 md:p-0 md:justify-self-end']}>
+      <div class="items-center flex justify-between w-full md:w-auto">
+        
+        <!-- SCHONE TAALKEUZE MET ALLEEN VLAGGEN -->
+        <div class="flex items-center gap-3 mr-4">
+          <button class="text-2xl hover:scale-110 transition-transform cursor-pointer" title="Nederlands">🇳🇱</button>
+          <button class="text-2xl hover:scale-110 transition-transform opacity-50 hover:opacity-100 cursor-pointer" title="English">🇬🇧</button>
         </div>
+
         {
           actions?.length ? (
-            <span class="ml-4 rtl:ml-0 rtl:mr-4">
+            <span class="ml-0">
               {actions.map((btnProps) => (
-                <Button {...btnProps} class="ml-2 py-2.5 px-5.5 md:px-6 font-bold shadow-sm text-sm w-auto" />
+                <Button {...btnProps} class="py-2.5 px-5.5 md:px-6 font-bold shadow-sm text-sm w-auto" />
               ))}
             </span>
           ) : (
