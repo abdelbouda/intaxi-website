@@ -18,74 +18,74 @@ const metadata = {
 <Layout metadata={metadata}>
 
   <Hero>
-    <!-- We laten de 'title' en 'subtitle' slots leeg om de gemarkeerde tekst te verwijderen -->
+    <!-- We houden de slots leeg voor maximale rust boven de calculator -->
     <Fragment slot="title"></Fragment>
     <Fragment slot="subtitle"></Fragment>
 
-    <!-- De Calculator komt nu op de hoogste positie in de Hero -->
     <Fragment slot="content">
-      <div class="relative -mt-12 md:-mt-20 max-w-4xl mx-auto pointer-events-auto">
-        <div class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md p-2 md:p-4 rounded-3xl shadow-2xl border border-white/20">
+      <div class="relative -mt-12 md:-mt-24 max-w-5xl mx-auto pointer-events-auto">
+        
+        <!-- CALCULATOR MET FADE-IN EN DELAY -->
+        <!-- animate-fade-in: de animatie -->
+        <!-- [animation-delay:2000ms]: wacht 2 seconden -->
+        <!-- opacity-0: begint onzichtbaar -->
+        <!-- fill-mode-forwards: blijft zichtbaar na animatie -->
+        <div class="opacity-0 animate-fade-in [animation-delay:2000ms] [animation-fill-mode:forwards] bg-white/95 dark:bg-slate-900/95 backdrop-blur-md p-2 md:p-4 rounded-3xl shadow-2xl border border-white/20">
           <PriceCalculator />
         </div>
         
-        <!-- Optioneel: Een hele kleine subtiele tekst onder de calculator voor SEO/duidelijkheid -->
-        <p class="text-white/80 text-center mt-6 font-medium text-lg drop-shadow-md">
-          Luxe Tesla vervoer naar Schiphol voor een <span class="text-blue-400 font-bold">vaste prijs</span>.
-        </p>
+        <!-- Subtiele tekst die samen met de calculator verschijnt -->
+        <div class="opacity-0 animate-fade-in [animation-delay:2500ms] [animation-fill-mode:forwards] text-center mt-8">
+           <h2 class="text-white text-2xl md:text-3xl font-bold drop-shadow-md">
+            Luxe vervoer in een <span class="text-blue-400">Tesla</span>
+          </h2>
+          <p class="text-white/80 mt-2 font-medium">
+            Vaste tarieven • 100% Elektrisch • Amsterdam & Schiphol
+          </p>
+        </div>
       </div>
     </Fragment>
 
-    <!-- De WhatsApp knop blijft behouden als primaire actie onder de calculator -->
-    <Fragment slot="actions">
-      <div class="mt-4 flex justify-center">
-        <a 
-          href="https://wa.me/31642277607?text=Ik%20wil%20graag%20een%20luxe%20Tesla%20taxi%20boeken" 
-          target="_blank"
-          class="flex items-center gap-3 bg-[#25D366] hover:bg-[#128C7E] text-white font-bold py-3.5 px-10 rounded-full shadow-lg transition-all hover:scale-105 uppercase text-sm tracking-wider"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21l1.65 -3.8a9 9 0 1 1 3.4 2.9l-5.05 .9"></path><path d="M9 10a.5 .5 0 0 0 1 0v-1a.5 .5 0 0 0 -1 0v1a5 5 0 0 0 5 5h1a.5 .5 0 0 0 0 -1h-1a.5 .5 0 0 0 0 1"></path></svg>
-          Direct boeken via WhatsApp
-        </a>
-      </div>
-    </Fragment>
+    <!-- De 'actions' slot laten we leeg om de groene knop bovenaan te verwijderen -->
+    <Fragment slot="actions"></Fragment>
   </Hero>
 
-  <!-- De rest van de pagina blijft ongewijzigd voor de nodige informatie onder de 'vouw' -->
   <Note title="Onze belofte:" description="Duurzaamheid, Punctualiteit en Luxe op basis van vaste, transparante tarieven." />
 
+  <!-- Rest van de secties blijven staan voor informatie lager op de pagina -->
   <Features
     id="tarieven"
-    tagline="Tarieven & Service"
     title="Waarom reizen met InTaxi?"
     items={[
-      { title: 'Vaste Ritprijs', description: 'Geen verrassingen achteraf. Wij bieden een vast tarief vooraf.', icon: 'tabler:currency-euro' },
-      { title: 'Premium Tesla Vloot', description: 'Stap in een van onze luxe, volledig elektrische Tesla’s.', icon: 'tabler:bolt' },
-      { title: 'Zakelijke Kwaliteit', description: 'Professionele chauffeurs die altijd stipt op tijd zijn.', icon: 'tabler:briefcase' },
-      { title: 'Direct Bevestigen', description: 'Boek direct via WhatsApp na uw prijsberekening.', icon: 'tabler:brand-whatsapp' },
+      { title: 'Vaste Ritprijs', description: 'Geen verrassingen achteraf.', icon: 'tabler:currency-euro' },
+      { title: 'Tesla Vloot', description: 'Stijlvol en milieuvriendelijk.', icon: 'tabler:bolt' },
+      { title: 'WhatsApp Service', description: 'Direct contact en bevestiging.', icon: 'tabler:brand-whatsapp' },
     ]}
   />
 
   <Steps
     title="Hoe werkt het?"
     items={[
-      { title: 'Stap 1: Bereken prijs', description: "Vul uw route in de calculator bovenaan in.", icon: 'tabler:calculator' },
-      { title: 'Stap 2: WhatsApp', description: "Stuur de details door voor een snelle bevestiging.", icon: 'tabler:brand-whatsapp' },
-      { title: 'Stap 3: Reis', description: 'Uw chauffeur staat op de afgesproken tijd klaar.', icon: 'tabler:check' },
-    ]}
-  />
-
-  <FAQs
-    title="Veelgestelde Vragen"
-    items={[
-      { title: 'Geldt de prijs uit de calculator altijd?', description: "Ja, de berekende prijs is een vast tarief." },
-      { title: 'Hoe reserveer ik?', description: "Na de berekening klikt u op de WhatsApp-knop om te boeken." },
+      { title: 'Stap 1', description: "Bereken uw vaste prijs bovenaan.", icon: 'tabler:calculator' },
+      { title: 'Stap 2', description: "Bevestig direct via WhatsApp.", icon: 'tabler:brand-whatsapp' },
+      { title: 'Stap 3', description: "Geniet van een zorgeloze rit.", icon: 'tabler:check' },
     ]}
   />
 
   <CallToAction
-    title="Klaar om te vertrekken?"
-    subtitle="Bereken uw prijs bovenaan de pagina en boek binnen 1 minuut."
-    actions={[{ variant: 'primary', text: 'Vragen? WhatsApp ons', href: 'https://wa.me/31642277607', icon: 'tabler:brand-whatsapp' }]}
+    title="Vragen?"
+    subtitle="Onze centrale is 24/7 bereikbaar via WhatsApp."
+    actions={[{ variant: 'primary', text: 'Stuur een bericht', href: 'https://wa.me/31642277607', icon: 'tabler:brand-whatsapp' }]}
   />
 </Layout>
+
+<style is:global>
+  /* Zorg dat de fade-in animatie beschikbaar is */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-in {
+    animation: fadeIn 1.2s ease-out;
+  }
+</style>
