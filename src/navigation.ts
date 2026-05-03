@@ -2,9 +2,7 @@ import { getPermalink, getAsset } from './utils/permalinks';
 
 export const headerData = {
   showLogo: true,
-  // 1. Tekst overal consistent als InTaxi Amsterdam
   logoText: 'InTaxi Amsterdam', 
-  // 2. Pad naar je nieuwe logo doorgevoerd
   logoImage: getAsset('~/assets/images/intaxi_logo.webp'),
 
   links: [
@@ -20,16 +18,24 @@ export const headerData = {
       text: 'Taxiservices',
       href: getPermalink('/#tarieven'),
     },
-    {
-      text: 'Help',
-      href: getPermalink('/help'),
-    },
+    // Help is hier verwijderd conform verzoek
     {
       text: 'Contact',
       href: getPermalink('/contact'),
     },
   ],
   actions: [
+    // Taalschakelaar met vlaggen
+    { 
+      text: '🇳🇱', 
+      href: '#', 
+      class: 'text-2xl px-2 py-0' 
+    },
+    { 
+      text: '🇬🇧', 
+      href: '#', 
+      class: 'text-2xl px-2 py-0' 
+    },
     { 
       text: 'Contact via WhatsApp', 
       href: 'https://wa.me/31642277607?text=Ik%20wil%20graag%20een%20luxe%20Tesla%20taxi%20boeken%20voor%20een%20vaste%20prijs', 
