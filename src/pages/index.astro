@@ -18,46 +18,40 @@ const metadata = {
 <Layout metadata={metadata}>
 
   <Hero>
-    <!-- 1. Calculator bovenaan (Content slot eerst) -->
+    <!-- We laten de 'title' en 'subtitle' slots leeg om de gemarkeerde tekst te verwijderen -->
+    <Fragment slot="title"></Fragment>
+    <Fragment slot="subtitle"></Fragment>
+
+    <!-- De Calculator komt nu op de hoogste positie in de Hero -->
     <Fragment slot="content">
-      <div class="relative -mt-8 md:-mt-16 mb-10 max-w-4xl mx-auto pointer-events-auto">
+      <div class="relative -mt-12 md:-mt-20 max-w-4xl mx-auto pointer-events-auto">
         <div class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md p-2 md:p-4 rounded-3xl shadow-2xl border border-white/20">
           <PriceCalculator />
         </div>
+        
+        <!-- Optioneel: Een hele kleine subtiele tekst onder de calculator voor SEO/duidelijkheid -->
+        <p class="text-white/80 text-center mt-6 font-medium text-lg drop-shadow-md">
+          Luxe Tesla vervoer naar Schiphol voor een <span class="text-blue-400 font-bold">vaste prijs</span>.
+        </p>
       </div>
     </Fragment>
 
-    <!-- 2. Tekst onder de calculator -->
-    <Fragment slot="title">
-      <span class="text-3xl md:text-5xl">Luxe vervoer in een <span class="text-blue-400 font-bold">Tesla</span></span>
-    </Fragment>
-
-    <Fragment slot="subtitle">
-      <div class="mt-4">
-        <span class="font-semibold text-white/90">InTaxi powered by (NAD Service)</span> biedt premium luchthavenvervoer vanuit Amsterdam.
-      </div>
-      <div class="flex justify-center gap-3 mt-6">
-         <span class="bg-blue-600/30 text-blue-200 px-4 py-1.5 rounded-full text-xs border border-blue-400/30 uppercase tracking-widest font-bold">100% Elektrisch</span>
-         <span class="bg-blue-600/30 text-blue-200 px-4 py-1.5 rounded-full text-xs border border-blue-400/30 uppercase tracking-widest font-bold">Vaste Tarieven</span>
-      </div>
-    </Fragment>
-
-    <!-- 3. De knop helemaal onderaan de hero -->
+    <!-- De WhatsApp knop blijft behouden als primaire actie onder de calculator -->
     <Fragment slot="actions">
-      <div class="mt-10 flex justify-center">
+      <div class="mt-4 flex justify-center">
         <a 
           href="https://wa.me/31642277607?text=Ik%20wil%20graag%20een%20luxe%20Tesla%20taxi%20boeken" 
           target="_blank"
-          class="flex items-center gap-3 bg-[#25D366] hover:bg-[#128C7E] text-white font-black py-4 px-10 rounded-full shadow-xl transition-all hover:scale-105 uppercase text-sm tracking-widest"
+          class="flex items-center gap-3 bg-[#25D366] hover:bg-[#128C7E] text-white font-bold py-3.5 px-10 rounded-full shadow-lg transition-all hover:scale-105 uppercase text-sm tracking-wider"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21l1.65 -3.8a9 9 0 1 1 3.4 2.9l-5.05 .9"></path><path d="M9 10a.5 .5 0 0 0 1 0v-1a.5 .5 0 0 0 -1 0v1a5 5 0 0 0 5 5h1a.5 .5 0 0 0 0 -1h-1a.5 .5 0 0 0 0 1"></path></svg>
-          Direct Boeken via WhatsApp
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21l1.65 -3.8a9 9 0 1 1 3.4 2.9l-5.05 .9"></path><path d="M9 10a.5 .5 0 0 0 1 0v-1a.5 .5 0 0 0 -1 0v1a5 5 0 0 0 5 5h1a.5 .5 0 0 0 0 -1h-1a.5 .5 0 0 0 0 1"></path></svg>
+          Direct boeken via WhatsApp
         </a>
       </div>
     </Fragment>
   </Hero>
 
-  <!-- Note, Features, Steps etc. blijven hetzelfde -->
+  <!-- De rest van de pagina blijft ongewijzigd voor de nodige informatie onder de 'vouw' -->
   <Note title="Onze belofte:" description="Duurzaamheid, Punctualiteit en Luxe op basis van vaste, transparante tarieven." />
 
   <Features
