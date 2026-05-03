@@ -1,192 +1,89 @@
----
-import Layout from '~/layouts/PageLayout.astro';
+<script is:inline>
+  const input = document.getElementById('ophaal-adres');
+  const suggestionsBox = document.getElementById('suggestions');
+  let debounceTimer;
 
-const metadata = {
-  title: 'Vliegveld Taxi Amsterdam | Boek Direct Vaste Tarieven',
-  description: 'Boek uw luxe Tesla taxi van Amsterdam naar alle luchthavens voor een vaste prijs. Directe bevestiging via WhatsApp.',
-};
+  input.addEventListener('input', (e) => {
+    clearTimeout(debounceTimer);
+    const query = e.target.value;
+    
+    if (query.length < 3) { 
+      suggestionsBox.classList.add('hidden'); 
+      suggestionsBox.style.display = 'none';
+      return; 
+    }
 
-const today = new Date().toISOString().split('T')[0];
----
+    debounceTimer = setTimeout(async () => {
+      try {
+        const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&addressdetails=1&limit=5&countrycodes=nl`);
+        const data = await response.json();
+        
+        suggestionsBox.innerHTML = '';
+        if (data && data.length > 0) {
+          suggestionsBox.classList.remove('hidden');
+          suggestionsBox.style.display = 'block';
 
-<Layout metadata={metadata}>
-  <section class="relative md:py-12 py-8 bg-white dark:bg-slate-900">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6">
-      
-      <div class="text-center mb-8">
-        <h1 class="text-4xl md:text-5xl font-bold leading-tighter tracking-tighter mb-4 font-heading text-[#003399]">
-          Luchthavenvervoer Vaste Tarieven
-        </h1>
-        <p class="text-xl text-muted dark:text-slate-400 max-w-3xl mx-auto">
-          Selecteer uw bestemming en vliegveld voor een luxe rit naar de luchthaven.
-        </p>
-      </div>
+          data.forEach(place => {
+            const a = place.address;
+            const street = a.road || a.pedestrian || a.path || '';
+            const nr = a.house_number || '';
+            const city = a.city || a.town || a.village || '';
+            const label = `${street} ${nr}${city ? ', ' + city : ''}`.trim() || place.display_name.split(',')[0];
 
-      <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl border border-gray-100 dark:border-slate-700 overflow-hidden">
-        <div class="p-6 md:p-10">
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            const div = document.createElement('div');
+            div.className = 'p-4 hover:bg-blue-50 cursor-pointer text-sm border-b last:border-0 border-gray-100 transition-colors';
+            div.style.color = '#003399';
+            div.style.backgroundColor = 'white';
+            div.textContent = label;
             
-            <!-- LINKERKANT: TABEL -->
-            <div>
-              <div class="flex items-center mb-6">
-                <span class="flex items-center justify-center w-8 h-8 rounded-full bg-[#003399] text-white font-bold mr-3">1</span>
-                <h2 class="text-xl font-bold text-[#003399]">Kies uw Bestemming</h2>
-              </div>
+            // AANGEPAST: Sluit lijst direct na klik
+            div.onclick = (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              input.value = label;
               
-              <div class="overflow-hidden rounded-xl border border-gray-200 dark:border-slate-700 text-[#003399]">
-                <table class="w-full text-left border-collapse">
-                  <thead>
-                    <tr class="bg-[#003399] text-white text-sm">
-                      <th class="p-3 text-center">Select</th>
-                      <th class="p-3">Luchthaven</th>
-                      <th class="p-3 text-right">Tesla</th>
-                      <th class="p-3 text-right">Busje</th>
-                    </tr>
-                  </thead>
-                  <tbody class="text-sm">
-                    {[
-                      { name: 'Schiphol Airport (AMS)', prices: ['v.a. € 45,-', 'v.a. € 65,-'] },
-                      { name: 'Rotterdam The Hague (RTM)', prices: ['v.a. € 125,-', 'v.a. € 160,-'] },
-                      { name: 'Eindhoven Airport (EIN)', prices: ['v.a. € 185,-', 'v.a. € 230,-'] },
-                      { name: 'Brussel Zaventem (BRU)', prices: ['v.a. € 325,-', 'v.a. € 395,-'] },
-                      { name: 'Düsseldorf(DUS)/Weeze(NRN)', prices: ['v.a. € 345,-', 'v.a. € 415,-'] }
-                    ].map((item, i) => (
-                      <tr class="border-b border-gray-100 dark:border-slate-700 hover:bg-blue-50 cursor-pointer airport-row">
-                        <td class="p-3 text-center">
-                          <input type="radio" name="airport" value={item.name} checked={i === 0} class="w-4 h-4 cursor-pointer" />
-                        </td>
-                        <td class="p-3 font-semibold">{item.name}</td>
-                        <td class="p-3 text-right font-bold text-blue-700">{item.prices[0]}</td>
-                        <td class="p-3 text-right font-bold text-blue-700">{item.prices[1]}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            <!-- RECHTERKANT: FORMULIER -->
-            <div class="flex flex-col justify-center">
-              <div class="flex items-center mb-6">
-                <span class="flex items-center justify-center w-8 h-8 rounded-full bg-[#003399] text-white font-bold mr-3">2</span>
-                <h2 class="text-xl font-bold text-[#003399]">Ritgegevens & Boeken</h2>
-              </div>
-
-              <div class="space-y-4 relative">
-                <div class="relative">
-                  <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-red-500">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"><path d="M12 11m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" /><path d="M17.657 16.657l-4.242 4.242a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z" /></svg>
-                  </div>
-                  <input id="ophaal-adres" type="text" autocomplete="off" placeholder="N. Lansdorpstraat (Ophaaladres)" class="block w-full p-4 pl-10 text-sm border border-gray-200 rounded-xl bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-slate-700 dark:text-white outline-none" />
-                  
-                  <!-- Suggesties container -->
-                  <div id="suggestions" class="absolute z-[9999] w-full bg-white border border-gray-200 rounded-xl mt-1 shadow-2xl hidden max-h-60 overflow-y-auto"></div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                  <input id="datum" type="date" value={today} class="block w-full p-4 text-sm border border-gray-200 rounded-xl bg-gray-50 dark:bg-slate-700 dark:text-white outline-none" />
-                  <input id="tijd" type="time" value="12:00" class="block w-full p-4 text-sm border border-gray-200 rounded-xl bg-gray-50 dark:bg-slate-700 dark:text-white outline-none" />
-                </div>
-
-                <input id="klant-naam" type="text" placeholder="Uw Naam" class="block w-full p-4 text-sm border border-gray-200 rounded-xl bg-gray-50 dark:bg-slate-700 dark:text-white outline-none" />
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <input id="klant-email" type="email" placeholder="E-mailadres" class="block w-full p-4 text-sm border border-gray-200 rounded-xl bg-gray-50 dark:bg-slate-700 dark:text-white outline-none" />
-                  <input id="klant-tel" type="tel" placeholder="Telefoonnummer" class="block w-full p-4 text-sm border border-gray-200 rounded-xl bg-gray-50 dark:bg-slate-700 dark:text-white outline-none" />
-                </div>
-
-                <button id="whatsapp-btn" class="w-full bg-[#003399] hover:bg-blue-800 text-white font-bold py-4 px-6 rounded-xl transition-all shadow-lg flex items-center justify-center gap-2 group">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"><path d="M3 21l1.65 -3.8a9 9 0 1 1 3.4 2.9l-5.05 .9" /><path d="M9 10a.5 .5 0 0 0 1 0v-1a.5 .5 0 0 0 -1 0v1a5 5 0 0 0 5 5h1a.5 .5 0 0 0 0 -1h-1a.5 .5 0 0 0 0 1" /></svg>
-                  NU BOEKEN VIA WHATSAPP
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <script is:inline>
-    const input = document.getElementById('ophaal-adres');
-    const suggestionsBox = document.getElementById('suggestions');
-    let debounceTimer;
-
-    input.addEventListener('input', (e) => {
-      clearTimeout(debounceTimer);
-      const query = e.target.value;
-      
-      if (query.length < 3) { 
-        suggestionsBox.classList.add('hidden'); 
-        return; 
-      }
-
-      debounceTimer = setTimeout(async () => {
-        try {
-          // Gebruik Nominatim (OSM) - Betrouwbaarder dan Photon
-          const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&addressdetails=1&limit=5&countrycodes=nl`);
-          const data = await response.json();
-          
-          suggestionsBox.innerHTML = '';
-          if (data && data.length > 0) {
-            suggestionsBox.classList.remove('hidden');
-            // Zorg dat de box zichtbaar blijft boven andere elementen
-            suggestionsBox.style.display = 'block';
-
-            data.forEach(place => {
-              const a = place.address;
-              const street = a.road || a.pedestrian || a.path || '';
-              const nr = a.house_number || '';
-              const city = a.city || a.town || a.village || '';
-              const label = `${street} ${nr}${city ? ', ' + city : ''}`.trim() || place.display_name.split(',')[0];
-
-              const div = document.createElement('div');
-              div.className = 'p-4 hover:bg-blue-50 cursor-pointer text-sm border-b last:border-0 border-gray-100 transition-colors';
-              div.style.color = '#003399';
-              div.style.backgroundColor = 'white';
-              div.textContent = label;
-              
-              div.onclick = () => {
-                input.value = label;
-                suggestionsBox.classList.add('hidden');
-              };
-              suggestionsBox.appendChild(div);
-            });
-          } else {
-            suggestionsBox.classList.add('hidden');
-          }
-        } catch (err) { 
-          console.error('Adres ophalen mislukt:', err); 
+              // Maak onzichtbaar
+              suggestionsBox.classList.add('hidden');
+              suggestionsBox.style.display = 'none';
+              suggestionsBox.innerHTML = ''; // Maak de inhoud ook leeg
+            };
+            suggestionsBox.appendChild(div);
+          });
+        } else {
+          suggestionsBox.classList.add('hidden');
+          suggestionsBox.style.display = 'none';
         }
-      }, 400);
-    });
-
-    document.getElementById('whatsapp-btn').addEventListener('click', () => {
-      const airport = document.querySelector('input[name="airport"]:checked').value;
-      const val = (id) => document.getElementById(id).value;
-
-      const message = `Hallo InTaxi, ik wil graag een vliegveld taxi boeken.%0A%0A` +
-                      `*Rit Details:*%0A` +
-                      `- Naar: ${airport}%0A` +
-                      `- Van: ${val('ophaal-adres')}%0A` +
-                      `- Datum: ${val('datum')}%0A` +
-                      `- Tijd: ${val('tijd')}%0A%0A` +
-                      `*Contactgegevens:*%0A` +
-                      `- Naam: ${val('klant-naam')}%0A` +
-                      `- E-mail: ${val('klant-email')}%0A` +
-                      `- Tel: ${val('klant-tel')}`;
-                      
-      window.open(`https://wa.me/31642277607?text=${message}`, '_blank');
-    });
-
-    document.addEventListener('click', (e) => {
-      if (!input.contains(e.target) && !suggestionsBox.contains(e.target)) {
-        suggestionsBox.classList.add('hidden');
+      } catch (err) { 
+        console.error('Adres ophalen mislukt:', err); 
       }
-    });
+    }, 400);
+  });
 
-    document.querySelectorAll('.airport-row').forEach(row => {
-      row.onclick = () => row.querySelector('input').checked = true;
-    });
-  </script>
-</Layout>
+  // Sluit suggesties bij klikken buiten veld
+  document.addEventListener('click', (e) => {
+    if (!input.contains(e.target) && !suggestionsBox.contains(e.target)) {
+      suggestionsBox.classList.add('hidden');
+      suggestionsBox.style.display = 'none';
+    }
+  });
+
+  // WhatsApp Knop Logica
+  document.getElementById('whatsapp-btn').addEventListener('click', () => {
+    const airport = document.querySelector('input[name="airport"]:checked').value;
+    const val = (id) => document.getElementById(id).value;
+
+    const message = `Hallo InTaxi, ik wil graag een vliegveld taxi boeken naar ${airport}.%0A%0A` +
+                    `Ophaaladres: ${val('ophaal-adres')}%0A` +
+                    `Datum: ${val('datum')}%0A` +
+                    `Tijd: ${val('tijd')}%0A%0A` +
+                    `Naam: ${val('klant-naam')}%0A` +
+                    `E-mail: ${val('klant-email')}%0A` +
+                    `Tel: ${val('klant-tel')}`;
+    window.open(`https://wa.me/31642277607?text=${message}`, '_blank');
+  });
+
+  // Tabel rijen klikbaar maken
+  document.querySelectorAll('.airport-row').forEach(row => {
+    row.onclick = () => row.querySelector('input').checked = true;
+  });
+</script>
