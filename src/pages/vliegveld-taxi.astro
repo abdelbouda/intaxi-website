@@ -10,30 +10,29 @@ const today = new Date().toISOString().split('T')[0];
 ---
 
 <Layout metadata={metadata}>
-  <section class="relative md:py-12 py-8 bg-white dark:bg-slate-900">
+  <section class="relative md:py-12 py-8 bg-white dark:bg-slate-900 overflow-x-hidden">
     <div class="max-w-7xl mx-auto px-4 sm:px-6">
       
       <div class="text-center mb-8">
-        <h1 class="text-4xl md:text-5xl font-bold leading-tighter tracking-tighter mb-4 font-heading text-[#003399]">
+        <h1 class="text-3xl md:text-5xl font-bold leading-tighter tracking-tighter mb-4 font-heading text-[#003399]">
           Luchthavenvervoer Vaste Tarieven
         </h1>
       </div>
 
       <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl border border-gray-100 dark:border-slate-700 overflow-hidden">
-        <div class="p-6 md:p-10">
-          <!-- De grid-cols-[1.2fr_0.8fr] maakt de linkerkant breder en rechts smaller -->
+        <div class="p-4 md:p-10">
           <div class="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-10">
             
             <!-- 1. Luchthaven Selectie -->
-            <div>
+            <div class="overflow-hidden">
               <div class="flex items-center mb-6">
-                <span class="flex items-center justify-center w-8 h-8 rounded-full bg-[#003399] text-white font-bold mr-3">1</span>
+                <span class="flex items-center justify-center w-8 h-8 rounded-full bg-[#003399] text-white font-bold mr-3 text-sm">1</span>
                 <h2 class="text-xl font-bold text-[#003399]">Kies uw Bestemming</h2>
               </div>
               
-              <div class="overflow-hidden rounded-xl border border-gray-200 dark:border-slate-700 shadow-sm">
-                <table class="w-full text-left border-collapse">
-                  <thead class="bg-[#003399] text-white text-sm">
+              <div class="overflow-x-auto rounded-xl border border-gray-200 dark:border-slate-700 shadow-sm">
+                <table class="w-full text-left border-collapse min-w-[400px]">
+                  <thead class="bg-[#003399] text-white text-xs md:text-sm uppercase tracking-wider">
                     <tr>
                       <th class="p-4 text-center">Select</th>
                       <th class="p-4">Luchthaven</th>
@@ -41,7 +40,7 @@ const today = new Date().toISOString().split('T')[0];
                       <th class="p-4 text-right">Busje</th>
                     </tr>
                   </thead>
-                  <tbody class="text-sm text-[#003399]">
+                  <tbody class="text-sm text-[#003399] dark:text-blue-300">
                     {[
                       { name: 'Schiphol Airport (AMS)', prices: ['€ 45,-', '€ 65,-'] },
                       { name: 'Rotterdam The Hague (RTM)', prices: ['€ 125,-', '€ 160,-'] },
@@ -49,13 +48,13 @@ const today = new Date().toISOString().split('T')[0];
                       { name: 'Brussel Zaventem (BRU)', prices: ['€ 325,-', '€ 395,-'] },
                       { name: 'Düsseldorf / Weeze', prices: ['€ 345,-', '€ 415,-'] }
                     ].map((item, i) => (
-                      <tr class="border-b border-gray-100 dark:border-slate-700 hover:bg-blue-50 cursor-pointer airport-row transition-colors">
+                      <tr class="border-b border-gray-100 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-700/50 cursor-pointer airport-row transition-colors">
                         <td class="p-4 text-center">
-                          <input type="radio" name="airport" value={item.name} checked={i === 0} class="w-4 h-4 cursor-pointer" />
+                          <input type="radio" name="airport" value={item.name} checked={i === 0} class="w-5 h-5 cursor-pointer accent-[#003399]" />
                         </td>
                         <td class="p-4 font-semibold">{item.name}</td>
-                        <td class="p-4 text-right font-bold">{item.prices[0]}</td>
-                        <td class="p-4 text-right font-bold">{item.prices[1]}</td>
+                        <td class="p-4 text-right font-bold whitespace-nowrap">{item.prices[0]}</td>
+                        <td class="p-4 text-right font-bold whitespace-nowrap">{item.prices[1]}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -66,29 +65,29 @@ const today = new Date().toISOString().split('T')[0];
             <!-- 2. Formulier -->
             <div class="flex flex-col">
               <div class="flex items-center mb-6">
-                <span class="flex items-center justify-center w-8 h-8 rounded-full bg-[#003399] text-white font-bold mr-3">2</span>
+                <span class="flex items-center justify-center w-8 h-8 rounded-full bg-[#003399] text-white font-bold mr-3 text-sm">2</span>
                 <h2 class="text-xl font-bold text-[#003399]">Uw Gegevens</h2>
               </div>
 
               <div class="space-y-4">
                 <!-- Adres + Huisnummer -->
-                <div class="flex gap-2 relative">
+                <div class="flex gap-2">
                   <div class="flex-[3] relative">
-                    <input id="vliegveld-ophaal-adres" type="text" autocomplete="off" placeholder="Straatnaam (Ophaaladres)" class="block w-full p-4 border border-gray-200 rounded-xl bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none text-sm" />
+                    <input id="vliegveld-ophaal-adres" type="text" autocomplete="off" placeholder="Straatnaam (Ophaaladres)" class="block w-full p-4 border border-gray-200 dark:border-slate-600 rounded-xl bg-gray-50 dark:bg-slate-700 focus:ring-2 focus:ring-blue-500 outline-none text-base md:text-sm text-black dark:text-white" />
                     <div id="vliegveld-suggestions" class="absolute z-[100] w-full bg-white border border-gray-300 rounded-b-xl shadow-2xl hidden max-h-60 overflow-y-auto mt-1"></div>
                   </div>
-                  <input id="vliegveld-huisnummer" type="text" placeholder="Nr." class="flex-[1] p-4 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm" />
+                  <input id="vliegveld-huisnummer" type="text" placeholder="Nr." class="flex-[1] p-4 border border-gray-200 dark:border-slate-600 rounded-xl bg-gray-50 dark:bg-slate-700 outline-none text-base md:text-sm text-black dark:text-white" />
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
-                  <input id="vliegveld-datum" type="date" value={today} class="p-4 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm" />
-                  <input id="vliegveld-tijd" type="time" value="12:00" class="p-4 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm" />
+                  <input id="vliegveld-datum" type="date" value={today} class="p-4 border border-gray-200 dark:border-slate-600 rounded-xl bg-gray-50 dark:bg-slate-700 outline-none text-base md:text-sm text-black dark:text-white" />
+                  <input id="vliegveld-tijd" type="time" value="12:00" class="p-4 border border-gray-200 dark:border-slate-600 rounded-xl bg-gray-50 dark:bg-slate-700 outline-none text-base md:text-sm text-black dark:text-white" />
                 </div>
 
-                <input id="vliegveld-naam" type="text" placeholder="Volledige Naam" class="w-full p-4 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm" />
-                <input id="vliegveld-tel" type="tel" placeholder="Telefoonnummer" class="w-full p-4 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm" />
+                <input id="vliegveld-naam" type="text" placeholder="Volledige Naam" class="w-full p-4 border border-gray-200 dark:border-slate-600 rounded-xl bg-gray-50 dark:bg-slate-700 outline-none text-base md:text-sm text-black dark:text-white" />
+                <input id="vliegveld-tel" type="tel" placeholder="Telefoonnummer" class="w-full p-4 border border-gray-200 dark:border-slate-600 rounded-xl bg-gray-50 dark:bg-slate-700 outline-none text-base md:text-sm text-black dark:text-white" />
 
-                <button id="vliegveld-whatsapp-btn" class="w-full bg-[#003399] text-white font-bold py-4 rounded-xl hover:bg-blue-800 transition-all shadow-lg mt-2 uppercase tracking-wide">
+                <button id="vliegveld-whatsapp-btn" class="w-full bg-[#003399] text-white font-black py-4 rounded-xl hover:bg-blue-800 active:translate-y-1 transition-all shadow-lg mt-2 uppercase tracking-widest text-sm">
                   Reserveren via WhatsApp
                 </button>
               </div>
@@ -101,7 +100,6 @@ const today = new Date().toISOString().split('T')[0];
   </section>
 
   <script is:inline>
-    // We gebruiken een unieke naam voor de functie om conflicten met de Home-calculator te voorkomen
     function initVliegveldBooking() {
       const input = document.getElementById('vliegveld-ophaal-adres');
       const suggestionsBox = document.getElementById('vliegveld-suggestions');
@@ -128,8 +126,7 @@ const today = new Date().toISOString().split('T')[0];
               suggestionsBox.classList.remove('hidden');
               data.forEach(item => {
                 const div = document.createElement('div');
-                div.className = 'p-3 hover:bg-gray-100 cursor-pointer border-b text-sm text-black bg-white';
-                // Mooiere weergave: Straat, Stad
+                div.className = 'p-4 hover:bg-blue-50 cursor-pointer border-b text-sm text-black bg-white';
                 const parts = item.display_name.split(',');
                 const label = parts[0] + (parts[1] ? ', ' + parts[1] : '');
                 div.textContent = label;
@@ -147,16 +144,15 @@ const today = new Date().toISOString().split('T')[0];
         }, 300);
       });
 
-      // Klik buiten de lijst = sluiten
       document.addEventListener('click', (e) => {
         if (!input.contains(e.target)) suggestionsBox.classList.add('hidden');
       });
 
-      // WhatsApp verzend-logica
       if (btn) {
         btn.onclick = () => {
           const val = (id) => document.getElementById(id).value;
-          const airport = document.querySelector('input[name="airport"]:checked').value;
+          const airportEl = document.querySelector('input[name="airport"]:checked');
+          const airport = airportEl ? airportEl.value : 'Niet opgegeven';
           
           const text = `Hoi InTaxi, ik wil een vliegveldrit boeken:%0A%0A` +
                        `📍 Naar: ${airport}%0A` +
@@ -170,13 +166,14 @@ const today = new Date().toISOString().split('T')[0];
         };
       }
 
-      // Tabel rijen klikbaar maken
       document.querySelectorAll('.airport-row').forEach(row => {
-        row.onclick = () => row.querySelector('input').checked = true;
+        row.onclick = () => {
+          const radio = row.querySelector('input');
+          if(radio) radio.checked = true;
+        };
       });
     }
 
-    // VOOR DE FIX: Draai de code bij de eerste load én bij elke Astro pagina-wissel
     initVliegveldBooking();
     document.addEventListener('astro:page-load', initVliegveldBooking);
   </script>
