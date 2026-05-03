@@ -7,7 +7,7 @@ import Steps2 from '~/components/widgets/Steps2.astro';
 import Layout from '~/layouts/PageLayout.astro';
 
 const metadata = {
-  title: 'About us',
+  title: 'Over Ons — InTaxi Amsterdam',
 };
 ---
 
@@ -15,61 +15,61 @@ const metadata = {
   <!-- Hero Widget ******************* -->
 
   <Hero
-    tagline="About us"
+    tagline="Over InTaxi"
     image={{
       src: 'https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
-      alt: 'Caos Image',
+      alt: 'InTaxi Amsterdam Tesla Service',
     }}
   >
     <Fragment slot="title">
-      Elevate your online presence with our <br />
-      <span class="text-accent dark:text-white"> Beautiful Website Templates</span>
+      Uw partner in premium vervoer met <br />
+      <span class="text-accent dark:text-white">vaste tarieven in Amsterdam</span>
     </Fragment>
 
     <Fragment slot="subtitle">
-      Donec efficitur, ipsum quis congue luctus, mauris magna convallis mauris, eu auctor nisi lectus non augue. Donec
-      quis lorem non massa vulputate efficitur ac at turpis. Sed tincidunt ex a nunc convallis, et lobortis nisi tempus.
-      Suspendisse vitae nisi eget tortor luctus maximus sed non lectus.
+      Bij <strong>InTaxi Amsterdam</strong> is een rit meer dan alleen van A naar B. Met meerdere jaren ervaring bieden wij 
+      hoogwaardig personenvervoer. Of u nu kiest voor onze duurzame Tesla taxi of een ruim busje, 
+      wij staan garant voor comfort en punctualiteit voor elke rit naar <strong>Schiphol</strong> of binnen de regio.
     </Fragment>
   </Hero>
 
   <!-- Stats Widget ****************** -->
 
   <Stats
-    title="Statistics about us"
+    title="Onze impact in cijfers"
     stats={[
-      { title: 'Offices', amount: '4' },
-      { title: 'Employees', amount: '248' },
-      { title: 'Templates', amount: '12' },
-      { title: 'Awards', amount: '24' },
+      { title: 'Jaren Ervaring', amount: '8+' },
+      { title: 'Tevreden Klanten', amount: '15K+' },
+      { title: 'Elektrische KM', amount: '500K+' },
+      { title: 'Chauffeurs', amount: '12' },
     ]}
   />
 
   <!-- Features3 Widget ************** -->
 
   <Features3
-    title="Our templates"
-    subtitle="Etiam scelerisque, enim eget vestibulum luctus, nibh mauris blandit nulla, nec vestibulum risus justo ut enim. Praesent lacinia diam et ante imperdiet euismod."
+    title="Onze Specialisaties"
+    subtitle="Wij bieden een breed scala aan vervoersoplossingen, van particuliere ritten tot gespecialiseerde zorgtrajecten."
     columns={3}
     isBeforeContent={true}
     items={[
       {
-        title: 'Educational',
+        title: 'Zakelijk Vervoer',
         description:
-          'Morbi faucibus luctus quam, sit amet aliquet felis tempor id. Cras augue massa, ornare quis dignissim a, molestie vel nulla.',
-        icon: 'tabler:template',
+          'Representatief vervoer voor professionals waarbij discretie, comfort en tijdwinst naar de luchthaven essentieel zijn.',
+        icon: 'tabler:briefcase',
       },
       {
-        title: 'Interior Design',
+        title: 'Schiphol Service',
         description:
-          'Vivamus porttitor, tortor convallis aliquam pretium, turpis enim consectetur elit, vitae egestas purus erat ac nunc nulla.',
-        icon: 'tabler:template',
+          'Specialist in vervoer naar het vliegveld. Wij monitoren uw vlucht en hanteren vaste tarieven naar de luchthaven.',
+        icon: 'tabler:plane-arrival',
       },
       {
-        title: 'Photography',
+        title: 'Particulier Vervoer',
         description:
-          'Duis sed lectus in nisl vehicula porttitor eget quis odio. Aliquam erat volutpat. Nulla eleifend nulla id sem fermentum.',
-        icon: 'tabler:template',
+          'Luxe en betrouwbare ritten door heel Amsterdam en omstreken voor een eerlijke, vooraf afgesproken prijs.',
+        icon: 'tabler:car',
       },
     ]}
   />
@@ -81,68 +81,50 @@ const metadata = {
     isAfterContent={true}
     items={[
       {
-        title: 'E-commerce',
+        title: 'Zorgvervoer',
         description:
-          'Rutrum non odio at vehicula. Proin ipsum justo, dignissim in vehicula sit amet, dignissim id quam. Sed ac tincidunt sapien.',
-        icon: 'tabler:template',
+          'Wij bieden extra zorg en aandacht voor patiëntenvervoer van en naar medische instellingen.',
+        icon: 'tabler:heart-handshake',
       },
       {
-        title: 'Blog',
+        title: 'Leerlingenvervoer',
         description:
-          'Nullam efficitur volutpat sem sed fringilla. Suspendisse et enim eu orci volutpat laoreet ac vitae libero.',
-        icon: 'tabler:template',
+          'Veilig en vertrouwd vervoer voor scholieren, uitgevoerd door ervaren chauffeurs die rust uitstralen.',
+        icon: 'tabler:school',
       },
       {
-        title: 'Business',
+        title: 'Speciaal Vervoer',
         description:
-          'Morbi et elit finibus, facilisis justo ut, pharetra ipsum. Donec efficitur, ipsum quis congue luctus, mauris magna.',
-        icon: 'tabler:template',
-      },
-      {
-        title: 'Branding',
-        description:
-          'Suspendisse vitae nisi eget tortor luctus maximus sed non lectus. Cras malesuada pretium placerat. Nullam venenatis dolor a ante rhoncus.',
-        icon: 'tabler:template',
-      },
-      {
-        title: 'Medical',
-        description:
-          'Vestibulum malesuada lacus id nibh posuere feugiat. Nam volutpat nulla a felis ultrices, id suscipit mauris congue. In hac habitasse platea dictumst.',
-        icon: 'tabler:template',
-      },
-      {
-        title: 'Fashion Design',
-        description:
-          'Maecenas eu tellus eget est scelerisque lacinia et a diam. Aliquam velit lorem, vehicula id fermentum et, rhoncus et purus.',
-        icon: 'tabler:template',
+          'Maatwerkoplossingen voor unieke vervoersvragen, evenementen of groepsvervoer in luxe busjes.',
+        icon: 'tabler:star',
       },
     ]}
     image={{
       src: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80',
-      alt: 'Colorful Image',
+      alt: 'InTaxi Service beeld',
     }}
   />
 
   <!-- Steps2 Widget ****************** -->
 
   <Steps2
-    title="Our values"
-    subtitle="Maecenas eu tellus eget est scelerisque lacinia et a diam. Aliquam velit lorem, vehicula id fermentum et, rhoncus et purus. Nulla facilisi. Vestibulum malesuada lacus."
+    title="Onze Kernwaarden"
+    subtitle="Waarom klanten al jarenlang kiezen voor de taxi services van InTaxi Amsterdam."
     items={[
       {
-        title: 'Customer-centric approach',
+        title: 'Klantgerichte aanpak',
         description:
-          'Donec id nibh neque. Quisque et fermentum tortor. Fusce vitae dolor a mauris dignissim commodo. Ut eleifend luctus condimentum.',
+          'Uw wensen staan centraal. Van een flesje water in de Tesla tot hulp bij uw bagage op het vliegveld.',
       },
       {
-        title: 'Constant Improvement',
+        title: 'Vaste Tarieven',
         description:
-          'Phasellus laoreet fermentum venenatis. Vivamus dapibus pulvinar arcu eget mattis. Fusce eget mauris leo.',
+          'Geen verrassingen of meterkosten. U weet vooraf exact wat de rit naar de luchthaven of Amsterdam kost.',
       },
       {
-        title: 'Ethical Practices',
+        title: 'Duurzaamheid',
         description:
-          'Vestibulum imperdiet libero et lectus molestie, et maximus augue porta. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.',
+          'Wij investeren in de toekomst met een 100% elektrische vloot voor een schoner Amsterdam.',
       },
     ]}
   />
@@ -150,30 +132,30 @@ const metadata = {
   <!-- Steps2 Widget ****************** -->
 
   <Steps2
-    title="Achievements"
-    subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sagittis, quam nec venenatis lobortis, mi risus tempus nulla, sed porttitor est nibh at nulla."
+    title="Prestaties"
+    subtitle="Onze jarenlange inzet voor kwaliteit heeft geleid tot een sterke reputatie in de regio Amsterdam."
     isReversed={true}
     callToAction={{
-      text: 'See more',
+      text: 'Bereken uw ritprijs',
       href: '/',
     }}
     items={[
       {
-        title: 'Global reach',
-        description: 'Nam malesuada urna in enim imperdiet tincidunt. Phasellus non tincidunt nisi, at elementum mi.',
-        icon: 'tabler:globe',
+        title: 'Regionale dekking',
+        description: 'Wij bedienen de gehele metropoolregio Amsterdam en alle grote vliegvelden in Nederland en België.',
+        icon: 'tabler:map-pin',
       },
       {
-        title: 'Positive customer feedback and reviews',
+        title: 'Hoge klantwaardering',
         description:
-          'Cras semper nulla leo, eget laoreet erat cursus sed. Praesent faucibus massa in purus iaculis dictum.',
+          'Trots op onze positieve reviews van zowel zakelijke partners als particuliere reizigers.',
         icon: 'tabler:message-star',
       },
       {
-        title: 'Awards and recognition as industry experts',
+        title: 'Gecertificeerd Vervoer',
         description:
-          'Phasellus lacinia cursus velit, eu malesuada magna pretium eu. Etiam aliquet tellus purus, blandit lobortis ex rhoncus vitae.',
-        icon: 'tabler:award',
+          'Volledig gecertificeerd voor zorgvervoer en leerlingenvervoer met de juiste keurmerken.',
+        icon: 'tabler:certificate',
       },
     ]}
   />
@@ -181,25 +163,21 @@ const metadata = {
   <!-- Features2 Widget ************** -->
 
   <Features2
-    title="Our locations"
-    tagline="Find us"
-    columns={4}
+    title="Onze Werkgebieden"
+    tagline="Locaties"
+    columns={3}
     items={[
       {
-        title: 'EE.UU',
-        description: '1234 Lorem Ipsum St, 12345, Miami',
+        title: 'Amsterdam',
+        description: 'Centrum, West, Zuid, Oost en Noord.',
       },
       {
-        title: 'Spain',
-        description: '5678 Lorem Ipsum St, 56789, Madrid',
+        title: 'Schiphol',
+        description: 'Vaste ophaalpunten bij de luchthaven.',
       },
       {
-        title: 'Australia',
-        description: '9012 Lorem Ipsum St, 90123, Sydney',
-      },
-      {
-        title: 'Brazil',
-        description: '3456 Lorem Ipsum St, 34567, São Paulo',
+        title: 'Amstelveen & Omstreken',
+        description: 'Snelle aanrijtijden in de gehele regio.',
       },
     ]}
   />
@@ -207,21 +185,21 @@ const metadata = {
   <!-- Features2 Widget ************** -->
 
   <Features2
-    title="Technical Support"
-    tagline="Contact us"
+    title="Direct Contact"
+    tagline="Bereikbaarheid"
     columns={2}
     items={[
       {
-        title: 'Chat with us',
+        title: 'WhatsApp ons',
         description:
-          'Integer luctus laoreet libero, auctor varius purus rutrum sit amet. Ut nec molestie nisi, quis eleifend mi.',
-        icon: 'tabler:messages',
+          'De snelste manier om een rit te boeken of een prijsopgave op te vragen.',
+        icon: 'tabler:brand-whatsapp',
       },
       {
-        title: 'Call us',
+        title: 'Bel onze centrale',
         description:
-          'Mauris faucibus finibus orci, in posuere elit viverra non. In hac habitasse platea dictumst. Cras lobortis metus a hendrerit congue.',
-        icon: 'tabler:headset',
+          'Voor directe spoedritten of vragen over uw zakelijke boeking.',
+        icon: 'tabler:phone',
       },
     ]}
   />
