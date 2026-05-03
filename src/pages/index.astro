@@ -22,21 +22,25 @@ const metadata = {
     <Fragment slot="subtitle"></Fragment>
 
     <Fragment slot="content">
-      <!-- Container met animatie-instellingen -->
-      <div class="relative -mt-10 md:-mt-16 max-w-5xl mx-auto z-10">
+      <!-- 
+        Op mobiel schuiven we met -mt-24 de calculator strak onder de menubalk.
+        Op desktop houden we -mt-16 aan voor een gebalanceerd beeld.
+      -->
+      <div class="relative -mt-24 md:-mt-16 max-w-5xl mx-auto z-10 px-2 md:px-0">
         
         <div class="calculator-container opacity-0 pointer-events-auto">
-          <div class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md p-2 md:p-4 rounded-3xl shadow-2xl border border-white/20">
+          <!-- p-1 op mobiel bespaart veel ruimte; p-4 op desktop voor de luxe uitstraling -->
+          <div class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md p-1 md:p-4 rounded-2xl md:rounded-3xl shadow-2xl border border-white/20">
             <PriceCalculator />
           </div>
           
-          <!-- Subtiele tekst direct onder de witte box -->
-          <div class="text-center mt-6">
-             <h2 class="text-white text-2xl md:text-3xl font-bold drop-shadow-lg">
+          <!-- Tekst onder de calculator iets compacter gemaakt voor mobiel -->
+          <div class="text-center mt-4 md:mt-6">
+             <h2 class="text-white text-xl md:text-3xl font-bold drop-shadow-lg">
               Luxe vervoer in een <span class="text-blue-400 font-extrabold">Tesla</span>
             </h2>
-            <p class="text-white/90 mt-2 font-medium bg-black/20 inline-block px-4 py-1 rounded-full backdrop-blur-sm">
-              Vaste tarieven • Schiphol Service • Amsterdam
+            <p class="text-white/90 text-sm md:text-base mt-1 font-medium bg-black/20 inline-block px-4 py-0.5 rounded-full backdrop-blur-sm">
+              Vaste tarieven • Schiphol • Amsterdam
             </p>
           </div>
         </div>
@@ -76,7 +80,6 @@ const metadata = {
 </Layout>
 
 <style is:global>
-  /* De animatie definitie */
   @keyframes simpleFadeIn {
     from { 
       opacity: 0; 
@@ -88,13 +91,11 @@ const metadata = {
     }
   }
 
-  /* Toepassing van de animatie op de container */
   .calculator-container {
     animation: simpleFadeIn 1.2s ease-out forwards;
-    animation-delay: 2s; /* De 2 seconden wachttijd */
+    animation-delay: 2s;
   }
 
-  /* Zorg dat invoervelden altijd klikbaar zijn, zelfs tijdens/na animatie */
   .calculator-container input, 
   .calculator-container button, 
   .calculator-container select {
