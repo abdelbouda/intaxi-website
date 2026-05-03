@@ -18,41 +18,37 @@ const metadata = {
 <Layout metadata={metadata}>
 
   <Hero>
-    <!-- We houden de slots leeg voor maximale rust boven de calculator -->
     <Fragment slot="title"></Fragment>
     <Fragment slot="subtitle"></Fragment>
 
     <Fragment slot="content">
-      <div class="relative -mt-12 md:-mt-24 max-w-5xl mx-auto pointer-events-auto">
+      <!-- Container met animatie-instellingen -->
+      <div class="relative -mt-10 md:-mt-16 max-w-5xl mx-auto z-10">
         
-        <!-- CALCULATOR MET FADE-IN EN DELAY -->
-        <!-- animate-fade-in: de animatie -->
-        <!-- [animation-delay:2000ms]: wacht 2 seconden -->
-        <!-- opacity-0: begint onzichtbaar -->
-        <!-- fill-mode-forwards: blijft zichtbaar na animatie -->
-        <div class="opacity-0 animate-fade-in [animation-delay:2000ms] [animation-fill-mode:forwards] bg-white/95 dark:bg-slate-900/95 backdrop-blur-md p-2 md:p-4 rounded-3xl shadow-2xl border border-white/20">
-          <PriceCalculator />
+        <div class="calculator-container opacity-0 pointer-events-auto">
+          <div class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md p-2 md:p-4 rounded-3xl shadow-2xl border border-white/20">
+            <PriceCalculator />
+          </div>
+          
+          <!-- Subtiele tekst direct onder de witte box -->
+          <div class="text-center mt-6">
+             <h2 class="text-white text-2xl md:text-3xl font-bold drop-shadow-lg">
+              Luxe vervoer in een <span class="text-blue-400 font-extrabold">Tesla</span>
+            </h2>
+            <p class="text-white/90 mt-2 font-medium bg-black/20 inline-block px-4 py-1 rounded-full backdrop-blur-sm">
+              Vaste tarieven • Schiphol Service • Amsterdam
+            </p>
+          </div>
         </div>
-        
-        <!-- Subtiele tekst die samen met de calculator verschijnt -->
-        <div class="opacity-0 animate-fade-in [animation-delay:2500ms] [animation-fill-mode:forwards] text-center mt-8">
-           <h2 class="text-white text-2xl md:text-3xl font-bold drop-shadow-md">
-            Luxe vervoer in een <span class="text-blue-400">Tesla</span>
-          </h2>
-          <p class="text-white/80 mt-2 font-medium">
-            Vaste tarieven • 100% Elektrisch • Amsterdam & Schiphol
-          </p>
-        </div>
+
       </div>
     </Fragment>
 
-    <!-- De 'actions' slot laten we leeg om de groene knop bovenaan te verwijderen -->
     <Fragment slot="actions"></Fragment>
   </Hero>
 
   <Note title="Onze belofte:" description="Duurzaamheid, Punctualiteit en Luxe op basis van vaste, transparante tarieven." />
 
-  <!-- Rest van de secties blijven staan voor informatie lager op de pagina -->
   <Features
     id="tarieven"
     title="Waarom reizen met InTaxi?"
@@ -80,12 +76,28 @@ const metadata = {
 </Layout>
 
 <style is:global>
-  /* Zorg dat de fade-in animatie beschikbaar is */
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+  /* De animatie definitie */
+  @keyframes simpleFadeIn {
+    from { 
+      opacity: 0; 
+      transform: translateY(15px); 
+    }
+    to { 
+      opacity: 1; 
+      transform: translateY(0); 
+    }
   }
-  .animate-fade-in {
-    animation: fadeIn 1.2s ease-out;
+
+  /* Toepassing van de animatie op de container */
+  .calculator-container {
+    animation: simpleFadeIn 1.2s ease-out forwards;
+    animation-delay: 2s; /* De 2 seconden wachttijd */
+  }
+
+  /* Zorg dat invoervelden altijd klikbaar zijn, zelfs tijdens/na animatie */
+  .calculator-container input, 
+  .calculator-container button, 
+  .calculator-container select {
+    pointer-events: auto !important;
   }
 </style>
