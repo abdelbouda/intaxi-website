@@ -21,7 +21,8 @@ const today = new Date().toISOString().split('T')[0];
 
       <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl border border-gray-100 dark:border-slate-700 overflow-hidden">
         <div class="p-6 md:p-10">
-          <div class="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-8 italic">
+          <!-- De grid-cols-[1.2fr_0.8fr] maakt de linkerkant breder en rechts smaller -->
+          <div class="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-10">
             
             <!-- 1. Luchthaven Selectie -->
             <div>
@@ -30,14 +31,14 @@ const today = new Date().toISOString().split('T')[0];
                 <h2 class="text-xl font-bold text-[#003399]">Kies uw Bestemming</h2>
               </div>
               
-              <div class="overflow-hidden rounded-xl border border-gray-200 dark:border-slate-700">
+              <div class="overflow-hidden rounded-xl border border-gray-200 dark:border-slate-700 shadow-sm">
                 <table class="w-full text-left border-collapse">
                   <thead class="bg-[#003399] text-white text-sm">
                     <tr>
-                      <th class="p-3 text-center">Select</th>
-                      <th class="p-3">Luchthaven</th>
-                      <th class="p-3 text-right">Tesla</th>
-                      <th class="p-3 text-right">Busje</th>
+                      <th class="p-4 text-center">Select</th>
+                      <th class="p-4">Luchthaven</th>
+                      <th class="p-4 text-right">Tesla</th>
+                      <th class="p-4 text-right">Busje</th>
                     </tr>
                   </thead>
                   <tbody class="text-sm text-[#003399]">
@@ -48,13 +49,13 @@ const today = new Date().toISOString().split('T')[0];
                       { name: 'Brussel Zaventem (BRU)', prices: ['€ 325,-', '€ 395,-'] },
                       { name: 'Düsseldorf / Weeze', prices: ['€ 345,-', '€ 415,-'] }
                     ].map((item, i) => (
-                      <tr class="border-b border-gray-100 dark:border-slate-700 hover:bg-blue-50 cursor-pointer airport-row">
-                        <td class="p-3 text-center">
-                          <input type="radio" name="airport" value={item.name} checked={i === 0} class="w-4 h-4" />
+                      <tr class="border-b border-gray-100 dark:border-slate-700 hover:bg-blue-50 cursor-pointer airport-row transition-colors">
+                        <td class="p-4 text-center">
+                          <input type="radio" name="airport" value={item.name} checked={i === 0} class="w-4 h-4 cursor-pointer" />
                         </td>
-                        <td class="p-3 font-semibold">{item.name}</td>
-                        <td class="p-3 text-right font-bold">{item.prices[0]}</td>
-                        <td class="p-3 text-right font-bold">{item.prices[1]}</td>
+                        <td class="p-4 font-semibold">{item.name}</td>
+                        <td class="p-4 text-right font-bold">{item.prices[0]}</td>
+                        <td class="p-4 text-right font-bold">{item.prices[1]}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -63,30 +64,31 @@ const today = new Date().toISOString().split('T')[0];
             </div>
 
             <!-- 2. Formulier -->
-            <div class="flex flex-col justify-start">
+            <div class="flex flex-col">
               <div class="flex items-center mb-6">
                 <span class="flex items-center justify-center w-8 h-8 rounded-full bg-[#003399] text-white font-bold mr-3">2</span>
                 <h2 class="text-xl font-bold text-[#003399]">Uw Gegevens</h2>
               </div>
 
-              <div class="space-y-3">
-                <div class="flex gap-2 relative" id="autocomplete-container">
+              <div class="space-y-4">
+                <!-- Adres + Huisnummer -->
+                <div class="flex gap-2 relative">
                   <div class="flex-[3] relative">
-                    <input id="ophaal-adres" type="text" autocomplete="off" placeholder="Straatnaam" class="block w-full p-3 border border-gray-200 rounded-xl bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none text-sm" />
-                    <div id="suggestions" class="absolute z-[9999] w-full bg-white border border-gray-300 rounded-b-xl shadow-2xl hidden max-h-48 overflow-y-auto"></div>
+                    <input id="vliegveld-ophaal-adres" type="text" autocomplete="off" placeholder="Straatnaam (Ophaaladres)" class="block w-full p-4 border border-gray-200 rounded-xl bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none text-sm" />
+                    <div id="vliegveld-suggestions" class="absolute z-[100] w-full bg-white border border-gray-300 rounded-b-xl shadow-2xl hidden max-h-60 overflow-y-auto mt-1"></div>
                   </div>
-                  <input id="huisnummer" type="text" placeholder="Nr." class="flex-[1] p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm" />
+                  <input id="vliegveld-huisnummer" type="text" placeholder="Nr." class="flex-[1] p-4 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm" />
                 </div>
 
-                <div class="grid grid-cols-2 gap-2">
-                  <input id="datum" type="date" value={today} class="p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm" />
-                  <input id="tijd" type="time" value="12:00" class="p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm" />
+                <div class="grid grid-cols-2 gap-3">
+                  <input id="vliegveld-datum" type="date" value={today} class="p-4 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm" />
+                  <input id="vliegveld-tijd" type="time" value="12:00" class="p-4 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm" />
                 </div>
 
-                <input id="klant-naam" type="text" placeholder="Naam" class="w-full p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm" />
-                <input id="klant-tel" type="tel" placeholder="Telefoonnummer" class="w-full p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm" />
+                <input id="vliegveld-naam" type="text" placeholder="Volledige Naam" class="w-full p-4 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm" />
+                <input id="vliegveld-tel" type="tel" placeholder="Telefoonnummer" class="w-full p-4 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm" />
 
-                <button id="whatsapp-btn" class="w-full bg-[#003399] text-white font-bold py-3.5 rounded-xl hover:bg-blue-800 transition-colors shadow-lg mt-2 uppercase text-sm">
+                <button id="vliegveld-whatsapp-btn" class="w-full bg-[#003399] text-white font-bold py-4 rounded-xl hover:bg-blue-800 transition-all shadow-lg mt-2 uppercase tracking-wide">
                   Reserveren via WhatsApp
                 </button>
               </div>
@@ -99,85 +101,83 @@ const today = new Date().toISOString().split('T')[0];
   </section>
 
   <script is:inline>
-    (function() {
-      function initBooking() {
-        const input = document.getElementById('ophaal-adres');
-        const suggestionsBox = document.getElementById('suggestions');
-        const btn = document.getElementById('whatsapp-btn');
-        let timeout;
+    // We gebruiken een unieke naam voor de functie om conflicten met de Home-calculator te voorkomen
+    function initVliegveldBooking() {
+      const input = document.getElementById('vliegveld-ophaal-adres');
+      const suggestionsBox = document.getElementById('vliegveld-suggestions');
+      const btn = document.getElementById('vliegveld-whatsapp-btn');
+      let debounceTimer;
 
-        if (!input || !suggestionsBox) return;
+      if (!input || !suggestionsBox) return;
 
-        input.addEventListener('input', () => {
-          clearTimeout(timeout);
-          const q = input.value;
-          if (q.length < 3) {
-            suggestionsBox.classList.add('hidden');
-            suggestionsBox.style.display = 'none';
-            return;
-          }
-
-          timeout = setTimeout(async () => {
-            try {
-              const res = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&addressdetails=1&limit=5&countrycodes=nl`);
-              const data = await res.json();
-              
-              suggestionsBox.innerHTML = '';
-              if (data.length > 0) {
-                suggestionsBox.classList.remove('hidden');
-                suggestionsBox.style.display = 'block';
-                data.forEach(item => {
-                  const div = document.createElement('div');
-                  div.className = 'p-2.5 hover:bg-gray-100 cursor-pointer border-b text-xs text-black italic';
-                  const label = item.display_name.split(',').slice(0, 2).join(',');
-                  div.textContent = label;
-                  
-                  div.onclick = (e) => {
-                    e.preventDefault();
-                    input.value = label;
-                    // Verberg de box direct en forceer onzichtbaarheid
-                    suggestionsBox.classList.add('hidden');
-                    suggestionsBox.style.display = 'none';
-                    suggestionsBox.innerHTML = '';
-                    document.getElementById('huisnummer').focus();
-                  };
-                  suggestionsBox.appendChild(div);
-                });
-              } else {
-                suggestionsBox.style.display = 'none';
-              }
-            } catch (e) { console.error(e); }
-          }, 300);
-        });
-
-        document.addEventListener('click', (e) => {
-          if (!input.contains(e.target) && !suggestionsBox.contains(e.target)) {
-            suggestionsBox.classList.add('hidden');
-            suggestionsBox.style.display = 'none';
-          }
-        });
-
-        if (btn) {
-          btn.onclick = () => {
-            const v = (id) => document.getElementById(id).value;
-            const airport = document.querySelector('input[name="airport"]:checked').value;
-            const msg = `Nieuwe Boeking:%0A- Naar: ${airport}%0A- Adres: ${v('ophaal-adres')} ${v('huisnummer')}%0A- Datum: ${v('datum')} om ${v('tijd')}%0A- Naam: ${v('klant-naam')}%0A- Tel: ${v('klant-tel')}`;
-            window.open(`https://wa.me/31642277607?text=${msg}`, '_blank');
-          };
+      input.addEventListener('input', () => {
+        clearTimeout(debounceTimer);
+        const q = input.value;
+        if (q.length < 3) {
+          suggestionsBox.classList.add('hidden');
+          return;
         }
 
-        document.querySelectorAll('.airport-row').forEach(row => {
-          row.onclick = () => {
-            const radio = row.querySelector('input');
-            if (radio) radio.checked = true;
-          };
-        });
+        debounceTimer = setTimeout(async () => {
+          try {
+            const res = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&addressdetails=1&limit=5&countrycodes=nl`);
+            const data = await res.json();
+            
+            suggestionsBox.innerHTML = '';
+            if (data.length > 0) {
+              suggestionsBox.classList.remove('hidden');
+              data.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'p-3 hover:bg-gray-100 cursor-pointer border-b text-sm text-black bg-white';
+                // Mooiere weergave: Straat, Stad
+                const parts = item.display_name.split(',');
+                const label = parts[0] + (parts[1] ? ', ' + parts[1] : '');
+                div.textContent = label;
+                
+                div.onclick = (e) => {
+                  e.preventDefault();
+                  input.value = label;
+                  suggestionsBox.classList.add('hidden');
+                  document.getElementById('vliegveld-huisnummer').focus();
+                };
+                suggestionsBox.appendChild(div);
+              });
+            }
+          } catch (err) { console.error('Adresfout:', err); }
+        }, 300);
+      });
+
+      // Klik buiten de lijst = sluiten
+      document.addEventListener('click', (e) => {
+        if (!input.contains(e.target)) suggestionsBox.classList.add('hidden');
+      });
+
+      // WhatsApp verzend-logica
+      if (btn) {
+        btn.onclick = () => {
+          const val = (id) => document.getElementById(id).value;
+          const airport = document.querySelector('input[name="airport"]:checked').value;
+          
+          const text = `Hoi InTaxi, ik wil een vliegveldrit boeken:%0A%0A` +
+                       `📍 Naar: ${airport}%0A` +
+                       `🏠 Van: ${val('vliegveld-ophaal-adres')} ${val('vliegveld-huisnummer')}%0A` +
+                       `📅 Datum: ${val('vliegveld-datum')}%0A` +
+                       `⏰ Tijd: ${val('vliegveld-tijd')}%0A` +
+                       `👤 Naam: ${val('vliegveld-naam')}%0A` +
+                       `📞 Tel: ${val('vliegveld-tel')}`;
+          
+          window.open(`https://wa.me/31642277607?text=${text}`, '_blank');
+        };
       }
 
-      // Initialiseer op alle mogelijke Astro navigatie momenten
-      initBooking();
-      document.addEventListener('astro:page-load', initBooking);
-      document.addEventListener('astro:after-swap', initBooking);
-    })();
+      // Tabel rijen klikbaar maken
+      document.querySelectorAll('.airport-row').forEach(row => {
+        row.onclick = () => row.querySelector('input').checked = true;
+      });
+    }
+
+    // VOOR DE FIX: Draai de code bij de eerste load én bij elke Astro pagina-wissel
+    initVliegveldBooking();
+    document.addEventListener('astro:page-load', initVliegveldBooking);
   </script>
 </Layout>
