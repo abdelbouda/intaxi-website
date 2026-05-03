@@ -1,5 +1,5 @@
 ---
-/* PriceCalculator.astro - Clean Version voor Compiler */
+/* PriceCalculator.astro - Volledig geoptimaliseerd voor navigatie */
 import { Image } from 'astro:assets';
 import teslaLogo from '../../assets/images/tesla_nad_services.webp';
 import vitoLogo from '../../assets/images/busje_nad_services.webp';
@@ -58,14 +58,14 @@ import vitoLogo from '../../assets/images/busje_nad_services.webp';
 
             <!-- VOERTUIGEN -->
             <div class="grid grid-cols-2 gap-2 pt-1">
-              <button type="button" id="v-auto" onclick="setVehicle('auto')" class="bg-white dark:bg-slate-700 border-b-4 border-gray-200 p-2 rounded-xl transition-all">
+              <button type="button" id="v-auto" class="vehicle-btn bg-white dark:bg-slate-700 border-b-4 border-gray-200 p-2 rounded-xl transition-all">
                 <div class="flex flex-col items-center">
                   <Image src={teslaLogo} alt="Tesla" width={60} height={30} class="w-12 h-auto mb-1" />
                   <span class="text-[10px] font-bold">Tesla</span>
                   <span id="price-auto" class="text-xs font-black text-[#003399]">€ --</span>
                 </div>
               </button>
-              <button type="button" id="v-bus" onclick="setVehicle('bus')" class="bg-white dark:bg-slate-700 border-b-4 border-gray-200 p-2 rounded-xl transition-all">
+              <button type="button" id="v-bus" class="vehicle-btn bg-white dark:bg-slate-700 border-b-4 border-gray-200 p-2 rounded-xl transition-all">
                 <div class="flex flex-col items-center">
                   <Image src={vitoLogo} alt="Busje" width={60} height={30} class="w-12 h-auto mb-1" />
                   <span class="text-[10px] font-bold">Busje</span>
@@ -91,7 +91,7 @@ import vitoLogo from '../../assets/images/busje_nad_services.webp';
             <button id="final-reserve-btn" class="w-full bg-[#003399] text-white font-black py-3 rounded-xl shadow-lg active:translate-y-1 transition-all text-xs uppercase tracking-widest">
               Nu Boeken via WhatsApp
             </button>
-            <p id="error-msg" class="text-[10px] text-red-500 font-bold text-center opacity-0">
+            <p id="error-msg" class="text-[10px] text-red-500 font-bold text-center opacity-0 transition-opacity">
               Vul a.u.b. alle verplichte velden (*) in.
             </p>
           </div>
@@ -102,105 +102,141 @@ import vitoLogo from '../../assets/images/busje_nad_services.webp';
 </section>
 
 <script is:inline>
-  var selectedVehicle = 'auto';
-  var pickupCoords = null;
-  var destCoords = null;
-  var destInNL = false;
+  (function() {
+    let selectedVehicle = 'auto';
+    let pickupCoords = null;
+    let destCoords = null;
+    let destInNL = false;
 
-  const airports = [
-    { name: "Schiphol (AMS)", coords: [4.7683, 52.3105], fixed: false },
-    { name: "Eindhoven Airport (EIN)", coords: [5.3912, 51.4584], fixed: false },
-    { name: "Rotterdam (RTM)", coords: [4.4372, 51.9225], fixed: false }
-  ];
+    function initPriceCalculator() {
+      const pickupInput = document.getElementById('pickup-input');
+      if (!pickupInput) return; // Stop als we niet op de homepagina zijn
 
-  window.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('pickup-date').value = new Date().toISOString().split('T')[0];
-    document.getElementById('pickup-time').value = "12:00";
-    setVehicle('auto');
-    setupAutocomplete('pickup-input', 'pickup-results', function(c) { pickupCoords = c; calculatePrice(); });
-    setupAutocomplete('dest-input', 'dest-results', function(c) { destCoords = c; calculatePrice(); });
-  });
-
-  window.setVehicle = function(type) {
-    selectedVehicle = type;
-    document.getElementById('v-auto').classList.toggle('active-vehicle', type === 'auto');
-    document.getElementById('v-bus').classList.toggle('active-vehicle', type === 'bus');
-  };
-
-  async function calculatePrice() {
-    if (!pickupCoords || !destCoords) return;
-    const pVal = document.getElementById('pickup-input').value.toLowerCase();
-    const dVal = document.getElementById('dest-input').value.toLowerCase();
-
-    try {
-      const res = await fetch('https://router.project-osrm.org/route/v1/driving/' + pickupCoords[0] + ',' + pickupCoords[1] + ';' + destCoords[0] + ',' + destCoords[1]);
-      const data = await res.json();
-      const r = data.routes[0];
-      const km = r.distance / 1000;
-      const min = r.duration / 60;
+      // Default waarden
+      document.getElementById('pickup-date').value = new Date().toISOString().split('T')[0];
+      document.getElementById('pickup-time').value = "12:00";
       
-      document.getElementById('est-time').innerText = Math.round(min);
-      document.getElementById('est-km').innerText = Math.round(km);
-      
-      let tAuto = (4.31 + (km * 3.17) + (min * 0.52)) * 0.90;
-      let tBus = (8.75 + (km * 3.63) + (min * 0.60)) * 0.90;
+      setVehicle('auto');
 
-      if ((pVal.includes('amsterdam') && dVal.includes('amsterdam')) || dVal.includes('schiphol')) {
-          if (tAuto > 55) tAuto = 55;
-          if (tBus > 70) tBus = 70;
-      }
-      if (destInNL) {
-        if (tAuto > 250) tAuto = 250;
-        if (tBus > 300) tBus = 300;
-      }
-      document.getElementById('price-auto').innerText = '€ ' + Math.floor(tAuto) + ',-';
-      document.getElementById('price-bus').innerText = '€ ' + Math.floor(tBus) + ',-';
-    } catch (e) {}
-  }
+      // Koppel Autocomplete
+      setupAutocomplete('pickup-input', 'pickup-results', (c) => { pickupCoords = c; calculatePrice(); });
+      setupAutocomplete('dest-input', 'dest-results', (c) => { destCoords = c; calculatePrice(); });
 
-  function setupAutocomplete(id, resId, cb) {
-    const inp = document.getElementById(id);
-    const res = document.getElementById(resId);
-    inp.addEventListener('input', async function(e) {
-      const v = e.target.value;
-      res.innerHTML = '';
-      if (v.length < 2) { res.classList.add('hidden'); return; }
-      
-      const r = await fetch('https://photon.komoot.io/api/?q=' + encodeURIComponent(v) + '&limit=5');
-      const d = await r.json();
-      d.features.forEach(function(f) {
-        const div = document.createElement('div');
-        div.className = 'p-2 hover:bg-blue-50 cursor-pointer border-b text-[10px]';
-        const n = (f.properties.name || '') + ' ' + (f.properties.city || '') + ', ' + (f.properties.country || '');
-        div.innerText = n;
-        div.onclick = function() {
-          inp.value = n;
-          res.classList.add('hidden');
-          destInNL = f.properties.country === 'Netherlands' || f.properties.countrycode === 'NL';
-          cb(f.geometry.coordinates);
-        };
-        res.appendChild(div);
-      });
-      res.classList.remove('hidden');
-    });
-  }
+      // Voertuig knoppen
+      document.getElementById('v-auto').onclick = () => setVehicle('auto');
+      document.getElementById('v-bus').onclick = () => setVehicle('bus');
 
-  document.getElementById('final-reserve-btn').onclick = function() {
-    const fn = document.getElementById('cust-first-name').value;
-    const ph = document.getElementById('cust-phone').value;
-    const pi = document.getElementById('pickup-input').value;
-    const pr = selectedVehicle === 'auto' ? document.getElementById('price-auto').innerText : document.getElementById('price-bus').innerText;
-    if (!fn || !ph || !pi || pr.includes('--')) { 
-        const e = document.getElementById('error-msg');
-        e.style.opacity = 1;
-        setTimeout(() => e.style.opacity = 0, 3000);
-        return; 
+      // WhatsApp Button
+      document.getElementById('final-reserve-btn').onclick = handleBooking;
     }
-    const msg = encodeURIComponent("🚕 INTAXI BOEKING\n\nKlant: "+fn+"\nTel: "+ph+"\nVan: "+pi+"\nNaar: "+document.getElementById('dest-input').value+"\nPrijs: "+pr);
-    window.open("https://wa.me/31642277607?text=" + msg, "_blank");
-  };
+
+    function setVehicle(type) {
+      selectedVehicle = type;
+      document.getElementById('v-auto').classList.toggle('active-vehicle', type === 'auto');
+      document.getElementById('v-bus').classList.toggle('active-vehicle', type === 'bus');
+      calculatePrice();
+    }
+
+    async function calculatePrice() {
+      if (!pickupCoords || !destCoords) return;
+      const pVal = document.getElementById('pickup-input').value.toLowerCase();
+      const dVal = document.getElementById('dest-input').value.toLowerCase();
+
+      try {
+        const res = await fetch(`https://router.project-osrm.org/route/v1/driving/${pickupCoords[0]},${pickupCoords[1]};${destCoords[0]},${destCoords[1]}`);
+        const data = await res.json();
+        if(!data.routes[0]) return;
+
+        const r = data.routes[0];
+        const km = r.distance / 1000;
+        const min = r.duration / 60;
+        
+        document.getElementById('est-time').innerText = Math.round(min);
+        document.getElementById('est-km').innerText = Math.round(km);
+        
+        let tAuto = (4.31 + (km * 3.17) + (min * 0.52)) * 0.90;
+        let tBus = (8.75 + (km * 3.63) + (min * 0.60)) * 0.90;
+
+        // Schiphol/Amsterdam vaste prijzen logica
+        if ((pVal.includes('amsterdam') && dVal.includes('amsterdam')) || dVal.includes('schiphol')) {
+            if (tAuto > 55) tAuto = 55;
+            if (tBus > 70) tBus = 70;
+        }
+        if (destInNL) {
+          if (tAuto > 250) tAuto = 250;
+          if (tBus > 300) tBus = 300;
+        }
+
+        document.getElementById('price-auto').innerText = '€ ' + Math.floor(tAuto) + ',-';
+        document.getElementById('price-bus').innerText = '€ ' + Math.floor(tBus) + ',-';
+      } catch (e) { console.error("OSRM Error:", e); }
+    }
+
+    function setupAutocomplete(id, resId, cb) {
+      const inp = document.getElementById(id);
+      const res = document.getElementById(resId);
+      let timeout;
+
+      inp.addEventListener('input', function(e) {
+        clearTimeout(timeout);
+        const v = e.target.value;
+        if (v.length < 3) { res.innerHTML = ''; res.classList.add('hidden'); return; }
+        
+        timeout = setTimeout(async () => {
+          const r = await fetch('https://photon.komoot.io/api/?q=' + encodeURIComponent(v) + '&limit=5');
+          const d = await r.json();
+          res.innerHTML = '';
+          d.features.forEach(function(f) {
+            const div = document.createElement('div');
+            div.className = 'p-3 hover:bg-blue-50 cursor-pointer border-b text-[11px] bg-white text-black';
+            const n = (f.properties.name || '') + ' ' + (f.properties.city || '') + ', ' + (f.properties.country || '');
+            div.innerText = n;
+            div.onclick = function() {
+              inp.value = n;
+              res.classList.add('hidden');
+              destInNL = f.properties.country === 'Netherlands' || f.properties.countrycode === 'NL';
+              cb(f.geometry.coordinates);
+            };
+            res.appendChild(div);
+          });
+          res.classList.remove('hidden');
+        }, 300);
+      });
+    }
+
+    function handleBooking() {
+      const val = (id) => document.getElementById(id).value;
+      const fn = val('cust-first-name');
+      const ph = val('cust-phone');
+      const pi = val('pickup-input');
+      const pr = selectedVehicle === 'auto' ? document.getElementById('price-auto').innerText : document.getElementById('price-bus').innerText;
+      
+      if (!fn || !ph || !pi || pr.includes('--')) { 
+          const e = document.getElementById('error-msg');
+          e.style.opacity = 1;
+          setTimeout(() => e.style.opacity = 0, 3000);
+          return; 
+      }
+
+      const msg = encodeURIComponent(`🚕 INTAXI BOEKING\n\nKlant: ${fn}\nTel: ${ph}\nVan: ${pi} ${val('pickup-house')}\nNaar: ${val('dest-input')} ${val('dest-house')}\nDatum: ${val('pickup-date')} om ${val('pickup-time')}\nVoertuig: ${selectedVehicle}\nPrijs: ${pr}`);
+      window.open("https://wa.me/31642277607?text=" + msg, "_blank");
+    }
+
+    // Luister naar paginalading én Astro navigatie
+    document.addEventListener('DOMContentLoaded', initPriceCalculator);
+    document.addEventListener('astro:page-load', initPriceCalculator);
+  })();
 </script>
 
 <style>
-  .active-vehicle { border-color: #003399 !important; background-color: #f0f7ff !important; border-bottom-width: 0px !important; transform: translateY(2px); }
+  .active-vehicle { 
+    border-color: #003399 !important; 
+    background-color: #f0f7ff !important; 
+    border-bottom-width: 1px !important; 
+    transform: translateY(2px); 
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+  }
+  .vehicle-btn:hover {
+    border-color: #003399;
+  }
 </style>
