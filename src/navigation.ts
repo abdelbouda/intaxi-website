@@ -11,16 +11,16 @@ export const headerData = {
       href: getPermalink('/'),
     },
     {
-      text: 'Over ons',
-      href: getPermalink('/about'),
-    },
-    {
       text: 'Vliegveldvervoer',
       href: getPermalink('/vliegveld-taxi'),
     },
     {
       text: 'Contact',
       href: getPermalink('/contact'),
+    },
+    {
+      text: 'Over ons',
+      href: getPermalink('/about'),
     },
   ],
   actions: [
