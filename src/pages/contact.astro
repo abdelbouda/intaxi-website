@@ -5,46 +5,37 @@ import Features2 from '~/components/widgets/Features2.astro';
 
 const metadata = {
   title: 'Contact | InTaxi Amsterdam - Uw Premium Taxi Partner',
-  description: 'Neem direct contact op met InTaxi voor zakelijk vervoer, Tesla taxi services en luchthavenritten. 24/7 bereikbaar via WhatsApp en E-mail.',
+  description: 'Neem direct contact op met InTaxi voor zakelijk vervoer en luchthavenritten.',
 };
 ---
 
 <Layout metadata={metadata}>
-  <section class="relative h-[35vh] min-h-[300px] flex items-center justify-center overflow-hidden">
-    <video
-      autoplay
-      muted
-      loop
-      playsinline
-      class="absolute z-0 w-full h-full object-cover"
-    >
+  <!-- Ultracompacte Video Hero - Hoogte naar 30vh voor maximale zichtbaarheid kaders -->
+  <section class="relative h-[30vh] min-h-[280px] flex items-center justify-center overflow-hidden">
+    <video autoplay muted loop playsinline class="absolute z-0 w-full h-full object-cover">
       <source src="/videos/video_intaxi.webm" type="video/webm" />
     </video>
-    
     <div class="absolute inset-0 bg-[#003399]/40 z-10"></div>
 
-    <div class="relative z-20 text-center text-white px-4 max-w-4xl">
+    <div class="relative z-20 text-center text-white px-4">
       <h1 class="text-3xl md:text-5xl font-bold mb-2 font-heading tracking-tighter uppercase drop-shadow-lg">
         Contact
       </h1>
-      <p class="text-base md:text-lg font-medium mb-4 leading-relaxed drop-shadow-md">
-        Premium vervoer voor zakelijke en particuliere klanten.<br class="hidden md:block" /> 
-        24/7 bereikbaar vanuit Amsterdam.
+      <p class="text-sm md:text-base font-medium mb-4 drop-shadow-md">
+        24/7 bereikbaar voor premium vervoer vanuit Amsterdam.
       </p>
-      <div class="flex justify-center">
-        <a href="https://wa.me/31642277607" class="bg-[#003399] hover:bg-blue-900 text-white px-6 py-2 rounded-full font-bold transition-all shadow-xl flex items-center border border-white/30 text-sm md:text-base">
-           <span class="mr-2">WhatsApp Direct: 06-42277607</span>
-        </a>
-      </div>
+      <a href="https://wa.me/31642277607" class="bg-[#003399] hover:bg-blue-900 text-white px-6 py-2 rounded-full font-bold transition-all shadow-xl inline-flex items-center border border-white/30 text-sm">
+        WhatsApp Direct: 06-42277607
+      </a>
     </div>
   </section>
 
-  <!-- De aanpassing zit hier: We gebruiken platte tekst voor de description om parser-fouten te vermijden -->
-  <div class="relative z-30 max-w-6xl mx-auto px-4 mt-[-5rem]">
+  <!-- Kaders zonder HTML-tags om de "originalIM set twice" panic te voorkomen -->
+  <div class="relative z-30 max-w-6xl mx-auto px-4 mt-[-4rem]">
     <Features2
       classes={{ 
         container: 'py-0 md:py-0 lg:py-0',
-        items: 'gap-4 md:gap-6', 
+        items: 'gap-4', 
       }} 
       items={[
         {
@@ -66,18 +57,19 @@ const metadata = {
     />
   </div>
 
-  <div class="grid md:grid-cols-2 gap-0 bg-white dark:bg-slate-900 border-t border-gray-100 dark:border-slate-800 mt-4">
-    <div class="p-6 md:p-10 border-r border-gray-100 dark:border-slate-800">
+  <!-- Formulier & USP Sectie -->
+  <div class="grid md:grid-cols-2 gap-0 bg-white dark:bg-slate-900 border-t border-gray-100 dark:border-slate-800 mt-6">
+    <div class="p-6 md:p-10">
        <ContactUs
         id="form"
         title="Directe Aanvraag"
-        subtitle="Stel hier uw vraag over onze vloot of zakelijke accounts."
+        subtitle="Stuur ons een bericht voor offertes of vragen."
         inputs={[
-          { type: 'text', name: 'name', label: 'Naam / Bedrijfsnaam' },
+          { type: 'text', name: 'name', label: 'Naam' },
           { type: 'email', name: 'email', label: 'E-mailadres' },
         ]}
-        textarea={{ label: 'Hoe kunnen we u van dienst zijn?' }}
-        button="Verstuur Bericht"
+        textarea={{ label: 'Uw bericht' }}
+        button="Verstuur"
       />
     </div>
 
@@ -85,31 +77,22 @@ const metadata = {
       <h2 class="text-xl font-bold mb-4 italic border-b border-white/20 pb-2">Zakelijke Partner</h2>
       <ul class="space-y-3">
         <li class="flex items-start gap-3">
-          <div class="bg-white/10 p-1 rounded text-white shrink-0">
+          <div class="bg-white/10 p-1 rounded shrink-0">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"><path d="M5 12l5 5l10 -10" /></svg>
           </div>
-          <div>
-            <h4 class="font-bold text-sm">Facturatie op Rekening</h4>
-            <p class="text-xs opacity-70">Periodieke verzamelfacturen voor uw administratie.</p>
-          </div>
+          <p class="text-xs font-bold">Facturatie op Rekening</p>
         </li>
         <li class="flex items-start gap-3">
-          <div class="bg-white/10 p-1 rounded text-white shrink-0">
+          <div class="bg-white/10 p-1 rounded shrink-0">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"><path d="M5 12l5 5l10 -10" /></svg>
           </div>
-          <div>
-            <h4 class="font-bold text-sm">Tesla Executive Vloot</h4>
-            <p class="text-xs opacity-70">Representatief vervoer in Tesla Model Y of Model 3.</p>
-          </div>
+          <p class="text-xs font-bold">Tesla Executive Vloot</p>
         </li>
         <li class="flex items-start gap-3">
-          <div class="bg-white/10 p-1 rounded text-white shrink-0">
+          <div class="bg-white/10 p-1 rounded shrink-0">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"><path d="M5 12l5 5l10 -10" /></svg>
           </div>
-          <div>
-            <h4 class="font-bold text-sm">Internationale Ritten</h4>
-            <p class="text-xs opacity-70">Lange afstandsspecialist naar o.a. Brussel en Parijs.</p>
-          </div>
+          <p class="text-xs font-bold">Internationale Ritten</p>
         </li>
       </ul>
     </div>
