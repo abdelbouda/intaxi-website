@@ -10,7 +10,7 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-  <!-- Video Hero Section: Terug naar de oorspronkelijke 60vh hoogte -->
+  <!-- Video Hero Section -->
   <section class="relative h-[60vh] min-h-[500px] flex items-center justify-center overflow-hidden">
     <video
       autoplay
@@ -41,22 +41,22 @@ const metadata = {
     </div>
   </section>
 
-  <!-- Contactkaders: Gebruik van Features2 zonder HTML-tags om build errors te voorkomen -->
+  <!-- Contactkaders zonder titels, direct omhoog geplaatst -->
   <Features2
     items={[
       {
         title: 'WhatsApp & Telefoon',
-        description: '06-42277607',
+        description: 'Directe boekingen:<br /><a href="tel:0642277607" class="text-[#003399] font-bold">06-42277607</a>',
         icon: 'tabler:brand-whatsapp',
       },
       {
         title: 'Zakelijk E-mail',
-        description: 'info@intaxi.nl',
+        description: 'Offertes en administratie:<br /><a href="mailto:info@intaxi.nl" class="text-[#003399] font-bold">info@intaxi.nl</a>',
         icon: 'tabler:mail',
       },
       {
         title: 'Standplaats',
-        description: 'Memeleiland, Amsterdam',
+        description: 'Memeleiland, Amsterdam<br /><span class="text-sm text-gray-500">Vervoer door heel Europa</span>',
         icon: 'tabler:map-pin',
       },
     ]}
