@@ -23,104 +23,48 @@ export async function getStaticPaths() {
 const { info, alleLuchthavens } = Astro.props;
 
 const metadata = {
-  title: `Taxi naar ${info.naam} (${info.code}) | InTaxi Amsterdam`,
-  description: `Vaste tarieven naar ${info.naam}. Reis comfortabel in een Tesla sedan vanaf € ${info.tesla},- of taxibusje vanaf € ${info.busje},-. 24/7 airport service.`,
+  title: `Taxi naar ${info.naam} - InTaxi Amsterdam`,
 };
 ---
 
 <Layout metadata={metadata}>
-  <!-- Hero Sectie: Pure Text & Kleur (Geen Video/Image) -->
-  <section class="bg-[#003399] py-20 md:py-32 px-4 text-center">
-    <div class="max-w-4xl mx-auto">
-      <h1 class="text-4xl md:text-7xl font-bold text-white mb-6 tracking-tighter uppercase">
-        Taxi {info.naam}
-      </h1>
-      <p class="text-xl md:text-2xl text-blue-100 mb-10 leading-relaxed max-w-2xl mx-auto italic">
-        Betrouwbaar luchthavenvervoer vanaf Amsterdam naar {info.code}. 
-        Vaste prijs: € {info.tesla},- (Tesla) of € {info.busje},- (Bus).
-      </p>
-      <div class="flex flex-wrap justify-center gap-4">
-        <a 
-          href="https://wa.me/31642277607" 
-          class="bg-white text-[#003399] hover:bg-gray-100 px-8 py-4 rounded-lg font-bold transition-all text-lg"
-        >
-          Boek nu via WhatsApp
-        </a>
-      </div>
-    </div>
+  <section class="bg-[#003399] py-20 px-4 text-center">
+    <h1 class="text-4xl md:text-6xl font-bold text-white mb-6 uppercase">
+      Taxi {info.naam}
+    </h1>
+    <p class="text-xl text-blue-100 mb-10">
+      Vaste prijs: € {info.tesla},- (Tesla) of € {info.busje},- (Bus).
+    </p>
+    <a href="https://wa.me/31642277607" class="bg-white text-[#003399] px-8 py-4 rounded-lg font-bold">
+      Boek via WhatsApp
+    </a>
   </section>
 
-  <!-- Tarieven Sectie -->
   <Features2
-    title="Transparante Tarieven"
-    subtitle={`Uw rit naar ${info.naam} zonder verrassingen`}
+    title="Tarieven"
     items={[
       {
         title: 'Tesla Sedan',
-        description: `Vanaf € ${info.tesla},- <br /> Luxe & Milieuvriendelijk`,
-        icon: 'tabler:car-electric',
+        description: `Vanaf € ${info.tesla},-`,
+        // Icoon tijdelijk weg om build error te voorkomen
       },
       {
-        title: 'Luxe Personenbus',
-        description: `Vanaf € ${info.busje},- <br /> Voor groepen tot 8 personen`,
-        icon: 'tabler:users',
+        title: 'Taxibus',
+        description: `Vanaf € ${info.busje},-`,
       },
       {
-        title: 'Wachttijd',
-        description: 'Bij vertragingen rekenen wij geen extra kosten',
-        icon: 'tabler:clock',
+        title: 'Service',
+        description: '24/7 airport service',
       },
     ]}
   />
 
-  <!-- Tekst Sectie voor SEO -->
-  <section class="max-w-4xl mx-auto px-4 py-16">
-    <div class="prose prose-lg dark:prose-invert">
-      <h2 class="text-3xl font-bold mb-6">Waarom kiezen voor InTaxi naar {info.naam}?</h2>
-      <p>
-        Bij InTaxi Amsterdam begrijpen we dat een reis naar de luchthaven stressvrij moet verlopen. 
-        Daarom bieden wij voor de route Amsterdam naar <strong>{info.naam}</strong> uitsluitend vervoer aan met 
-        ervaren chauffeurs en moderne voertuigen zoals de Tesla Model Y.
-      </p>
-      <ul class="list-disc pl-5 space-y-2 mt-4">
-        <li><strong>Vaste Prijs:</strong> U betaalt € {info.tesla},- ongeacht de drukte op de weg.</li>
-        <li><strong>24/7 Bereikbaar:</strong> Wij staan dag en nacht klaar voor uw rit naar {info.code}.</li>
-        <li><strong>Zakelijk Vervoer:</strong> Mogelijkheid tot betaling op rekening voor bedrijven.</li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- Interne Links voor SEO -->
-  <section class="bg-gray-50 dark:bg-slate-800 py-16">
-    <div class="max-w-6xl mx-auto px-4">
-      <h3 class="text-xl font-bold mb-8 text-[#003399] dark:text-white uppercase tracking-widest">Populaire luchthaven bestemmingen</h3>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {
-          alleLuchthavens
-            .filter((l) => l.slug !== info.slug)
-            .map((l) => (
-              <a 
-                href={`/taxi-${l.slug}`} 
-                class="bg-white dark:bg-slate-900 p-4 rounded border border-gray-200 dark:border-slate-700 hover:shadow-md transition-shadow group"
-              >
-                <p class="font-bold group-hover:text-[#003399] transition-colors italic">Taxi naar {l.naam}</p>
-                <p class="text-sm text-gray-500 italic">Vanaf € {l.tesla},-</p>
-              </a>
-            ))
-        }
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA -->
   <CallToAction
-    title="Vragen over uw rit?"
-    subtitle="Neem direct contact op via WhatsApp voor een vrijblijvende prijsopgave of reservering."
+    title="Nu een taxi nodig?"
     actions={[{
       variant: 'primary',
-      text: 'Direct Appen',
+      text: 'WhatsApp ons',
       href: 'https://wa.me/31642277607',
-      icon: 'tabler:brand-whatsapp',
     }]}
   />
 </Layout>
