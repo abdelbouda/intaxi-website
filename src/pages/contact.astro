@@ -10,65 +10,67 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-  <!-- Video Hero Section -->
-  <section class="relative h-[60vh] min-h-[500px] flex items-center justify-center overflow-hidden">
+  <!-- Video Hero Section - Hoogte aangepast voor compactheid -->
+  <section class="relative h-[45vh] min-h-[400px] flex items-center justify-center overflow-hidden">
     <video
       autoplay
       muted
       loop
       playsinline
-      class="absolute z-0 w-auto min-w-full min-h-full max-w-none object-cover"
+      class="absolute z-0 w-full h-full object-cover"
     >
       <source src="/videos/video_intaxi.webm" type="video/webm" />
-      Uw browser ondersteunt geen video-streaming.
     </video>
     
     <div class="absolute inset-0 bg-[#003399]/40 z-10"></div>
 
     <div class="relative z-20 text-center text-white px-4 max-w-4xl">
-      <h1 class="text-4xl md:text-7xl font-bold mb-6 font-heading tracking-tighter uppercase">
+      <h1 class="text-4xl md:text-6xl font-bold mb-4 font-heading tracking-tighter uppercase drop-shadow-lg">
         Contact
       </h1>
-      <p class="text-xl md:text-2xl font-medium mb-8 leading-relaxed">
+      <p class="text-lg md:text-xl font-medium mb-6 leading-relaxed drop-shadow-md">
         Premium vervoer voor zakelijke en particuliere klanten.<br class="hidden md:block" /> 
         24/7 bereikbaar vanuit Amsterdam.
       </p>
-      <div class="flex flex-wrap justify-center gap-4">
-        <a href="https://wa.me/31642277607" class="bg-[#003399] hover:bg-blue-900 text-white px-8 py-3 rounded-full font-bold transition-all shadow-lg flex items-center border border-white/20">
+      <div class="flex justify-center">
+        <a href="https://wa.me/31642277607" class="bg-[#003399] hover:bg-blue-900 text-white px-8 py-3 rounded-full font-bold transition-all shadow-xl flex items-center border border-white/30">
            <span class="mr-2">WhatsApp Direct: 06-42277607</span>
         </a>
       </div>
     </div>
   </section>
 
-  <!-- Contactkaders zonder titels, direct omhoog geplaatst -->
-  <Features2
-    items={[
-      {
-        title: 'WhatsApp & Telefoon',
-        description: 'Directe boekingen:<br /><a href="tel:0642277607" class="text-[#003399] font-bold">06-42277607</a>',
-        icon: 'tabler:brand-whatsapp',
-      },
-      {
-        title: 'Zakelijk E-mail',
-        description: 'Offertes en administratie:<br /><a href="mailto:info@intaxi.nl" class="text-[#003399] font-bold">info@intaxi.nl</a>',
-        icon: 'tabler:mail',
-      },
-      {
-        title: 'Standplaats',
-        description: 'Memeleiland, Amsterdam<br /><span class="text-sm text-gray-500">Vervoer door heel Europa</span>',
-        icon: 'tabler:map-pin',
-      },
-    ]}
-  />
+  <!-- Contactkaders - Omhoog gehaald met negatieve marge en compacter gemaakt -->
+  <div class="relative z-30 max-w-6xl mx-auto px-4 mt-[-4rem]">
+    <Features2
+      classes={{ container: 'py-0 md:py-0 lg:py-0' }} 
+      items={[
+        {
+          title: 'WhatsApp & Telefoon',
+          description: '<a href="tel:0642277607" class="text-[#003399] font-bold">06-42277607</a>',
+          icon: 'tabler:brand-whatsapp',
+        },
+        {
+          title: 'Zakelijk E-mail',
+          description: '<a href="mailto:info@intaxi.nl" class="text-[#003399] font-bold">info@intaxi.nl</a>',
+          icon: 'tabler:mail',
+        },
+        {
+          title: 'Standplaats',
+          description: 'Memeleiland, Amsterdam',
+          icon: 'tabler:map-pin',
+        },
+      ]}
+    />
+  </div>
 
   <!-- Contact Formulier & Zakelijke USP's -->
-  <div class="grid md:grid-cols-2 gap-0 bg-white dark:bg-slate-900 border-t border-gray-100 dark:border-slate-800">
-    <div class="p-8 md:p-16 border-r border-gray-100 dark:border-slate-800">
+  <div class="grid md:grid-cols-2 gap-0 bg-white dark:bg-slate-900 border-t border-gray-100 dark:border-slate-800 mt-8">
+    <div class="p-8 md:p-12 border-r border-gray-100 dark:border-slate-800">
        <ContactUs
         id="form"
         title="Directe Aanvraag"
-        subtitle="Stel hier uw vraag over onze vloot, internationale ritten of zakelijke accounts."
+        subtitle="Stel hier uw vraag over onze vloot of zakelijke accounts."
         inputs={[
           { type: 'text', name: 'name', label: 'Naam / Bedrijfsnaam' },
           { type: 'email', name: 'email', label: 'E-mailadres' },
@@ -78,34 +80,34 @@ const metadata = {
       />
     </div>
 
-    <div class="bg-[#003399] p-8 md:p-16 text-white flex flex-col justify-center">
-      <h2 class="text-3xl font-bold mb-8 italic">Zakelijke Partner in Mobiliteit</h2>
-      <ul class="space-y-6">
-        <li class="flex items-start gap-4">
-          <div class="bg-white/20 p-2 rounded-lg text-white">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"><path d="M5 12l5 5l10 -10" /></svg>
+    <div class="bg-[#003399] p-8 md:p-12 text-white flex flex-col justify-center">
+      <h2 class="text-2xl font-bold mb-6 italic border-b border-white/20 pb-2">Zakelijke Partner</h2>
+      <ul class="space-y-4">
+        <li class="flex items-start gap-3">
+          <div class="bg-white/10 p-1.5 rounded text-white shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"><path d="M5 12l5 5l10 -10" /></svg>
           </div>
           <div>
-            <h4 class="font-bold text-lg">Facturatie op Rekening</h4>
-            <p class="text-sm opacity-80">Ideaal voor bedrijven. Ontvang periodieke facturen voor al uw ritten.</p>
+            <h4 class="font-bold">Facturatie op Rekening</h4>
+            <p class="text-xs opacity-70">Periodieke verzamelfacturen voor uw administratie.</p>
           </div>
         </li>
-        <li class="flex items-start gap-4">
-          <div class="bg-white/20 p-2 rounded-lg text-white">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"><path d="M5 12l5 5l10 -10" /></svg>
+        <li class="flex items-start gap-3">
+          <div class="bg-white/10 p-1.5 rounded text-white shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"><path d="M5 12l5 5l10 -10" /></svg>
           </div>
           <div>
-            <h4 class="font-bold text-lg">Tesla Executive Vloot</h4>
-            <p class="text-sm opacity-80">Reis in stilte en comfort in onze Tesla Model Y of Model 3.</p>
+            <h4 class="font-bold">Tesla Executive Vloot</h4>
+            <p class="text-xs opacity-70">Representatief vervoer in Tesla Model Y of Model 3.</p>
           </div>
         </li>
-        <li class="flex items-start gap-4">
-          <div class="bg-white/20 p-2 rounded-lg text-white">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"><path d="M5 12l5 5l10 -10" /></svg>
+        <li class="flex items-start gap-3">
+          <div class="bg-white/10 p-1.5 rounded text-white shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"><path d="M5 12l5 5l10 -10" /></svg>
           </div>
           <div>
-            <h4 class="font-bold text-lg">Internationale Ritten</h4>
-            <p class="text-sm opacity-80">Gespecialiseerd in lange afstanden (250km+) naar o.a. Parijs, Brussel en Berlijn.</p>
+            <h4 class="font-bold">Internationale Ritten</h4>
+            <p class="text-xs opacity-70">Lange afstandsspecialist naar o.a. Brussel en Parijs.</p>
           </div>
         </li>
       </ul>
