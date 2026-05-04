@@ -1,10 +1,12 @@
 ---
-export const prerender = true;
-
 import Layout from '~/layouts/PageLayout.astro';
 
+// 1. FORCEER STATISCHE GENERATIE (Cruciaal voor Vercel)
+export const prerender = true;
+
+// 2. DE FUNCTIE DIE DE PAGINA'S AANMAAKT
 export async function getStaticPaths() {
-  const steden = [
+  const luchthavens = [
     { slug: 'schiphol', naam: 'Schiphol Airport', code: 'AMS', prijs: '45' },
     { slug: 'rotterdam', naam: 'Rotterdam The Hague', code: 'RTM', prijs: '125' },
     { slug: 'eindhoven', naam: 'Eindhoven Airport', code: 'EIN', prijs: '185' },
@@ -14,24 +16,46 @@ export async function getStaticPaths() {
     { slug: 'duesseldorf', naam: 'Düsseldorf / Weeze', code: 'DUS', prijs: '345' },
   ];
 
-  return steden.map((item) => ({
-    params: { luchthaven: item.slug },
-    props: { naam: item.naam, code: item.code, prijs: item.prijs },
-  }));
+  return luchthavens.map((l) => {
+    return {
+      params: { luchthaven: l.slug },
+      props: { naam: l.naam, code: l.code, prijs: l.prijs },
+    };
+  });
 }
 
+// 3. HAAL DE DATA OP VOOR DE HUIDIGE PAGINA
 const { naam, code, prijs } = Astro.props;
+const { luchthaven } = Astro.params;
+
+const metadata = {
+  title: `Taxi naar ${naam} - InTaxi Amsterdam`,
+};
 ---
 
-<Layout metadata={{ title: `Taxi naar ${naam}` }}>
-  <main style="padding: 100px 20px; text-align: center; font-family: sans-serif;">
-    <h1 style="font-size: 3rem; margin-bottom: 20px; color: #003399;">Taxi naar {naam} ({code})</h1>
-    <p style="font-size: 1.5rem; margin-bottom: 40px;">Vaste prijs vanaf Amsterdam: €{prijs},-</p>
-    <a 
-      href="https://wa.me/31642277607" 
-      style="background: #25d366; color: white; padding: 15px 30px; border-radius: 5px; text-decoration: none; font-weight: bold;"
-    >
-      Reserveer via WhatsApp
-    </a>
-  </main>
+<Layout metadata={metadata}>
+  <section class="py-20 px-4 max-w-3xl mx-auto text-center">
+    <h1 class="text-5xl font-bold text-[#003399] mb-6">Taxi naar {naam}</h1>
+    <p class="text-2xl mb-10 text-gray-700">Vaste prijs vanaf Amsterdam naar {code}: <strong>€{prijs},-</strong></p>
+    
+    <div class="bg-gray-50 border border-gray-200 p-8 rounded-2xl shadow-sm">
+      <h2 class="text-2xl font-semibold mb-4">Direct reserveren</h2>
+      <p class="mb-6">U reist in een luxe Tesla voor een vast tarief. Geen verrassingen achteraf.</p>
+      <a 
+        href="https://wa.me/31642277607" 
+        class="bg-[#25d366] hover:bg-[#20bd5a] text-white px-10 py-4 rounded-full font-bold text-lg inline-block transition-transform hover:scale-105"
+      >
+        App nu: 06 42 27 76 07
+      </a>
+    </div>
+
+    <div class="mt-12 text-left prose prose-blue mx-auto">
+      <p>Op zoek naar een betrouwbare taxi naar <strong>{naam}</strong>? Bij InTaxi Amsterdam bent u verzekerd van een comfortabele rit in een van onze elektrische voertuigen.</p>
+      <ul>
+        <li>Vaste tarieven, geen meter-verrassingen</li>
+        <li>Professionele chauffeurs met kennis van {code}</li>
+        <li>24/7 bereikbaar voor vliegveldvervoer</li>
+      </ul>
+    </div>
+  </section>
 </Layout>
