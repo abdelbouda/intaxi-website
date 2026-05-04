@@ -15,17 +15,8 @@ export const headerData = {
       href: getPermalink('/about'),
     },
     {
-      text: 'Taxiservices',
-      links: [
-        {
-          text: 'Vliegveldvervoer',
-          href: getPermalink('/vliegveld-taxi'),
-        },
-        {
-          text: 'Tarieven overzicht',
-          href: getPermalink('/#tarieven'),
-        },
-      ],
+      text: 'Vliegveldvervoer',
+      href: getPermalink('/vliegveld-taxi'),
     },
     {
       text: 'Contact',
@@ -51,7 +42,6 @@ export const footerData = {
         { text: 'Vliegveld Taxi (Vaste Prijs)', href: getPermalink('/vliegveld-taxi') },
         { text: 'Schiphol Taxi', href: getPermalink('/vliegveld-taxi') },
         { text: 'Zakelijk Vervoer', href: '#' },
-        { text: 'Prijs berekenen', href: getPermalink('/#tarieven') },
       ],
     },
     {
