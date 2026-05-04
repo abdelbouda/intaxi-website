@@ -5,101 +5,116 @@ import Features2 from '~/components/widgets/Features2.astro';
 
 const metadata = {
   title: 'Contact | InTaxi Amsterdam - Uw Premium Taxi Partner',
+  description: 'Neem direct contact op met InTaxi voor zakelijk vervoer, Tesla taxi services en luchthavenritten. 24/7 bereikbaar via WhatsApp en E-mail.',
 };
 ---
 
 <Layout metadata={metadata}>
   <!-- Video Hero Section -->
-  <section class="relative h-[50vh] min-h-[400px] flex items-center justify-center overflow-hidden">
+  <section class="relative h-[60vh] min-h-[500px] flex items-center justify-center overflow-hidden">
+    <!-- Video element met het gecorrigeerde pad naar de public map -->
     <video
       autoplay
       muted
       loop
       playsinline
-      class="absolute z-0 w-auto min-w-full min-h-full max-w-none"
+      class="absolute z-0 w-auto min-w-full min-h-full max-w-none object-cover"
     >
-      <source src="/public/videos/video_intaxi.webm" type="video/webm" />
+      <source src="/videos/video_intaxi.webm" type="video/webm" />
       Uw browser ondersteunt geen video-streaming.
     </video>
     
-    <!-- Overlay voor leesbaarheid -->
-    <div class="absolute inset-0 bg-black/50 z-10"></div>
+    <!-- Donkere overlay voor professionele look en leesbaarheid -->
+    <div class="absolute inset-0 bg-[#003399]/40 z-10"></div>
 
-    <div class="relative z-20 text-center text-white px-4">
-      <h1 class="text-4xl md:text-6xl font-bold mb-4 font-heading">Contact InTaxi</h1>
-      <p class="text-xl md:text-2xl font-medium max-w-2xl mx-auto">
-        Altijd bereikbaar voor uw luxe vervoer, zakelijke ritten en luchthavenvervoer.
+    <div class="relative z-20 text-center text-white px-4 max-w-4xl">
+      <h1 class="text-4xl md:text-7xl font-bold mb-6 font-heading tracking-tighter uppercase">
+        Contact
+      </h1>
+      <p class="text-xl md:text-2xl font-medium mb-8 leading-relaxed">
+        Premium vervoer voor zakelijke en particuliere klanten.<br class="hidden md:block" /> 
+        24/7 bereikbaar vanuit Amsterdam.
       </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="https://wa.me/31642277607" class="bg-[#25D366] hover:bg-[#128C7E] text-white px-8 py-3 rounded-full font-bold transition-all shadow-lg flex items-center">
+           <span class="mr-2">WhatsApp Direct: 06-42277607</span>
+        </a>
+      </div>
     </div>
   </section>
 
-  <!-- Zakelijke Info & Directe Contactopties -->
+  <!-- Kerngegevens Sectie -->
   <Features2
-    title="Direct in contact met InTaxi"
-    subtitle="Of u nu een incidentele rit boekt of een zakelijke partner zoekt voor uw directievervoer; wij staan voor u klaar."
+    title="Onze Gegevens"
+    subtitle="Altijd een directe lijn met uw chauffeur of planning."
     items={[
       {
         title: 'WhatsApp & Telefoon',
-        description: 'Voor directe boekingen en snelle vragen:<br /><strong>06-42277607</strong>',
+        description: 'Directe boekingen:<br /><a href="tel:0642277607" class="text-[#003399] font-bold">06-42277607</a>',
         icon: 'tabler:brand-whatsapp',
       },
       {
-        title: 'E-mail',
-        description: 'Voor offertes en zakelijke aanvragen:<br /><strong>info@intaxi.nl</strong>',
+        title: 'Zakelijk E-mail',
+        description: 'Offertes en administratie:<br /><a href="mailto:info@intaxi.nl" class="text-[#003399] font-bold">info@intaxi.nl</a>',
         icon: 'tabler:mail',
       },
       {
-        title: 'Locatie',
-        description: 'Memeleiland, Amsterdam<br />Dienstverlening in heel NL, BE & DE',
+        title: 'Standplaats',
+        description: 'Memeleiland, Amsterdam<br /><span class="text-sm">Vervoer door heel Europa</span>',
         icon: 'tabler:map-pin',
       },
     ]}
   />
 
-  <!-- Contact Formulier met focus op Zakelijk -->
-  <ContactUs
-    id="form"
-    title="Stuur ons een bericht"
-    subtitle="Heeft u specifieke wensen of wilt u een prijsafspraak maken voor terugkerende ritten? Vul het formulier in en we reageren binnen 2 uur."
-    inputs={[
-      {
-        type: 'text',
-        name: 'name',
-        label: 'Naam / Bedrijfsnaam',
-      },
-      {
-        type: 'email',
-        name: 'email',
-        label: 'E-mailadres',
-      },
-    ]}
-    textarea={{
-      label: 'Hoe kunnen we u helpen?',
-    }}
-    disclaimer={{
-      label: 'Ik ga akkoord met de verwerking van mijn gegevens voor deze aanvraag.',
-    }}
-    button="Verstuur Aanvraag"
-  />
-
-  <!-- Zakelijk Voordeel Sectie -->
-  <section class="bg-[#003399] py-16 text-white text-center">
-    <div class="max-w-4xl mx-auto px-6">
-      <h2 class="text-3xl font-bold mb-6 italic">InTaxi Zakelijk: De standaard in zakelijk reizen</h2>
-      <div class="grid md:grid-cols-3 gap-8 text-left">
-        <div class="border-l-2 border-white/30 pl-4">
-          <h3 class="font-bold mb-2">Facturatie op maat</h3>
-          <p class="text-sm opacity-90">Eenvoudig maandelijks betalen op rekening. Ideaal voor uw administratie.</p>
-        </div>
-        <div class="border-l-2 border-white/30 pl-4">
-          <h3 class="font-bold mb-2">Tesla Comfort</h3>
-          <p class="text-sm opacity-90">Ontvang uw gasten in stijl. Onze emissievrije Tesla's bieden rust en klasse.</p>
-        </div>
-        <div class="border-l-2 border-white/30 pl-4">
-          <h3 class="font-bold mb-2">Lange Afstanden</h3>
-          <p class="text-sm opacity-90">Specialist in ritten tot 250km+ naar Brussel, Düsseldorf of Parijs.</p>
-        </div>
-      </div>
+  <!-- Contact & Zakelijk Gedeelte -->
+  <div class="grid md:grid-cols-2 gap-0 bg-white dark:bg-slate-900 border-t border-gray-100 dark:border-slate-800">
+    <!-- Links: Het Formulier -->
+    <div class="p-8 md:p-16 border-r border-gray-100 dark:border-slate-800">
+       <ContactUs
+        id="form"
+        title="Directe Aanvraag"
+        subtitle="Stel hier uw vraag over onze vloot, internationale ritten of zakelijke accounts."
+        inputs={[
+          { type: 'text', name: 'name', label: 'Naam / Bedrijfsnaam' },
+          { type: 'email', name: 'email', label: 'E-mailadres' },
+        ]}
+        textarea={{ label: 'Hoe kunnen we u van dienst zijn?' }}
+        button="Verstuur Bericht"
+      />
     </div>
-  </section>
+
+    <!-- Rechts: Zakelijke USP's -->
+    <div class="bg-[#003399] p-8 md:p-16 text-white flex flex-col justify-center">
+      <h2 class="text-3xl font-bold mb-8 italic">Zakelijke Partner in Mobiliteit</h2>
+      <ul class="space-y-6">
+        <li class="flex items-start gap-4">
+          <div class="bg-white/20 p-2 rounded-lg text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"><path d="M5 12l5 5l10 -10" /></svg>
+          </div>
+          <div>
+            <h4 class="font-bold text-lg">Facturatie op Rekening</h4>
+            <p class="text-sm opacity-80">Ideaal voor bedrijven. Ontvang periodieke facturen voor al uw ritten.</p>
+          </div>
+        </li>
+        <li class="flex items-start gap-4">
+          <div class="bg-white/20 p-2 rounded-lg text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"><path d="M5 12l5 5l10 -10" /></svg>
+          </div>
+          <div>
+            <h4 class="font-bold text-lg">Tesla Executive Vloot</h4>
+            <p class="text-sm opacity-80">Reis in stilte en comfort in onze Tesla Model Y of Model 3.</p>
+          </div>
+        </li>
+        <li class="flex items-start gap-4">
+          <div class="bg-white/20 p-2 rounded-lg text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"><path d="M5 12l5 5l10 -10" /></svg>
+          </div>
+          <div>
+            <h4 class="font-bold text-lg">Internationale Ritten</h4>
+            <p class="text-sm opacity-80">Gespecialiseerd in lange afstanden (250km+) naar o.a. Parijs, Brussel en Berlijn.</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
 </Layout>
