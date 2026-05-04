@@ -1,7 +1,6 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 import ContactUs from '~/components/widgets/Contact.astro';
-import Features2 from '~/components/widgets/Features2.astro';
 
 const metadata = {
   title: 'Contact | InTaxi Amsterdam - Uw Premium Taxi Partner',
@@ -19,48 +18,50 @@ const metadata = {
       playsinline
       class="absolute z-0 w-auto min-w-full min-h-full max-w-none object-cover"
     >
-      <source src="/videos/video_intaxi.webm" type="video/webm" />
+      <source src="/video/video_intaxi.webm" type="video/webm" />
       Uw browser ondersteunt geen video-streaming.
     </video>
     
     <div class="absolute inset-0 bg-[#003399]/40 z-10"></div>
 
-    <div class="relative z-20 text-center text-white px-4 max-w-4xl">
-      <h1 class="text-4xl md:text-7xl font-bold mb-6 font-heading tracking-tighter uppercase">
-        Contact
-      </h1>
-      <p class="text-xl md:text-2xl font-medium mb-8 leading-relaxed">
-        Premium vervoer voor zakelijke en particuliere klanten.<br class="hidden md:block" /> 
-        24/7 bereikbaar vanuit Amsterdam.
-      </p>
-      <div class="flex flex-wrap justify-center gap-4">
-        <a href="https://wa.me/31642277607" class="bg-[#003399] hover:bg-blue-900 text-white px-8 py-3 rounded-full font-bold transition-all shadow-lg flex items-center border border-white/20">
-           <span class="mr-2">WhatsApp Direct: 06-42277607</span>
-        </a>
+    <!-- Compacte Kaders direct in de Hero -->
+    <div class="relative z-20 w-full max-w-5xl px-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <!-- WhatsApp/Telefoon Kader -->
+        <div class="bg-white/95 backdrop-blur-sm p-6 rounded-lg shadow-xl text-center border-t-4 border-[#003399]">
+          <div class="flex justify-center mb-3">
+            <div class="p-2 bg-[#003399]/10 rounded-full text-[#003399]">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+            </div>
+          </div>
+          <h3 class="text-gray-900 font-bold mb-1">WhatsApp & Telefoon</h3>
+          <p class="text-[#003399] font-extrabold text-lg">06-42277607</p>
+        </div>
+
+        <!-- E-mail Kader -->
+        <div class="bg-white/95 backdrop-blur-sm p-6 rounded-lg shadow-xl text-center border-t-4 border-[#003399]">
+          <div class="flex justify-center mb-3">
+            <div class="p-2 bg-[#003399]/10 rounded-full text-[#003399]">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            </div>
+          </div>
+          <h3 class="text-gray-900 font-bold mb-1">Zakelijk E-mail</h3>
+          <p class="text-[#003399] font-extrabold text-lg">info@intaxi.nl</p>
+        </div>
+
+        <!-- Standplaats Kader -->
+        <div class="bg-white/95 backdrop-blur-sm p-6 rounded-lg shadow-xl text-center border-t-4 border-[#003399]">
+          <div class="flex justify-center mb-3">
+            <div class="p-2 bg-[#003399]/10 rounded-full text-[#003399]">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            </div>
+          </div>
+          <h3 class="text-gray-900 font-bold mb-1">Standplaats</h3>
+          <p class="text-[#003399] font-extrabold text-lg">Amsterdam</p>
+        </div>
       </div>
     </div>
   </section>
-
-  <!-- Contactkaders: HTML tags verwijderd om build error (panic) te voorkomen -->
-  <Features2
-    items={[
-      {
-        title: 'WhatsApp & Telefoon',
-        description: '06-42277607',
-        icon: 'tabler:brand-whatsapp',
-      },
-      {
-        title: 'Zakelijk E-mail',
-        description: 'info@intaxi.nl',
-        icon: 'tabler:mail',
-      },
-      {
-        title: 'Standplaats',
-        description: 'Memeleiland, Amsterdam',
-        icon: 'tabler:map-pin',
-      },
-    ]}
-  />
 
   <!-- Contact Formulier & Zakelijke USP's -->
   <div class="grid md:grid-cols-2 gap-0 bg-white dark:bg-slate-900 border-t border-gray-100 dark:border-slate-800">
