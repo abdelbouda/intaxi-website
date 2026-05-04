@@ -1,0 +1,131 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Content from '~/components/widgets/Content.astro';
+import Features2 from '~/components/widgets/Features2.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+
+export async function getStaticPaths() {
+  const luchthavens = [
+    { slug: 'schiphol', naam: 'Schiphol Airport', code: 'AMS', tesla: '45', busje: '65' },
+    { slug: 'rotterdam', naam: 'Rotterdam The Hague', code: 'RTM', tesla: '125', busje: '160' },
+    { slug: 'eindhoven', naam: 'Eindhoven Airport', code: 'EIN', tesla: '185', busje: '230' },
+    { slug: 'antwerpen', naam: 'Antwerpen Airport', code: 'ANR', tesla: '225', busje: '275' },
+    { slug: 'brussel', naam: 'Brussel Zaventem', code: 'BRU', tesla: '325', busje: '395' },
+    { slug: 'charleroi', naam: 'Charleroi Airport', code: 'CRL', tesla: '325', busje: '395' },
+    { slug: 'duesseldorf', naam: 'Düsseldorf / Weeze', code: 'DUS', tesla: '345', busje: '415' },
+  ];
+
+  return luchthavens.map((l) => ({
+    params: { luchthaven: l.slug },
+    props: { info: l, alleLuchthavens: luchthavens },
+  }));
+}
+
+const { info, alleLuchthavens } = Astro.props;
+
+const metadata = {
+  title: `Taxi naar ${info.naam} (${info.code}) | Vaste Prijs € ${info.tesla},-`,
+  description: `Reserveer uw Tesla taxi naar ${info.naam}. Vaste lage tarieven: € ${info.tesla},- voor een sedan en € ${info.busje},- voor een taxibusje. 24/7 service vanuit Amsterdam.`,
+};
+---
+
+<Layout metadata={metadata}>
+  <!-- Video Hero Section met Dynamische Content -->
+  <section class="relative h-[60vh] min-h-[500px] flex items-center justify-center overflow-hidden">
+    <video
+      autoplay
+      muted
+      loop
+      playsinline
+      class="absolute z-0 w-auto min-w-full min-h-full max-w-none object-cover"
+    >
+      <source src="/videos/video_intaxi.webm" type="video/webm" />
+    </video>
+    
+    <div class="absolute inset-0 bg-[#003399]/40 z-10"></div>
+
+    <div class="relative z-20 text-center text-white px-4 max-w-4xl">
+      <h1 class="text-4xl md:text-7xl font-bold mb-6 font-heading tracking-tighter uppercase">
+        Taxi naar {info.naam}
+      </h1>
+      <p class="text-xl md:text-2xl font-medium mb-8 leading-relaxed italic">
+        Vaste prijs: € {info.tesla},- (Tesla Sedan) of € {info.busje},- (Taxibus)
+      </p>
+      <div class="flex justify-center">
+        <a href="https://wa.me/31642277607" class="bg-white text-[#003399] hover:bg-gray-100 px-8 py-4 rounded-full font-bold transition-all shadow-xl flex items-center">
+           WhatsApp Boeking: 06-42277607
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tarieven overzicht -->
+  <Features2
+    title="Tarieven voor uw luchthavenvervoer"
+    subtitle={`Transparante prijzen voor Amsterdam naar ${info.naam}`}
+    items={[
+      {
+        title: 'Tesla Sedan',
+        description: `€ ${info.tesla},- <br /> Max. 4 personen`,
+        icon: 'tabler:car-electric',
+      },
+      {
+        title: 'Luxe Taxibus',
+        description: `€ ${info.busje},- <br /> Max. 8 personen`,
+        icon: 'tabler:users',
+      },
+      {
+        title: 'Wachttijd',
+        description: 'Geen extra kosten bij vertraging',
+        icon: 'tabler:clock',
+      },
+    ]}
+  />
+
+  <Content
+    isReversed
+    items={[
+      {
+        title: 'Airport Transfer Specialist',
+        description: `Wij zijn experts in ritten naar ${info.naam}. Onze chauffeurs controleren uw vluchttijden voor een vlekkeloze pickup.`,
+      },
+      {
+        title: 'Bagage Service',
+        description: 'Voldoende ruimte in de Tesla Model Y voor al uw koffers, zonder extra kosten.',
+      },
+    ]}
+  >
+    <Fragment slot="content">
+      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">Service naar {info.code}</h3>
+      Reis in stijl en rust. Of u nu voor zaken of vakantie naar {info.naam} gaat, InTaxi Amsterdam zorgt dat u op tijd bent.
+    </Fragment>
+  </Content>
+
+  <!-- Interne Link Loop voor SEO -->
+  <section class="max-w-6xl mx-auto px-4 py-16 border-t border-gray-100 dark:border-slate-800">
+    <h3 class="text-2xl font-bold mb-8 text-center">Bekijk andere bestemmingen</h3>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      {alleLuchthavens.filter(l => l.slug !== info.slug).map((l) => (
+        <a 
+          href={`/taxi-${l.slug}`} 
+          class="group p-4 bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-xl hover:border-[#003399] transition-all"
+        >
+          <span class="text-sm text-gray-500 font-bold uppercase">{l.code}</span>
+          <p class="font-bold group-hover:text-[#003399]">Taxi {l.naam}</p>
+          <p class="text-xs text-gray-400 mt-1 italic">Vanaf € {l.tesla},-</p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <CallToAction
+    title="Uw taxi naar de luchthaven reserveren?"
+    subtitle="Klik op de knop om direct een prijsbevestiging te ontvangen via WhatsApp."
+    actions={[{
+      variant: 'primary',
+      text: 'Direct Reserveren',
+      href: 'https://wa.me/31642277607',
+      icon: 'tabler:brand-whatsapp',
+    }]}
+  />
+</Layout>
