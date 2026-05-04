@@ -1,4 +1,3 @@
----
 import Features2 from '~/components/widgets/Features2.astro';
 import Features3 from '~/components/widgets/Features3.astro';
 import Hero from '~/components/widgets/Hero.astro';
@@ -13,7 +12,7 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-  <!-- Hero Widget: Verbeterde leesbaarheid en relevante afbeelding -->
+  <!-- Hero Widget: Kleur aangepast naar wit voor betere leesbaarheid -->
   <Hero
     tagline="Uw Mobiliteitspartner"
     image={{
@@ -23,7 +22,7 @@ const metadata = {
   >
     <Fragment slot="title">
       Professioneel taxi vervoer voor <br />
-      <span class="text-[#003399] dark:text-blue-400">zakelijk en particulier</span>
+      <span class="text-white dark:text-white">zakelijk en particulier</span>
     </Fragment>
 
     <Fragment slot="subtitle">
@@ -70,7 +69,7 @@ const metadata = {
     ]}
   />
 
-  <!-- Features3 Widget: Toegevoegde SEO waarde -->
+  <!-- Rest van de widgets blijft ongewijzigd -->
   <Features3
     columns={3}
     isAfterContent={true}
@@ -100,7 +99,6 @@ const metadata = {
     }}
   />
 
-  <!-- Steps2 Widget: Kernwaarden -->
   <Steps2
     title="Waarom InTaxi de voorkeur heeft"
     subtitle="Onze belofte aan elke zakelijke en particuliere klant."
@@ -123,7 +121,6 @@ const metadata = {
     ]}
   />
 
-  <!-- Features2 Widget: Werkgebieden -->
   <Features2
     title="Operationeel in de Metropoolregio"
     tagline="Dekking"
@@ -144,7 +141,6 @@ const metadata = {
     ]}
   />
 
-  <!-- Features2 Widget: Contact CTA -->
   <Features2
     title="Word zakelijk partner"
     tagline="Contact"
