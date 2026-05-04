@@ -10,9 +10,7 @@ const today = new Date().toISOString().split('T')[0];
 ---
 
 <Layout metadata={metadata}>
-  <!-- Sectie met Video Achtergrond en Zwevende kaart -->
   <section class="relative min-h-screen flex items-start justify-center overflow-hidden pt-4 md:pt-10">
-    <!-- Video Element -->
     <video
       autoplay
       muted
@@ -23,41 +21,38 @@ const today = new Date().toISOString().split('T')[0];
       <source src="/videos/video_intaxi.webm" type="video/webm" />
     </video>
     
-    <!-- Overlay -->
     <div class="absolute inset-0 bg-slate-900/50 z-10"></div>
 
     <div class="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 w-full">
-      
-      <!-- Compacte Titel -->
       <div class="text-center mb-6 md:mb-10">
         <h1 class="text-3xl md:text-5xl font-bold leading-tighter tracking-tighter text-white drop-shadow-lg uppercase">
           Luchthavenvervoer
         </h1>
       </div>
 
-      <!-- De Zwevende Kaart -->
-      <div class="bg-white/95 dark:bg-slate-800/95 backdrop-blur-md rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] overflow-hidden border border-white/20 transform hover:-translate-y-1 transition-transform duration-500">
-        <div class="p-4 md:p-8">
-          <div class="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-8">
+      <!-- De Kaart met Fade-in animatie (1s delay via CSS) -->
+      <div class="animate-fade-in bg-white/95 dark:bg-slate-800/95 backdrop-blur-md rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] overflow-hidden border border-white/20 transform transition-all duration-500">
+        <div class="p-4 md:p-6">
+          <div class="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-6">
             
-            <!-- 1. Luchthaven Selectie -->
+            <!-- 1. Luchthaven Selectie (Compactere padding) -->
             <div class="flex flex-col">
-              <div class="flex items-center mb-4">
-                <span class="flex items-center justify-center w-7 h-7 rounded-full bg-[#003399] text-white font-bold mr-3 text-xs">1</span>
-                <h2 class="text-lg font-bold text-[#003399]">Selecteer Luchthaven</h2>
+              <div class="flex items-center mb-3">
+                <span class="flex items-center justify-center w-6 h-6 rounded-full bg-[#003399] text-white font-bold mr-3 text-[10px]">1</span>
+                <h2 class="text-base font-bold text-[#003399]">Selecteer Luchthaven</h2>
               </div>
               
               <div class="overflow-x-auto rounded-xl border border-gray-100 shadow-inner bg-white">
-                <table class="w-full text-left border-collapse min-w-[450px]">
-                  <thead class="bg-[#003399] text-white text-[11px] uppercase tracking-widest">
+                <table class="w-full text-left border-collapse">
+                  <thead class="bg-[#003399] text-white text-[10px] uppercase tracking-widest">
                     <tr>
-                      <th class="p-3 text-center">Kies</th>
-                      <th class="p-3">Bestemming</th>
-                      <th class="p-3 text-right">Tesla</th>
-                      <th class="p-3 text-right">Busje</th>
+                      <th class="p-2 text-center">Kies</th>
+                      <th class="p-2">Bestemming</th>
+                      <th class="p-2 text-right">Tesla</th>
+                      <th class="p-2 text-right">Busje</th>
                     </tr>
                   </thead>
-                  <tbody class="text-sm text-[#003399]">
+                  <tbody class="text-[13px] text-[#003399]">
                     {[
                       { name: 'Schiphol Airport (AMS)', prices: ['€ 45,-', '€ 65,-'] },
                       { name: 'Rotterdam The Hague (RTM)', prices: ['€ 125,-', '€ 160,-'] },
@@ -68,12 +63,12 @@ const today = new Date().toISOString().split('T')[0];
                       { name: 'Düsseldorf / Weeze', prices: ['€ 345,-', '€ 415,-'] }
                     ].map((item, i) => (
                       <tr class="border-b border-gray-50 hover:bg-blue-50/80 cursor-pointer airport-row transition-colors">
-                        <td class="p-3 text-center">
-                          <input type="radio" name="airport" value={item.name} checked={i === 0} class="w-5 h-5 cursor-pointer accent-[#003399]" />
+                        <td class="p-2 text-center">
+                          <input type="radio" name="airport" value={item.name} checked={i === 0} class="w-4 h-4 cursor-pointer accent-[#003399]" />
                         </td>
-                        <td class="p-3 font-semibold">{item.name}</td>
-                        <td class="p-3 text-right font-bold whitespace-nowrap">{item.prices[0]}</td>
-                        <td class="p-3 text-right font-bold whitespace-nowrap">{item.prices[1]}</td>
+                        <td class="p-2 font-semibold">{item.name}</td>
+                        <td class="p-2 text-right font-bold whitespace-nowrap">{item.prices[0]}</td>
+                        <td class="p-2 text-right font-bold whitespace-nowrap">{item.prices[1]}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -81,31 +76,36 @@ const today = new Date().toISOString().split('T')[0];
               </div>
             </div>
 
-            <!-- 2. Formulier -->
-            <div class="flex flex-col justify-center">
-              <div class="flex items-center mb-4">
-                <span class="flex items-center justify-center w-7 h-7 rounded-full bg-[#003399] text-white font-bold mr-3 text-xs">2</span>
-                <h2 class="text-lg font-bold text-[#003399]">Rit Details</h2>
+            <!-- 2. Formulier met Opmerkingenveld -->
+            <div class="flex flex-col">
+              <div class="flex items-center mb-3">
+                <span class="flex items-center justify-center w-6 h-6 rounded-full bg-[#003399] text-white font-bold mr-3 text-[10px]">2</span>
+                <h2 class="text-base font-bold text-[#003399]">Rit Details</h2>
               </div>
 
-              <div class="space-y-3">
+              <div class="space-y-2">
                 <div class="flex gap-2">
                   <div class="flex-[4] relative">
-                    <input id="vliegveld-ophaal-adres" type="text" autocomplete="off" placeholder="Straatnaam" class="block w-full p-4 border border-gray-200 rounded-xl bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none text-base md:text-sm text-black" />
+                    <input id="vliegveld-ophaal-adres" type="text" autocomplete="off" placeholder="Straatnaam" class="block w-full p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm text-black" />
                     <div id="vliegveld-suggestions" class="absolute z-[100] w-full bg-white border border-gray-300 rounded-b-xl shadow-2xl hidden max-h-60 overflow-y-auto mt-1"></div>
                   </div>
-                  <input id="vliegveld-huisnummer" type="text" placeholder="Nr." class="flex-[0.5] min-w-[60px] p-4 border border-gray-200 rounded-xl bg-gray-50 outline-none text-base md:text-sm text-black text-center" />
+                  <input id="vliegveld-huisnummer" type="text" placeholder="Nr." class="flex-[1] p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm text-black text-center" />
                 </div>
 
-                <div class="grid grid-cols-2 gap-3">
-                  <input id="vliegveld-datum" type="date" value={today} class="p-4 border border-gray-200 rounded-xl bg-gray-50 outline-none text-base md:text-sm text-black" />
-                  <input id="vliegveld-tijd" type="time" value="12:00" class="p-4 border border-gray-200 rounded-xl bg-gray-50 outline-none text-base md:text-sm text-black" />
+                <div class="grid grid-cols-2 gap-2">
+                  <input id="vliegveld-datum" type="date" value={today} class="p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm text-black" />
+                  <input id="vliegveld-tijd" type="time" value="12:00" class="p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm text-black" />
                 </div>
 
-                <input id="vliegveld-naam" type="text" placeholder="Naam" class="w-full p-4 border border-gray-200 rounded-xl bg-gray-50 outline-none text-base md:text-sm text-black" />
-                <input id="vliegveld-tel" type="tel" placeholder="Telefoon" class="w-full p-4 border border-gray-200 rounded-xl bg-gray-50 outline-none text-base md:text-sm text-black" />
+                <div class="grid grid-cols-2 gap-2">
+                  <input id="vliegveld-naam" type="text" placeholder="Naam" class="p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm text-black" />
+                  <input id="vliegveld-tel" type="tel" placeholder="Telefoon" class="p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm text-black" />
+                </div>
 
-                <button id="vliegveld-whatsapp-btn" class="w-full bg-[#003399] text-white font-black py-5 rounded-xl hover:bg-blue-800 active:translate-y-1 transition-all shadow-lg mt-2 uppercase tracking-widest text-sm">
+                <!-- Nieuw: Opmerkingenveld -->
+                <textarea id="vliegveld-notitie" placeholder="Vluchtnummer of extra opmerkingen..." rows="2" class="w-full p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm text-black resize-none"></textarea>
+
+                <button id="vliegveld-whatsapp-btn" class="w-full bg-[#003399] text-white font-black py-4 rounded-xl hover:bg-blue-800 active:translate-y-1 transition-all shadow-lg mt-1 uppercase tracking-widest text-xs">
                   Boek nu via WhatsApp
                 </button>
               </div>
@@ -117,7 +117,18 @@ const today = new Date().toISOString().split('T')[0];
     </div>
   </section>
 
-  <!-- Script blijft hetzelfde voor de functionaliteit -->
+  <style>
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+      opacity: 0;
+      animation: fadeIn 0.8s ease-out forwards;
+      animation-delay: 1s; /* De gevraagde delay van 1 seconde */
+    }
+  </style>
+
   <script is:inline>
     function initVliegveldBooking() {
       const input = document.getElementById('vliegveld-ophaal-adres');
@@ -145,7 +156,7 @@ const today = new Date().toISOString().split('T')[0];
               suggestionsBox.classList.remove('hidden');
               data.forEach(item => {
                 const div = document.createElement('div');
-                div.className = 'p-4 hover:bg-blue-50 cursor-pointer border-b text-sm text-black bg-white';
+                div.className = 'p-3 hover:bg-blue-50 cursor-pointer border-b text-sm text-black bg-white';
                 const parts = item.display_name.split(',');
                 const label = parts[0] + (parts[1] ? ', ' + parts[1] : '');
                 div.textContent = label;
@@ -179,7 +190,8 @@ const today = new Date().toISOString().split('T')[0];
                        `📅 Datum: ${val('vliegveld-datum')}%0A` +
                        `⏰ Tijd: ${val('vliegveld-tijd')}%0A` +
                        `👤 Naam: ${val('vliegveld-naam')}%0A` +
-                       `📞 Tel: ${val('vliegveld-tel')}`;
+                       `📞 Tel: ${val('vliegveld-tel')}%0A` +
+                       `📝 Opmerking: ${val('vliegveld-notitie')}`;
           
           window.open(`https://wa.me/31642277607?text=${text}`, '_blank');
         };
