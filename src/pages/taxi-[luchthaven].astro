@@ -24,60 +24,63 @@ export async function getStaticPaths() {
 const { info, alleLuchthavens } = Astro.props;
 
 const metadata = {
-  title: `Taxi naar ${info.naam} (${info.code}) | Vaste Prijs € ${info.tesla},-`,
-  description: `Reserveer uw Tesla taxi naar ${info.naam}. Vaste lage tarieven: € ${info.tesla},- voor een sedan en € ${info.busje},- voor een taxibusje. 24/7 service vanuit Amsterdam.`,
+  title: `Taxi naar ${info.naam} (${info.code}) | InTaxi Amsterdam`,
+  description: `Vaste lage tarieven naar ${info.naam}. Reis comfortabel in een Tesla vanaf € ${info.tesla},-.`,
 };
 ---
 
 <Layout metadata={metadata}>
-  <!-- Video Hero Section met Dynamische Content -->
-  <section class="relative h-[60vh] min-h-[500px] flex items-center justify-center overflow-hidden">
+  <!-- Stabilized Video Hero -->
+  <section class="relative h-[60vh] min-h-[500px] flex items-center justify-center overflow-hidden bg-black">
     <video
       autoplay
       muted
       loop
       playsinline
-      class="absolute z-0 w-auto min-w-full min-h-full max-w-none object-cover"
+      poster="/images/hero-poster.jpg"
+      class="absolute z-0 w-auto min-w-full min-h-full max-w-none object-cover opacity-60"
     >
       <source src="/videos/video_intaxi.webm" type="video/webm" />
+      <source src="/videos/video_intaxi.mp4" type="video/mp4" />
     </video>
     
-    <div class="absolute inset-0 bg-[#003399]/40 z-10"></div>
+    <div class="absolute inset-0 bg-[#003399]/30 z-10"></div>
 
-    <div class="relative z-20 text-center text-white px-4 max-w-4xl">
-      <h1 class="text-4xl md:text-7xl font-bold mb-6 font-heading tracking-tighter uppercase">
-        Taxi naar {info.naam}
+    <div class="relative z-20 text-center text-white px-4">
+      <h1 class="text-4xl md:text-6xl font-bold mb-4 font-heading uppercase tracking-tighter">
+        Taxi {info.naam}
       </h1>
-      <p class="text-xl md:text-2xl font-medium mb-8 leading-relaxed italic">
-        Vaste prijs: € {info.tesla},- (Tesla Sedan) of € {info.busje},- (Taxibus)
+      <p class="text-xl md:text-2xl mb-8 font-medium">
+        Luxe vervoer vanaf <span class="font-bold text-white underline decoration-2 decoration-white/50">€ {info.tesla},-</span>
       </p>
-      <div class="flex justify-center">
-        <a href="https://wa.me/31642277607" class="bg-white text-[#003399] hover:bg-gray-100 px-8 py-4 rounded-full font-bold transition-all shadow-xl flex items-center">
-           WhatsApp Boeking: 06-42277607
-        </a>
-      </div>
+      <a 
+        href="https://wa.me/31642277607" 
+        class="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-[#003399] transition-all bg-white rounded-full hover:bg-gray-100 shadow-xl"
+      >
+        Boek direct via WhatsApp
+      </a>
     </div>
   </section>
 
-  <!-- Tarieven overzicht -->
+  <!-- Features / Tarieven -->
   <Features2
-    title="Tarieven voor uw luchthavenvervoer"
-    subtitle={`Transparante prijzen voor Amsterdam naar ${info.naam}`}
+    title="Tarieven Amsterdam Airport Service"
+    subtitle={`Vaste prijzen voor uw rit naar ${info.naam}`}
     items={[
       {
-        title: 'Tesla Sedan',
-        description: `€ ${info.tesla},- <br /> Max. 4 personen`,
+        title: 'Tesla Executive',
+        description: `€ ${info.tesla},- <br /> Duurzaam & Comfortabel`,
         icon: 'tabler:car-electric',
       },
       {
-        title: 'Luxe Taxibus',
-        description: `€ ${info.busje},- <br /> Max. 8 personen`,
+        title: 'Luxe Personenbus',
+        description: `€ ${info.busje},- <br /> Tot 8 personen`,
         icon: 'tabler:users',
       },
       {
-        title: 'Wachttijd',
-        description: 'Geen extra kosten bij vertraging',
-        icon: 'tabler:clock',
+        title: 'Airport Service',
+        description: '24/7 beschikbaarheid',
+        icon: 'tabler:plane-arrival',
       },
     ]}
   />
@@ -86,44 +89,42 @@ const metadata = {
     isReversed
     items={[
       {
-        title: 'Airport Transfer Specialist',
-        description: `Wij zijn experts in ritten naar ${info.naam}. Onze chauffeurs controleren uw vluchttijden voor een vlekkeloze pickup.`,
+        title: 'Stiptheid gegarandeerd',
+        description: `Onze chauffeurs zijn altijd 5 minuten voor de afgesproken tijd aanwezig voor uw rit naar ${info.naam}.`,
       },
       {
-        title: 'Bagage Service',
-        description: 'Voldoende ruimte in de Tesla Model Y voor al uw koffers, zonder extra kosten.',
+        title: 'Vaste Prijs',
+        description: 'Inclusief bagage, BTW en parkeerkosten op de luchthaven.',
       },
     ]}
+    image={{ src: '~/assets/images/default.jpg', alt: 'InTaxi Service' }}
   >
     <Fragment slot="content">
-      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">Service naar {info.code}</h3>
-      Reis in stijl en rust. Of u nu voor zaken of vakantie naar {info.naam} gaat, InTaxi Amsterdam zorgt dat u op tijd bent.
+      <h3 class="text-2xl font-bold mb-2 uppercase">Service naar {info.code}</h3>
+      Reis zonder zorgen van Amsterdam naar de terminal.
     </Fragment>
   </Content>
 
-  <!-- Interne Link Loop voor SEO -->
-  <section class="max-w-6xl mx-auto px-4 py-16 border-t border-gray-100 dark:border-slate-800">
-    <h3 class="text-2xl font-bold mb-8 text-center">Bekijk andere bestemmingen</h3>
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+  <!-- SEO Footer Links -->
+  <section class="max-w-6xl mx-auto px-4 py-12 border-t border-gray-100">
+    <h2 class="text-xl font-bold mb-6 italic text-[#003399]">Andere luchthaven ritten:</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
       {alleLuchthavens.filter(l => l.slug !== info.slug).map((l) => (
         <a 
           href={`/taxi-${l.slug}`} 
-          class="group p-4 bg-white dark:bg-slate-900 border border-gray-200 dark:border-slate-800 rounded-xl hover:border-[#003399] transition-all"
+          class="block p-3 rounded border border-gray-200 hover:bg-[#003399] hover:text-white transition-all text-sm font-medium"
         >
-          <span class="text-sm text-gray-500 font-bold uppercase">{l.code}</span>
-          <p class="font-bold group-hover:text-[#003399]">Taxi {l.naam}</p>
-          <p class="text-xs text-gray-400 mt-1 italic">Vanaf € {l.tesla},-</p>
+          Taxi {l.naam} →
         </a>
       ))}
     </div>
   </section>
 
   <CallToAction
-    title="Uw taxi naar de luchthaven reserveren?"
-    subtitle="Klik op de knop om direct een prijsbevestiging te ontvangen via WhatsApp."
+    title="Snel een taxi nodig?"
     actions={[{
       variant: 'primary',
-      text: 'Direct Reserveren',
+      text: 'Bel of WhatsApp nu',
       href: 'https://wa.me/31642277607',
       icon: 'tabler:brand-whatsapp',
     }]}
