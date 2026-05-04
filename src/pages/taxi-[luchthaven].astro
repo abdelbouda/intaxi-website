@@ -1,4 +1,6 @@
 ---
+export const prerender = true;
+
 import Layout from '~/layouts/PageLayout.astro';
 import Features2 from '~/components/widgets/Features2.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
@@ -16,20 +18,15 @@ export async function getStaticPaths() {
 
   return luchthavensData.map((luchthaven) => ({
     params: { luchthaven: luchthaven.slug },
-    props: { info: luchthaven, alleLuchthavens: luchthavensData },
+    props: { info: luchthaven },
   }));
 }
 
-// Zorg dat deze variabelen correct worden binnengehaald
-const { info, alleLuchthavens } = Astro.props;
+const { info } = Astro.props;
 
-// Metadata object voor SEO
 const metadata = {
   title: `Taxi naar ${info.naam} - InTaxi Amsterdam`,
 };
-
-// We zetten prerender op true om zeker te weten dat de pagina's worden gegenereerd
-export const prerender = true;
 ---
 
 <Layout metadata={metadata}>
@@ -48,24 +45,14 @@ export const prerender = true;
   <Features2
     title="Luchthaven Tarieven"
     items={[
-      {
-        title: 'Tesla Executive',
-        description: `Vanaf € ${info.tesla},-`,
-      },
-      {
-        title: 'Luxe Personenbus',
-        description: `Vanaf € ${info.busje},-`,
-      },
-      {
-        title: '24/7 Service',
-        description: 'Altijd op tijd voor uw vlucht.',
-      },
+      { title: 'Tesla Executive', description: `Vanaf € ${info.tesla},-` },
+      { title: 'Luxe Personenbus', description: `Vanaf € ${info.busje},-` },
+      { title: '24/7 Service', description: 'Altijd op tijd voor uw vlucht.' },
     ]}
   />
 
   <CallToAction
     title="Direct een taxi boeken?"
-    subtitle="Geen verborgen kosten, vaste lage prijzen."
     actions={[{
       variant: 'primary',
       text: 'WhatsApp ons',
