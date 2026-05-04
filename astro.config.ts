@@ -1,6 +1,5 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
-
 import { defineConfig } from 'astro/config';
 
 import sitemap from '@astrojs/sitemap';
@@ -8,8 +7,6 @@ import tailwind from '@astrojs/tailwind';
 import mdx from '@astrojs/mdx';
 import partytown from '@astrojs/partytown';
 import icon from 'astro-icon';
-// Compress import laten we staan, maar we gebruiken de integratie niet
-import compress from 'astro-compress';
 import type { AstroIntegration } from 'astro';
 
 import astrowind from './vendor/integration';
@@ -23,7 +20,6 @@ const whenExternalScripts = (items: (() => AstroIntegration) | (() => AstroInteg
   hasExternalScripts ? (Array.isArray(items) ? items.map((item) => item()) : [items()]) : [];
 
 export default defineConfig({
-  // We houden de output op static
   output: 'static',
 
   integrations: [
@@ -55,8 +51,8 @@ export default defineConfig({
       })
     ),
 
-    // DE COMPRESS INTEGRATIE IS HIER VERWIJDERD OM BUILD ERRORS TE VOORKOMEN
-
+    // Compress is hier volledig verwijderd om build-conflicten te voorkomen
+    
     astrowind({
       config: './src/config.yaml',
     }),
@@ -74,7 +70,8 @@ export default defineConfig({
   vite: {
     resolve: {
       alias: {
-        ~: path.resolve(__dirname, './src'),
+        // FIX: De tilde moet tussen aanhalingstekens staan
+        '~': path.resolve(__dirname, './src'),
       },
     },
   },
