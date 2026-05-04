@@ -8,6 +8,7 @@ import tailwind from '@astrojs/tailwind';
 import mdx from '@astrojs/mdx';
 import partytown from '@astrojs/partytown';
 import icon from 'astro-icon';
+// Compress import laten we staan, maar we gebruiken de integratie niet
 import compress from 'astro-compress';
 import type { AstroIntegration } from 'astro';
 
@@ -22,6 +23,7 @@ const whenExternalScripts = (items: (() => AstroIntegration) | (() => AstroInteg
   hasExternalScripts ? (Array.isArray(items) ? items.map((item) => item()) : [items()]) : [];
 
 export default defineConfig({
+  // We houden de output op static
   output: 'static',
 
   integrations: [
@@ -53,18 +55,7 @@ export default defineConfig({
       })
     ),
 
-    compress({
-      CSS: true,
-      HTML: {
-        'html-minifier-terser': {
-          removeAttributeQuotes: false,
-        },
-      },
-      Image: false,
-      JavaScript: true,
-      SVG: false,
-      Logger: 1,
-    }),
+    // DE COMPRESS INTEGRATIE IS HIER VERWIJDERD OM BUILD ERRORS TE VOORKOMEN
 
     astrowind({
       config: './src/config.yaml',
@@ -72,7 +63,6 @@ export default defineConfig({
   ],
 
   image: {
-    // Hier heb ik images.unsplash.com toegevoegd zodat je foto's laden
     domains: ['cdn.pixabay.com', 'images.unsplash.com'],
   },
 
@@ -84,7 +74,7 @@ export default defineConfig({
   vite: {
     resolve: {
       alias: {
-        '~': path.resolve(__dirname, './src'),
+        ~: path.resolve(__dirname, './src'),
       },
     },
   },
