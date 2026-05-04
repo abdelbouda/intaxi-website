@@ -39,21 +39,22 @@ const metadata = {
     </div>
   </section>
 
+  <!-- De aanpassing zit hier: We gebruiken platte tekst voor de description om parser-fouten te vermijden -->
   <div class="relative z-30 max-w-6xl mx-auto px-4 mt-[-5rem]">
     <Features2
       classes={{ 
         container: 'py-0 md:py-0 lg:py-0',
-        items: 'gap-4 md:gap-6', // Zorgt dat de kaders dichter bij elkaar staan
+        items: 'gap-4 md:gap-6', 
       }} 
       items={[
         {
           title: 'WhatsApp & Telefoon',
-          description: '<a href="tel:0642277607" class="text-[#003399] font-bold">06-42277607</a>',
+          description: '06-42277607',
           icon: 'tabler:brand-whatsapp',
         },
         {
           title: 'Zakelijk E-mail',
-          description: '<a href="mailto:info@intaxi.nl" class="text-[#003399] font-bold">info@intaxi.nl</a>',
+          description: 'info@intaxi.nl',
           icon: 'tabler:mail',
         },
         {
