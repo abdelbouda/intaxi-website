@@ -1,7 +1,6 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 import ContactUs from '~/components/widgets/Contact.astro';
-import Features2 from '~/components/widgets/Features2.astro';
 
 const metadata = {
   title: 'Contact | InTaxi Amsterdam - Uw Premium Taxi Partner',
@@ -12,7 +11,6 @@ const metadata = {
 <Layout metadata={metadata}>
   <!-- Video Hero Section -->
   <section class="relative h-[60vh] min-h-[500px] flex items-center justify-center overflow-hidden">
-    <!-- Video element met het gecorrigeerde pad naar de public map -->
     <video
       autoplay
       muted
@@ -24,7 +22,6 @@ const metadata = {
       Uw browser ondersteunt geen video-streaming.
     </video>
     
-    <!-- Donkere overlay voor professionele look en leesbaarheid -->
     <div class="absolute inset-0 bg-[#003399]/40 z-10"></div>
 
     <div class="relative z-20 text-center text-white px-4 max-w-4xl">
@@ -36,44 +33,22 @@ const metadata = {
         24/7 bereikbaar vanuit Amsterdam.
       </p>
       <div class="flex flex-wrap justify-center gap-4">
-        <a href="https://wa.me/31642277607" class="bg-[#25D366] hover:bg-[#128C7E] text-white px-8 py-3 rounded-full font-bold transition-all shadow-lg flex items-center">
+        <!-- WhatsApp CTA nu in InTaxi Donkerblauw -->
+        <a href="https://wa.me/31642277607" class="bg-[#003399] hover:bg-blue-900 text-white px-8 py-3 rounded-full font-bold transition-all shadow-lg flex items-center border border-white/20">
            <span class="mr-2">WhatsApp Direct: 06-42277607</span>
         </a>
       </div>
     </div>
   </section>
 
-  <!-- Kerngegevens Sectie -->
-  <Features2
-    title="Onze Gegevens"
-    subtitle="Altijd een directe lijn met uw chauffeur of planning."
-    items={[
-      {
-        title: 'WhatsApp & Telefoon',
-        description: 'Directe boekingen:<br /><a href="tel:0642277607" class="text-[#003399] font-bold">06-42277607</a>',
-        icon: 'tabler:brand-whatsapp',
-      },
-      {
-        title: 'Zakelijk E-mail',
-        description: 'Offertes en administratie:<br /><a href="mailto:info@intaxi.nl" class="text-[#003399] font-bold">info@intaxi.nl</a>',
-        icon: 'tabler:mail',
-      },
-      {
-        title: 'Standplaats',
-        description: 'Memeleiland, Amsterdam<br /><span class="text-sm">Vervoer door heel Europa</span>',
-        icon: 'tabler:map-pin',
-      },
-    ]}
-  />
-
-  <!-- Contact & Zakelijk Gedeelte -->
+  <!-- Contact & Zakelijk Gedeelte - Sluit nu direct aan op de Video Hero -->
   <div class="grid md:grid-cols-2 gap-0 bg-white dark:bg-slate-900 border-t border-gray-100 dark:border-slate-800">
     <!-- Links: Het Formulier -->
     <div class="p-8 md:p-16 border-r border-gray-100 dark:border-slate-800">
        <ContactUs
         id="form"
         title="Directe Aanvraag"
-        subtitle="Stel hier uw vraag over onze vloot, internationale ritten of zakelijke accounts."
+        subtitle="Stel hier uw vraag over onze vloot, internationale ritten of zakelijke accounts. Voor spoed kunt u ook mailen naar info@intaxi.nl of een bericht sturen naar ons hoofdkantoor op Memeleiland."
         inputs={[
           { type: 'text', name: 'name', label: 'Naam / Bedrijfsnaam' },
           { type: 'email', name: 'email', label: 'E-mailadres' },
