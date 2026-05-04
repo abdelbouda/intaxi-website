@@ -1,79 +1,105 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
-import HeroText from '~/components/widgets/HeroText.astro';
 import ContactUs from '~/components/widgets/Contact.astro';
 import Features2 from '~/components/widgets/Features2.astro';
 
 const metadata = {
-  title: 'Contact',
+  title: 'Contact | InTaxi Amsterdam - Uw Premium Taxi Partner',
 };
 ---
 
 <Layout metadata={metadata}>
-  <!-- HeroText Widget ******************* -->
+  <!-- Video Hero Section -->
+  <section class="relative h-[50vh] min-h-[400px] flex items-center justify-center overflow-hidden">
+    <video
+      autoplay
+      muted
+      loop
+      playsinline
+      class="absolute z-0 w-auto min-w-full min-h-full max-w-none"
+    >
+      <source src="/src/assets/images/video_intaxi.webm" type="video/webm" />
+      Uw browser ondersteunt geen video-streaming.
+    </video>
+    
+    <!-- Overlay voor leesbaarheid -->
+    <div class="absolute inset-0 bg-black/50 z-10"></div>
 
-  <HeroText tagline="Contact" title="Let's Connect!" />
+    <div class="relative z-20 text-center text-white px-4">
+      <h1 class="text-4xl md:text-6xl font-bold mb-4 font-heading">Contacteer InTaxi</h1>
+      <p class="text-xl md:text-2xl font-medium max-w-2xl mx-auto">
+        Altijd bereikbaar voor uw luxe vervoer, zakelijke ritten en luchthavenvervoer.
+      </p>
+    </div>
+  </section>
 
-  <ContactUs
-    id="form"
-    title="Drop us a message today!"
-    subtitle="For quicker answers, explore our FAQs section. You may find the solution you're looking  for right there! If not, our support team is delighted to help you."
-    inputs={[
-      {
-        type: 'text',
-        name: 'name',
-        label: 'Name',
-      },
-      {
-        type: 'email',
-        name: 'email',
-        label: 'Email',
-      },
-    ]}
-    textarea={{
-      label: 'Message',
-    }}
-    disclaimer={{
-      label:
-        'By submitting this contact form, you acknowledge and agree to the collection of your personal information.',
-    }}
-    description="Our support team typically responds within 24 business hours."
-  />
-
-  <!-- Features2 Widget ************** -->
-
+  <!-- Zakelijke Info & Directe Contactopties -->
   <Features2
-    title="We are here to help!"
+    title="Direct in contact met InTaxi"
+    subtitle="Of u nu een incidentele rit boekt of een zakelijke partner zoekt voor uw directievervoer; wij staan voor u klaar."
     items={[
       {
-        title: 'General support',
-        description: `Chat with us for inquiries related to account management, website navigation, payment issues, accessing purchased templates or general questions about the website's functionality.`,
+        title: 'WhatsApp & Telefoon',
+        description: 'Voor directe boekingen en snelle vragen:<br /><strong>06-42277607</strong>',
+        icon: 'tabler:brand-whatsapp',
       },
       {
-        title: 'Contact sales',
-        description:
-          'Chat with us for questions about purchases, customization options, licensing for commercial use, inquiries about specific template, etc.',
-      },
-      {
-        title: 'Technical support',
-        description:
-          'Chat with us when facing issues like template installation, problems editing difficulties, compatibility issues with software or download errors, or other technical challenges related to using the templates.',
-      },
-      {
-        title: 'Phone',
-        description: '+1 (234) 567-890',
-        icon: 'tabler:headset',
-      },
-      {
-        title: 'Email',
-        description: 'contact@support.com',
+        title: 'E-mail',
+        description: 'Voor offertes en zakelijke aanvragen:<br /><strong>info@intaxi.nl</strong>',
         icon: 'tabler:mail',
       },
       {
-        title: 'Location',
-        description: '1234 Lorem Ipsum St, 12345, Miami, EEUU',
+        title: 'Locatie',
+        description: 'Memeleiland, Amsterdam<br />Dienstverlening in heel NL, BE & DE',
         icon: 'tabler:map-pin',
       },
     ]}
   />
+
+  <!-- Contact Formulier met focus op Zakelijk -->
+  <ContactUs
+    id="form"
+    title="Stuur ons een bericht"
+    subtitle="Heeft u specifieke wensen of wilt u een prijsafspraak maken voor terugkerende ritten? Vul het formulier in en we reageren binnen 2 uur."
+    inputs={[
+      {
+        type: 'text',
+        name: 'name',
+        label: 'Naam / Bedrijfsnaam',
+      },
+      {
+        type: 'email',
+        name: 'email',
+        label: 'E-mailadres',
+      },
+    ]}
+    textarea={{
+      label: 'Hoe kunnen we u helpen?',
+    }}
+    disclaimer={{
+      label: 'Ik ga akkoord met de verwerking van mijn gegevens voor deze aanvraag.',
+    }}
+    button="Verstuur Aanvraag"
+  />
+
+  <!-- Zakelijk Voordeel Sectie -->
+  <section class="bg-[#003399] py-16 text-white text-center">
+    <div class="max-w-4xl mx-auto px-6">
+      <h2 class="text-3xl font-bold mb-6 italic">InTaxi Zakelijk: De standaard in zakelijk reizen</h2>
+      <div class="grid md:grid-cols-3 gap-8 text-left">
+        <div class="border-l-2 border-white/30 pl-4">
+          <h3 class="font-bold mb-2">Facturatie op maat</h3>
+          <p class="text-sm opacity-90">Eenvoudig maandelijks betalen op rekening. Ideaal voor uw administratie.</p>
+        </div>
+        <div class="border-l-2 border-white/30 pl-4">
+          <h3 class="font-bold mb-2">Tesla Comfort</h3>
+          <p class="text-sm opacity-90">Ontvang uw gasten in stijl. Onze emissievrije Tesla's bieden rust en klasse.</p>
+        </div>
+        <div class="border-l-2 border-white/30 pl-4">
+          <h3 class="font-bold mb-2">Lange Afstanden</h3>
+          <p class="text-sm opacity-90">Specialist in ritten tot 250km+ naar Brussel, Düsseldorf of Parijs.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 </Layout>
