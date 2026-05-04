@@ -10,16 +10,32 @@ const today = new Date().toISOString().split('T')[0];
 ---
 
 <Layout metadata={metadata}>
-  <section class="relative md:py-12 py-8 bg-white dark:bg-slate-900 overflow-x-hidden">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+  <!-- Sectie met Video Achtergrond -->
+  <section class="relative md:py-16 py-8 overflow-hidden min-h-screen flex items-center">
+    <!-- Video Element -->
+    <video
+      autoplay
+      muted
+      loop
+      playsinline
+      class="absolute inset-0 z-0 w-full h-full object-cover"
+    >
+      <source src="/videos/video_intaxi.webm" type="video/webm" />
+    </video>
+    
+    <!-- Overlay voor contrast en merkbeleving -->
+    <div class="absolute inset-0 bg-slate-900/60 z-10"></div>
+
+    <div class="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 w-full">
       
-      <div class="text-center mb-8">
-        <h1 class="text-3xl md:text-5xl font-bold leading-tighter tracking-tighter mb-4 font-heading text-[#003399]">
+      <div class="text-center mb-10">
+        <h1 class="text-3xl md:text-6xl font-bold leading-tighter tracking-tighter mb-4 font-heading text-white drop-shadow-md">
           Luchthavenvervoer Vaste Tarieven
         </h1>
+        <p class="text-white/90 text-lg md:text-xl font-medium">Luxe Tesla ritten naar alle grote luchthavens</p>
       </div>
 
-      <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl border border-gray-100 dark:border-slate-700 overflow-hidden">
+      <div class="bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm rounded-3xl shadow-2xl overflow-hidden border border-white/20">
         <div class="p-4 md:p-10">
           <div class="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-10">
             
@@ -27,28 +43,30 @@ const today = new Date().toISOString().split('T')[0];
             <div class="overflow-hidden">
               <div class="flex items-center mb-6">
                 <span class="flex items-center justify-center w-8 h-8 rounded-full bg-[#003399] text-white font-bold mr-3 text-sm">1</span>
-                <h2 class="text-xl font-bold text-[#003399]">Kies uw Bestemming</h2>
+                <h2 class="text-xl font-bold text-[#003399] dark:text-blue-400">Kies uw Bestemming</h2>
               </div>
               
-              <div class="overflow-x-auto rounded-xl border border-gray-200 dark:border-slate-700 shadow-sm">
+              <div class="overflow-x-auto rounded-xl border border-gray-200 dark:border-slate-700 shadow-sm bg-white">
                 <table class="w-full text-left border-collapse min-w-[400px]">
-                  <thead class="bg-[#003399] text-white text-xs md:text-sm uppercase tracking-wider">
+                  <thead class="bg-[#003399] text-white text-xs md:text-sm uppercase tracking-wider text-center">
                     <tr>
-                      <th class="p-4 text-center">Select</th>
-                      <th class="p-4">Luchthaven</th>
+                      <th class="p-4">Select</th>
+                      <th class="p-4 text-left">Luchthaven</th>
                       <th class="p-4 text-right">Tesla</th>
                       <th class="p-4 text-right">Busje</th>
                     </tr>
                   </thead>
-                  <tbody class="text-sm text-[#003399] dark:text-blue-300">
+                  <tbody class="text-sm text-[#003399]">
                     {[
                       { name: 'Schiphol Airport (AMS)', prices: ['€ 45,-', '€ 65,-'] },
                       { name: 'Rotterdam The Hague (RTM)', prices: ['€ 125,-', '€ 160,-'] },
                       { name: 'Eindhoven Airport (EIN)', prices: ['€ 185,-', '€ 230,-'] },
+                      { name: 'Antwerpen Airport (ANR)', prices: ['€ 225,-', '€ 275,-'] },
                       { name: 'Brussel Zaventem (BRU)', prices: ['€ 325,-', '€ 395,-'] },
+                      { name: 'Charleroi Airport (CRL)', prices: ['€ 325,-', '€ 395,-'] },
                       { name: 'Düsseldorf / Weeze', prices: ['€ 345,-', '€ 415,-'] }
                     ].map((item, i) => (
-                      <tr class="border-b border-gray-100 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-slate-700/50 cursor-pointer airport-row transition-colors">
+                      <tr class="border-b border-gray-100 hover:bg-blue-50 cursor-pointer airport-row transition-colors">
                         <td class="p-4 text-center">
                           <input type="radio" name="airport" value={item.name} checked={i === 0} class="w-5 h-5 cursor-pointer accent-[#003399]" />
                         </td>
@@ -66,26 +84,25 @@ const today = new Date().toISOString().split('T')[0];
             <div class="flex flex-col">
               <div class="flex items-center mb-6">
                 <span class="flex items-center justify-center w-8 h-8 rounded-full bg-[#003399] text-white font-bold mr-3 text-sm">2</span>
-                <h2 class="text-xl font-bold text-[#003399]">Uw Gegevens</h2>
+                <h2 class="text-xl font-bold text-[#003399] dark:text-blue-400">Uw Gegevens</h2>
               </div>
 
               <div class="space-y-4">
-                <!-- Adres + Huisnummer AANGEPAST: Straatnaam groter, Nr kleiner -->
                 <div class="flex gap-2">
                   <div class="flex-[4] relative">
-                    <input id="vliegveld-ophaal-adres" type="text" autocomplete="off" placeholder="Straatnaam (Ophaaladres)" class="block w-full p-4 border border-gray-200 dark:border-slate-600 rounded-xl bg-gray-50 dark:bg-slate-700 focus:ring-2 focus:ring-blue-500 outline-none text-base md:text-sm text-black dark:text-white" />
+                    <input id="vliegveld-ophaal-adres" type="text" autocomplete="off" placeholder="Straatnaam (Ophaaladres)" class="block w-full p-4 border border-gray-200 rounded-xl bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none text-base md:text-sm text-black" />
                     <div id="vliegveld-suggestions" class="absolute z-[100] w-full bg-white border border-gray-300 rounded-b-xl shadow-2xl hidden max-h-60 overflow-y-auto mt-1"></div>
                   </div>
-                  <input id="vliegveld-huisnummer" type="text" placeholder="Nr." class="flex-[0.5] min-w-[60px] p-4 border border-gray-200 dark:border-slate-600 rounded-xl bg-gray-50 dark:bg-slate-700 outline-none text-base md:text-sm text-black dark:text-white text-center" />
+                  <input id="vliegveld-huisnummer" type="text" placeholder="Nr." class="flex-[0.5] min-w-[60px] p-4 border border-gray-200 rounded-xl bg-gray-50 outline-none text-base md:text-sm text-black text-center" />
                 </div>
 
                 <div class="grid grid-cols-2 gap-3">
-                  <input id="vliegveld-datum" type="date" value={today} class="p-4 border border-gray-200 dark:border-slate-600 rounded-xl bg-gray-50 dark:bg-slate-700 outline-none text-base md:text-sm text-black dark:text-white" />
-                  <input id="vliegveld-tijd" type="time" value="12:00" class="p-4 border border-gray-200 dark:border-slate-600 rounded-xl bg-gray-50 dark:bg-slate-700 outline-none text-base md:text-sm text-black dark:text-white" />
+                  <input id="vliegveld-datum" type="date" value={today} class="p-4 border border-gray-200 rounded-xl bg-gray-50 outline-none text-base md:text-sm text-black" />
+                  <input id="vliegveld-tijd" type="time" value="12:00" class="p-4 border border-gray-200 rounded-xl bg-gray-50 outline-none text-base md:text-sm text-black" />
                 </div>
 
-                <input id="vliegveld-naam" type="text" placeholder="Volledige Naam" class="w-full p-4 border border-gray-200 dark:border-slate-600 rounded-xl bg-gray-50 dark:bg-slate-700 outline-none text-base md:text-sm text-black dark:text-white" />
-                <input id="vliegveld-tel" type="tel" placeholder="Telefoonnummer" class="w-full p-4 border border-gray-200 dark:border-slate-600 rounded-xl bg-gray-50 dark:bg-slate-700 outline-none text-base md:text-sm text-black dark:text-white" />
+                <input id="vliegveld-naam" type="text" placeholder="Volledige Naam" class="w-full p-4 border border-gray-200 rounded-xl bg-gray-50 outline-none text-base md:text-sm text-black" />
+                <input id="vliegveld-tel" type="tel" placeholder="Telefoonnummer" class="w-full p-4 border border-gray-200 rounded-xl bg-gray-50 outline-none text-base md:text-sm text-black" />
 
                 <button id="vliegveld-whatsapp-btn" class="w-full bg-[#003399] text-white font-black py-4 rounded-xl hover:bg-blue-800 active:translate-y-1 transition-all shadow-lg mt-2 uppercase tracking-widest text-sm">
                   Reserveren via WhatsApp
