@@ -2,57 +2,36 @@
 export const prerender = true;
 
 import Layout from '~/layouts/PageLayout.astro';
-import Features2 from '~/components/widgets/Features2.astro';
-import CallToAction from '~/components/widgets/CallToAction.astro';
 
 export async function getStaticPaths() {
-  const data = [
-    { slug: 'schiphol', naam: 'Schiphol Airport', code: 'AMS', tesla: '45', busje: '65' },
-    { slug: 'rotterdam', naam: 'Rotterdam The Hague', code: 'RTM', tesla: '125', busje: '160' },
-    { slug: 'eindhoven', naam: 'Eindhoven Airport', code: 'EIN', tesla: '185', busje: '230' },
-    { slug: 'antwerpen', naam: 'Antwerpen Airport', code: 'ANR', tesla: '225', busje: '275' },
-    { slug: 'brussel', naam: 'Brussel Zaventem', code: 'BRU', tesla: '325', busje: '395' },
-    { slug: 'charleroi', naam: 'Charleroi Airport', code: 'CRL', tesla: '325', busje: '395' },
-    { slug: 'duesseldorf', naam: 'Düsseldorf / Weeze', code: 'DUS', tesla: '345', busje: '415' },
+  const steden = [
+    { slug: 'schiphol', naam: 'Schiphol Airport', code: 'AMS', prijs: '45' },
+    { slug: 'rotterdam', naam: 'Rotterdam The Hague', code: 'RTM', prijs: '125' },
+    { slug: 'eindhoven', naam: 'Eindhoven Airport', code: 'EIN', prijs: '185' },
+    { slug: 'antwerpen', naam: 'Antwerpen Airport', code: 'ANR', prijs: '225' },
+    { slug: 'brussel', naam: 'Brussel Zaventem', code: 'BRU', prijs: '325' },
+    { slug: 'charleroi', naam: 'Charleroi Airport', code: 'CRL', prijs: '325' },
+    { slug: 'duesseldorf', naam: 'Düsseldorf / Weeze', code: 'DUS', prijs: '345' },
   ];
 
-  return data.map((item) => ({
+  return steden.map((item) => ({
     params: { luchthaven: item.slug },
-    props: { info: item },
+    props: { naam: item.naam, code: item.code, prijs: item.prijs },
   }));
 }
 
-const { info } = Astro.props;
+const { naam, code, prijs } = Astro.props;
 ---
 
-<Layout metadata={{ title: `Taxi naar ${info.naam} - InTaxi Amsterdam` }}>
-  <section class="bg-[#003399] py-20 px-4 text-center text-white">
-    <h1 class="text-4xl md:text-6xl font-bold mb-6 uppercase">
-      Taxi naar {info.naam}
-    </h1>
-    <p class="text-xl mb-10">
-      Vaste prijs naar {info.code}: Tesla €{info.tesla},- | Busje €{info.busje},-
-    </p>
-    <a href="https://wa.me/31642277607" class="bg-white text-[#003399] px-8 py-4 rounded-lg font-bold inline-block">
+<Layout metadata={{ title: `Taxi naar ${naam}` }}>
+  <main style="padding: 100px 20px; text-align: center; font-family: sans-serif;">
+    <h1 style="font-size: 3rem; margin-bottom: 20px; color: #003399;">Taxi naar {naam} ({code})</h1>
+    <p style="font-size: 1.5rem; margin-bottom: 40px;">Vaste prijs vanaf Amsterdam: €{prijs},-</p>
+    <a 
+      href="https://wa.me/31642277607" 
+      style="background: #25d366; color: white; padding: 15px 30px; border-radius: 5px; text-decoration: none; font-weight: bold;"
+    >
       Reserveer via WhatsApp
     </a>
-  </section>
-
-  <Features2
-    title="Luchthaven Tarieven"
-    items={[
-      { title: 'Tesla Executive', description: `Vanaf € ${info.tesla},-` },
-      { title: 'Luxe Personenbus', description: `Vanaf € ${info.busje},-` },
-      { title: '24/7 Service', description: 'Altijd op tijd voor uw vlucht.' },
-    ]}
-  />
-
-  <CallToAction
-    title="Direct een taxi boeken?"
-    actions={[{
-      variant: 'primary',
-      text: 'WhatsApp ons',
-      href: 'https://wa.me/31642277607',
-    }]}
-  />
+  </main>
 </Layout>
