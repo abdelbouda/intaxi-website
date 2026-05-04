@@ -7,36 +7,33 @@ import Steps2 from '~/components/widgets/Steps2.astro';
 import Layout from '~/layouts/PageLayout.astro';
 
 const metadata = {
-  title: 'Over Ons — InTaxi Amsterdam',
+  title: 'Over Ons | Uw Mobiliteitspartner in Amsterdam — InTaxi',
+  description: 'InTaxi Amsterdam: Uw specialist in zakelijk vervoer, veilig leerlingenvervoer en luxe airport taxi services naar Schiphol. Ontdek onze 100% elektrische vloot.',
 };
 ---
 
 <Layout metadata={metadata}>
-  <!-- Hero Widget ******************* -->
-
+  <!-- Hero Widget: Verbeterde leesbaarheid en relevante afbeelding -->
   <Hero
-    tagline="Over InTaxi"
+    tagline="Uw Mobiliteitspartner"
     image={{
-      src: 'https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
-      alt: 'InTaxi Amsterdam Tesla Service',
+      src: 'https://images.unsplash.com/photo-1441333343567-9919e68e0044?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+      alt: 'Luxe taxi service op het vliegveld',
     }}
   >
     <Fragment slot="title">
-      Uw partner in premium vervoer met <br />
-      <span class="text-accent dark:text-white">vaste tarieven in Amsterdam</span>
+      Professioneel taxi vervoer voor <br />
+      <span class="text-[#003399] dark:text-blue-400">zakelijk en particulier</span>
     </Fragment>
 
     <Fragment slot="subtitle">
-      Bij <strong>InTaxi Amsterdam</strong> is een rit meer dan alleen van A naar B. Met meerdere jaren ervaring bieden wij 
-      hoogwaardig personenvervoer. Of u nu kiest voor onze duurzame Tesla taxi of een ruim busje, 
-      wij staan garant voor comfort en punctualiteit voor elke rit naar <strong>Schiphol</strong> of binnen de regio.
+      Bij <strong>InTaxi Amsterdam</strong> gaan we verder dan alleen vervoer. Als uw integrale <strong>mobiliteitspartner</strong> bieden wij maatwerkoplossingen voor de zakelijke markt, specialistische <strong>airport ritten</strong> en betrouwbaar <strong>leerlingenvervoer</strong>. Met onze 100% elektrische vloot combineren wij duurzaamheid met de hoogste standaard in comfort en punctualiteit.
     </Fragment>
   </Hero>
 
-  <!-- Stats Widget ****************** -->
-
+  <!-- Stats Widget -->
   <Stats
-    title="Onze impact in cijfers"
+    title="Betrouwbaarheid in cijfers"
     stats={[
       { title: 'Jaren Ervaring', amount: '8+' },
       { title: 'Tevreden Klanten', amount: '15K+' },
@@ -45,37 +42,35 @@ const metadata = {
     ]}
   />
 
-  <!-- Features3 Widget ************** -->
-
+  <!-- Features3 Widget: Focus op Kernsegmenten -->
   <Features3
     title="Onze Specialisaties"
-    subtitle="Wij bieden een breed scala aan vervoersoplossingen, van particuliere ritten tot gespecialiseerde zorgtrajecten."
+    subtitle="Van strategisch zakelijk partnerschap tot zorgvuldig leerlingenvervoer; wij ontzorgen u op elk traject."
     columns={3}
     isBeforeContent={true}
     items={[
       {
-        title: 'Zakelijk Vervoer',
+        title: 'Zakelijk Vervoer & Partners',
         description:
-          'Representatief vervoer voor professionals waarbij discretie, comfort en tijdwinst naar de luchthaven essentieel zijn.',
+          'Wij fungeren als de verlengde arm van uw organisatie. Representatieve chauffeurs, facturatie op rekening en prioritair boeken voor uw directie en gasten.',
         icon: 'tabler:briefcase',
       },
       {
-        title: 'Schiphol Service',
+        title: 'Airport Specialist',
         description:
-          'Specialist in vervoer naar het vliegveld. Wij monitoren uw vlucht en hanteren vaste tarieven naar de luchthaven.',
-        icon: 'tabler:plane-arrival',
+          'Uw reis begint bij de voordeur. Wij zijn gespecialiseerd in vliegveld ritten naar Schiphol, Brussel en Düsseldorf met vaste, scherpe tarieven.',
+        icon: 'tabler:plane-departure',
       },
       {
-        title: 'Particulier Vervoer',
+        title: 'Leerlingenvervoer',
         description:
-          'Luxe en betrouwbare ritten door heel Amsterdam en omstreken voor een eerlijke, vooraf afgesproken prijs.',
-        icon: 'tabler:car',
+          'Veiligheid en continuïteit voor de meest kwetsbare reizigers. Onze chauffeurs zijn gecertificeerd en getraind in sociaal-emotionele begeleiding.',
+        icon: 'tabler:school',
       },
     ]}
   />
 
-  <!-- Features3 Widget ************** -->
-
+  <!-- Features3 Widget: Toegevoegde SEO waarde -->
   <Features3
     columns={3}
     isAfterContent={true}
@@ -83,122 +78,88 @@ const metadata = {
       {
         title: 'Zorgvervoer',
         description:
-          'Wij bieden extra zorg en aandacht voor patiëntenvervoer van en naar medische instellingen.',
+          'Comfortabel en empathisch vervoer van en naar ziekenhuizen en zorginstellingen, waarbij we de tijd nemen voor de cliënt.',
         icon: 'tabler:heart-handshake',
       },
       {
-        title: 'Leerlingenvervoer',
+        title: 'Particuliere Luxe',
         description:
-          'Veilig en vertrouwd vervoer voor scholieren, uitgevoerd door ervaren chauffeurs die rust uitstralen.',
-        icon: 'tabler:school',
+          'Ervaar de premium service van een privéchauffeur voor de prijs van een reguliere taxi binnen de regio Amsterdam.',
+        icon: 'tabler:car',
       },
       {
-        title: 'Speciaal Vervoer',
+        title: 'Event & Groepsvervoer',
         description:
-          'Maatwerkoplossingen voor unieke vervoersvragen, evenementen of groepsvervoer in luxe busjes.',
-        icon: 'tabler:star',
+          'Logistieke planning voor congressen of groepsreizen in onze luxe taxibusjes (tot 8 personen).',
+        icon: 'tabler:users',
       },
     ]}
     image={{
-      src: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80',
-      alt: 'InTaxi Service beeld',
+      src: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?ixlib=rb-4.0.3&auto=format&fit=crop&w=1740&q=80',
+      alt: 'Professionele taxi chauffeur klaar voor vertrek',
     }}
   />
 
-  <!-- Steps2 Widget ****************** -->
-
+  <!-- Steps2 Widget: Kernwaarden -->
   <Steps2
-    title="Onze Kernwaarden"
-    subtitle="Waarom klanten al jarenlang kiezen voor de taxi services van InTaxi Amsterdam."
+    title="Waarom InTaxi de voorkeur heeft"
+    subtitle="Onze belofte aan elke zakelijke en particuliere klant."
     items={[
       {
-        title: 'Klantgerichte aanpak',
+        title: 'Mobiliteitspartner van A tot Z',
         description:
-          'Uw wensen staan centraal. Van een flesje water in de Tesla tot hulp bij uw bagage op het vliegveld.',
+          'Wij denken mee met uw logistiek. Of het nu gaat om een enkele rit naar Schiphol of de dagelijkse planning van leerlingenvervoer.',
       },
       {
-        title: 'Vaste Tarieven',
+        title: 'Transparante Vaste Tarieven',
         description:
-          'Geen verrassingen of meterkosten. U weet vooraf exact wat de rit naar de luchthaven of Amsterdam kost.',
+          'Geen verrassingen achteraf. Wij hanteren vooraf gecommuniceerde tarieven, ook voor onze luxe Tesla vloot.',
       },
       {
-        title: 'Duurzaamheid',
+        title: 'Duurzame Ambitie',
         description:
-          'Wij investeren in de toekomst met een 100% elektrische vloot voor een schoner Amsterdam.',
+          'Met een volledig elektrische vloot dragen wij direct bij aan de leefbaarheid en luchtkwaliteit in Amsterdam.',
       },
     ]}
   />
 
-  <!-- Steps2 Widget ****************** -->
-
-  <Steps2
-    title="Prestaties"
-    subtitle="Onze jarenlange inzet voor kwaliteit heeft geleid tot een sterke reputatie in de regio Amsterdam."
-    isReversed={true}
-    callToAction={{
-      text: 'Bereken uw ritprijs',
-      href: '/',
-    }}
-    items={[
-      {
-        title: 'Regionale dekking',
-        description: 'Wij bedienen de gehele metropoolregio Amsterdam en alle grote vliegvelden in Nederland en België.',
-        icon: 'tabler:map-pin',
-      },
-      {
-        title: 'Hoge klantwaardering',
-        description:
-          'Trots op onze positieve reviews van zowel zakelijke partners als particuliere reizigers.',
-        icon: 'tabler:message-star',
-      },
-      {
-        title: 'Gecertificeerd Vervoer',
-        description:
-          'Volledig gecertificeerd voor zorgvervoer en leerlingenvervoer met de juiste keurmerken.',
-        icon: 'tabler:certificate',
-      },
-    ]}
-  />
-
-  <!-- Features2 Widget ************** -->
-
+  <!-- Features2 Widget: Werkgebieden -->
   <Features2
-    title="Onze Werkgebieden"
-    tagline="Locaties"
+    title="Operationeel in de Metropoolregio"
+    tagline="Dekking"
     columns={3}
     items={[
       {
-        title: 'Amsterdam',
-        description: 'Centrum, West, Zuid, Oost en Noord.',
+        title: 'Amsterdam & Amstelveen',
+        description: 'Snelle responstijden in alle stadsdelen, inclusief Zuidas en Centrum.',
       },
       {
-        title: 'Schiphol',
-        description: 'Vaste ophaalpunten bij de luchthaven.',
+        title: 'Luchthaven Schiphol',
+        description: '24/7 aanwezigheid met Meet & Greet service bij de aankomsthal.',
       },
       {
-        title: 'Amstelveen & Omstreken',
-        description: 'Snelle aanrijtijden in de gehele regio.',
+        title: 'Internationaal',
+        description: 'Lange-afstandsritten naar o.a. Antwerpen, Brussel, Parijs en Berlijn.',
       },
     ]}
   />
 
-  <!-- Features2 Widget ************** -->
-
+  <!-- Features2 Widget: Contact CTA -->
   <Features2
-    title="Direct Contact"
-    tagline="Bereikbaarheid"
+    title="Word zakelijk partner"
+    tagline="Contact"
     columns={2}
     items={[
       {
-        title: 'WhatsApp ons',
+        title: 'WhatsApp Business',
         description:
-          'De snelste manier om een rit te boeken of een prijsopgave op te vragen.',
+          'Stuur direct een bericht voor boekingen of offertes. Snel, efficiënt en altijd bereikbaar.',
         icon: 'tabler:brand-whatsapp',
       },
       {
-        title: 'Bel onze centrale',
+        title: 'Zakelijke Desk',
         description:
-          'Voor directe spoedritten of vragen over uw zakelijke boeking.',
+          'Bel ons voor het openen van een zakelijk account of spoedritten binnen Amsterdam.',
         icon: 'tabler:phone',
       },
     ]}
