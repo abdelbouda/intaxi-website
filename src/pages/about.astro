@@ -1,3 +1,4 @@
+---
 import Features2 from '~/components/widgets/Features2.astro';
 import Features3 from '~/components/widgets/Features3.astro';
 import Hero from '~/components/widgets/Hero.astro';
@@ -12,17 +13,13 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-  <!-- Hero Widget: Kleur aangepast naar wit voor betere leesbaarheid -->
+  <!-- Hero Widget zonder afbeelding -->
   <Hero
     tagline="Uw Mobiliteitspartner"
-    image={{
-      src: 'https://images.unsplash.com/photo-1441333343567-9919e68e0044?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-      alt: 'Luxe taxi service op het vliegveld',
-    }}
   >
     <Fragment slot="title">
       Professioneel taxi vervoer voor <br />
-      <span class="text-white dark:text-white">zakelijk en particulier</span>
+      <span class="text-[#003399] dark:text-blue-400">zakelijk en particulier</span>
     </Fragment>
 
     <Fragment slot="subtitle">
@@ -41,7 +38,7 @@ const metadata = {
     ]}
   />
 
-  <!-- Features3 Widget: Focus op Kernsegmenten -->
+  <!-- Features3 Widget: Specialisaties -->
   <Features3
     title="Onze Specialisaties"
     subtitle="Van strategisch zakelijk partnerschap tot zorgvuldig leerlingenvervoer; wij ontzorgen u op elk traject."
@@ -50,53 +47,42 @@ const metadata = {
     items={[
       {
         title: 'Zakelijk Vervoer & Partners',
-        description:
-          'Wij fungeren als de verlengde arm van uw organisatie. Representatieve chauffeurs, facturatie op rekening en prioritair boeken voor uw directie en gasten.',
+        description: 'Wij fungeren als de verlengde arm van uw organisatie. Representatieve chauffeurs, facturatie op rekening en prioritair boeken.',
         icon: 'tabler:briefcase',
       },
       {
         title: 'Airport Specialist',
-        description:
-          'Uw reis begint bij de voordeur. Wij zijn gespecialiseerd in vliegveld ritten naar Schiphol, Brussel en Düsseldorf met vaste, scherpe tarieven.',
+        description: 'Uw reis begint bij de voordeur. Wij zijn gespecialiseerd in vliegveld ritten naar Schiphol, Brussel en Düsseldorf.',
         icon: 'tabler:plane-departure',
       },
       {
         title: 'Leerlingenvervoer',
-        description:
-          'Veiligheid en continuïteit voor de meest kwetsbare reizigers. Onze chauffeurs zijn gecertificeerd en getraind in sociaal-emotionele begeleiding.',
+        description: 'Veiligheid en continuïteit voor de meest kwetsbare reizigers. Onze chauffeurs zijn gecertificeerd.',
         icon: 'tabler:school',
       },
     ]}
   />
 
-  <!-- Rest van de widgets blijft ongewijzigd -->
   <Features3
     columns={3}
     isAfterContent={true}
     items={[
       {
         title: 'Zorgvervoer',
-        description:
-          'Comfortabel en empathisch vervoer van en naar ziekenhuizen en zorginstellingen, waarbij we de tijd nemen voor de cliënt.',
+        description: 'Comfortabel en empathisch vervoer van en naar ziekenhuizen en zorginstellingen.',
         icon: 'tabler:heart-handshake',
       },
       {
         title: 'Particuliere Luxe',
-        description:
-          'Ervaar de premium service van een privéchauffeur voor de prijs van een reguliere taxi binnen de regio Amsterdam.',
+        description: 'Ervaar de premium service van een privéchauffeur voor de prijs van een reguliere taxi.',
         icon: 'tabler:car',
       },
       {
         title: 'Event & Groepsvervoer',
-        description:
-          'Logistieke planning voor congressen of groepsreizen in onze luxe taxibusjes (tot 8 personen).',
+        description: 'Logistieke planning voor congressen of groepsreizen in onze luxe taxibusjes.',
         icon: 'tabler:users',
       },
     ]}
-    image={{
-      src: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?ixlib=rb-4.0.3&auto=format&fit=crop&w=1740&q=80',
-      alt: 'Professionele taxi chauffeur klaar voor vertrek',
-    }}
   />
 
   <Steps2
@@ -105,18 +91,15 @@ const metadata = {
     items={[
       {
         title: 'Mobiliteitspartner van A tot Z',
-        description:
-          'Wij denken mee met uw logistiek. Of het nu gaat om een enkele rit naar Schiphol of de dagelijkse planning van leerlingenvervoer.',
+        description: 'Wij denken mee met uw logistiek. Of het nu gaat om een enkele rit of dagelijkse planning.',
       },
       {
         title: 'Transparante Vaste Tarieven',
-        description:
-          'Geen verrassingen achteraf. Wij hanteren vooraf gecommuniceerde tarieven, ook voor onze luxe Tesla vloot.',
+        description: 'Geen verrassingen achteraf. Wij hanteren vooraf gecommuniceerde tarieven.',
       },
       {
         title: 'Duurzame Ambitie',
-        description:
-          'Met een volledig elektrische vloot dragen wij direct bij aan de leefbaarheid en luchtkwaliteit in Amsterdam.',
+        description: 'Met een volledig elektrische vloot dragen wij bij aan de leefbaarheid in Amsterdam.',
       },
     ]}
   />
@@ -148,14 +131,12 @@ const metadata = {
     items={[
       {
         title: 'WhatsApp Business',
-        description:
-          'Stuur direct een bericht voor boekingen of offertes. Snel, efficiënt en altijd bereikbaar.',
+        description: 'Stuur direct een bericht voor boekingen of offertes.',
         icon: 'tabler:brand-whatsapp',
       },
       {
         title: 'Zakelijke Desk',
-        description:
-          'Bel ons voor het openen van een zakelijk account of spoedritten binnen Amsterdam.',
+        description: 'Bel ons voor het openen van een zakelijk account.',
         icon: 'tabler:phone',
       },
     ]}
