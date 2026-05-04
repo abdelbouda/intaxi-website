@@ -1,72 +1,54 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 import ContactUs from '~/components/widgets/Contact.astro';
-import Features2 from '~/components/widgets/Features2.astro';
 
 const metadata = {
-  title: 'Contact | InTaxi Amsterdam - Uw Premium Taxi Partner',
-  description: 'Neem direct contact op met InTaxi voor zakelijk vervoer en luchthavenritten.',
+  title: 'Contact | InTaxi Amsterdam',
+  description: 'Neem contact op met InTaxi Amsterdam voor premium vervoer.',
 };
 ---
 
 <Layout metadata={metadata}>
-  <!-- Ultracompacte Video Hero - Hoogte naar 30vh voor maximale zichtbaarheid kaders -->
-  <section class="relative h-[30vh] min-h-[280px] flex items-center justify-center overflow-hidden">
+  <!-- Video Sectie: Kleiner gemaakt naar 30vh -->
+  <section class="relative h-[30vh] min-h-[250px] flex items-center justify-center overflow-hidden">
     <video autoplay muted loop playsinline class="absolute z-0 w-full h-full object-cover">
       <source src="/videos/video_intaxi.webm" type="video/webm" />
     </video>
     <div class="absolute inset-0 bg-[#003399]/40 z-10"></div>
 
     <div class="relative z-20 text-center text-white px-4">
-      <h1 class="text-3xl md:text-5xl font-bold mb-2 font-heading tracking-tighter uppercase drop-shadow-lg">
-        Contact
-      </h1>
-      <p class="text-sm md:text-base font-medium mb-4 drop-shadow-md">
-        24/7 bereikbaar voor premium vervoer vanuit Amsterdam.
-      </p>
-      <a href="https://wa.me/31642277607" class="bg-[#003399] hover:bg-blue-900 text-white px-6 py-2 rounded-full font-bold transition-all shadow-xl inline-flex items-center border border-white/30 text-sm">
-        WhatsApp Direct: 06-42277607
-      </a>
+      <h1 class="text-3xl md:text-5xl font-bold mb-2 font-heading uppercase">Contact</h1>
+      <p class="text-sm md:text-base font-medium mb-4">24/7 bereikbaar voor premium vervoer.</p>
     </div>
   </section>
 
-  <!-- Kaders zonder HTML-tags om de "originalIM set twice" panic te voorkomen -->
-  <div class="relative z-30 max-w-6xl mx-auto px-4 mt-[-4rem]">
-    <Features2
-      classes={{ 
-        container: 'py-0 md:py-0 lg:py-0',
-        items: 'gap-4', 
-      }} 
-      items={[
-        {
-          title: 'WhatsApp & Telefoon',
-          description: '06-42277607',
-          icon: 'tabler:brand-whatsapp',
-        },
-        {
-          title: 'Zakelijk E-mail',
-          description: 'info@intaxi.nl',
-          icon: 'tabler:mail',
-        },
-        {
-          title: 'Standplaats',
-          description: 'Memeleiland, Amsterdam',
-          icon: 'tabler:map-pin',
-        },
-      ]}
-    />
+  <!-- Handmatige kaders (geen Features2 widget) om de parser error te voorkomen -->
+  <div class="relative z-30 max-w-6xl mx-auto px-4 mt-[-3rem]">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div class="bg-white dark:bg-slate-900 p-6 rounded-lg shadow-xl border border-gray-100 dark:border-slate-800 text-center">
+        <div class="text-[#003399] mb-2 flex justify-center italic font-bold">WhatsApp & Telefoon</div>
+        <p class="text-gray-700 dark:text-gray-300">06-42277607</p>
+      </div>
+      <div class="bg-white dark:bg-slate-900 p-6 rounded-lg shadow-xl border border-gray-100 dark:border-slate-800 text-center">
+        <div class="text-[#003399] mb-2 flex justify-center italic font-bold">Zakelijk E-mail</div>
+        <p class="text-gray-700 dark:text-gray-300">info@intaxi.nl</p>
+      </div>
+      <div class="bg-white dark:bg-slate-900 p-6 rounded-lg shadow-xl border border-gray-100 dark:border-slate-800 text-center">
+        <div class="text-[#003399] mb-2 flex justify-center italic font-bold">Standplaats</div>
+        <p class="text-gray-700 dark:text-gray-300">Amsterdam</p>
+      </div>
+    </div>
   </div>
 
   <!-- Formulier & USP Sectie -->
-  <div class="grid md:grid-cols-2 gap-0 bg-white dark:bg-slate-900 border-t border-gray-100 dark:border-slate-800 mt-6">
+  <div class="grid md:grid-cols-2 gap-0 bg-white dark:bg-slate-900 border-t border-gray-100 dark:border-slate-800 mt-8">
     <div class="p-6 md:p-10">
-       <ContactUs
+      <ContactUs
         id="form"
         title="Directe Aanvraag"
-        subtitle="Stuur ons een bericht voor offertes of vragen."
         inputs={[
           { type: 'text', name: 'name', label: 'Naam' },
-          { type: 'email', name: 'email', label: 'E-mailadres' },
+          { type: 'email', name: 'email', label: 'E-mail' },
         ]}
         textarea={{ label: 'Uw bericht' }}
         button="Verstuur"
@@ -74,26 +56,11 @@ const metadata = {
     </div>
 
     <div class="bg-[#003399] p-6 md:p-10 text-white flex flex-col justify-center">
-      <h2 class="text-xl font-bold mb-4 italic border-b border-white/20 pb-2">Zakelijke Partner</h2>
-      <ul class="space-y-3">
-        <li class="flex items-start gap-3">
-          <div class="bg-white/10 p-1 rounded shrink-0">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"><path d="M5 12l5 5l10 -10" /></svg>
-          </div>
-          <p class="text-xs font-bold">Facturatie op Rekening</p>
-        </li>
-        <li class="flex items-start gap-3">
-          <div class="bg-white/10 p-1 rounded shrink-0">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"><path d="M5 12l5 5l10 -10" /></svg>
-          </div>
-          <p class="text-xs font-bold">Tesla Executive Vloot</p>
-        </li>
-        <li class="flex items-start gap-3">
-          <div class="bg-white/10 p-1 rounded shrink-0">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"><path d="M5 12l5 5l10 -10" /></svg>
-          </div>
-          <p class="text-xs font-bold">Internationale Ritten</p>
-        </li>
+      <h2 class="text-xl font-bold mb-4 italic">Zakelijke Partner</h2>
+      <ul class="space-y-2 text-sm">
+        <li>• Facturatie op Rekening</li>
+        <li>• Tesla Executive Vloot</li>
+        <li>• Internationale Ritten</li>
       </ul>
     </div>
   </div>
