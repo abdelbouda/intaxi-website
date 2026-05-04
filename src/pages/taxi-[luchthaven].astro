@@ -1,7 +1,4 @@
-
-export const prerender = true; // Dit dwingt Astro om de 7 pagina's fysiek aan te maken
-import Layout from '~/layouts/PageLayout.astro';
-// ... rest van je imports
+---
 import Layout from '~/layouts/PageLayout.astro';
 import Features2 from '~/components/widgets/Features2.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
@@ -23,47 +20,52 @@ export async function getStaticPaths() {
   }));
 }
 
+// Zorg dat deze variabelen correct worden binnengehaald
 const { info, alleLuchthavens } = Astro.props;
 
+// Metadata object voor SEO
 const metadata = {
   title: `Taxi naar ${info.naam} - InTaxi Amsterdam`,
 };
+
+// We zetten prerender op true om zeker te weten dat de pagina's worden gegenereerd
+export const prerender = true;
 ---
 
 <Layout metadata={metadata}>
-  <section class="bg-[#003399] py-20 px-4 text-center">
-    <h1 class="text-4xl md:text-6xl font-bold text-white mb-6 uppercase">
-      Taxi {info.naam}
+  <section class="bg-[#003399] py-20 px-4 text-center text-white">
+    <h1 class="text-4xl md:text-6xl font-bold mb-6 uppercase">
+      Taxi naar {info.naam}
     </h1>
-    <p class="text-xl text-blue-100 mb-10">
-      Vaste prijs: € {info.tesla},- (Tesla) of € {info.busje},- (Bus).
+    <p class="text-xl mb-10">
+      Vaste prijs naar {info.code}: Tesla €{info.tesla},- | Busje €{info.busje},-
     </p>
-    <a href="https://wa.me/31642277607" class="bg-white text-[#003399] px-8 py-4 rounded-lg font-bold">
-      Boek via WhatsApp
+    <a href="https://wa.me/31642277607" class="bg-white text-[#003399] px-8 py-4 rounded-lg font-bold inline-block">
+      Reserveer via WhatsApp
     </a>
   </section>
 
   <Features2
-    title="Tarieven"
+    title="Luchthaven Tarieven"
     items={[
       {
-        title: 'Tesla Sedan',
+        title: 'Tesla Executive',
         description: `Vanaf € ${info.tesla},-`,
-        // Icoon tijdelijk weg om build error te voorkomen
       },
       {
-        title: 'Taxibus',
+        title: 'Luxe Personenbus',
         description: `Vanaf € ${info.busje},-`,
       },
       {
-        title: 'Service',
-        description: '24/7 airport service',
+        title: '24/7 Service',
+        description: 'Altijd op tijd voor uw vlucht.',
       },
     ]}
   />
 
   <CallToAction
-    title="Nu een taxi nodig?"
+    title="Direct een taxi boeken?"
+    subtitle="Geen verborgen kosten, vaste lage prijzen."
     actions={[{
       variant: 'primary',
       text: 'WhatsApp ons',
