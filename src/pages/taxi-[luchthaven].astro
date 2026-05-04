@@ -6,7 +6,7 @@ import Features2 from '~/components/widgets/Features2.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
 
 export async function getStaticPaths() {
-  const luchthavensData = [
+  const data = [
     { slug: 'schiphol', naam: 'Schiphol Airport', code: 'AMS', tesla: '45', busje: '65' },
     { slug: 'rotterdam', naam: 'Rotterdam The Hague', code: 'RTM', tesla: '125', busje: '160' },
     { slug: 'eindhoven', naam: 'Eindhoven Airport', code: 'EIN', tesla: '185', busje: '230' },
@@ -16,20 +16,16 @@ export async function getStaticPaths() {
     { slug: 'duesseldorf', naam: 'Düsseldorf / Weeze', code: 'DUS', tesla: '345', busje: '415' },
   ];
 
-  return luchthavensData.map((luchthaven) => ({
-    params: { luchthaven: luchthaven.slug },
-    props: { info: luchthaven },
+  return data.map((item) => ({
+    params: { luchthaven: item.slug },
+    props: { info: item },
   }));
 }
 
 const { info } = Astro.props;
-
-const metadata = {
-  title: `Taxi naar ${info.naam} - InTaxi Amsterdam`,
-};
 ---
 
-<Layout metadata={metadata}>
+<Layout metadata={{ title: `Taxi naar ${info.naam} - InTaxi Amsterdam` }}>
   <section class="bg-[#003399] py-20 px-4 text-center text-white">
     <h1 class="text-4xl md:text-6xl font-bold mb-6 uppercase">
       Taxi naar {info.naam}
