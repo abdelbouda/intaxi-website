@@ -9,8 +9,10 @@ import partytown from '@astrojs/partytown';
 import icon from 'astro-icon';
 import type { AstroIntegration } from 'astro';
 
-import astrowind from './vendor/integration';
+// 1. Importeer de Vercel adapter
+import vercel from '@astrojs/vercel';
 
+import astrowind from './vendor/integration';
 import { readingTimeRemarkPlugin, responsiveTablesRehypePlugin, lazyImagesRehypePlugin } from './src/utils/frontmatter';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -20,7 +22,15 @@ const whenExternalScripts = (items: (() => AstroIntegration) | (() => AstroInteg
   hasExternalScripts ? (Array.isArray(items) ? items.map((item) => item()) : [items()]) : [];
 
 export default defineConfig({
+  // We houden de output op static voor maximale snelheid
   output: 'static',
+
+  // 2. Voeg de adapter toe om de routing op Vercel correct af te handelen
+  adapter: vercel({
+    webAnalytics: {
+      enabled: true,
+    },
+  }),
 
   integrations: [
     tailwind({
@@ -50,8 +60,6 @@ export default defineConfig({
         config: { forward: ['dataLayer.push'] },
       })
     ),
-
-    // Compress is hier volledig verwijderd om build-conflicten te voorkomen
     
     astrowind({
       config: './src/config.yaml',
@@ -70,7 +78,6 @@ export default defineConfig({
   vite: {
     resolve: {
       alias: {
-        // FIX: De tilde moet tussen aanhalingstekens staan
         '~': path.resolve(__dirname, './src'),
       },
     },
