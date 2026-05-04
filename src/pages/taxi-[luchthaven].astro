@@ -1,10 +1,8 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
-import Content from '~/components/widgets/Content.astro';
 import Features2 from '~/components/widgets/Features2.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
 
-// 1. Static Paths - Stabiel en Getest
 export async function getStaticPaths() {
   const luchthavensData = [
     { slug: 'schiphol', naam: 'Schiphol Airport', code: 'AMS', tesla: '45', busje: '65' },
@@ -24,120 +22,103 @@ export async function getStaticPaths() {
 
 const { info, alleLuchthavens } = Astro.props;
 
-// 2. SEO Metadata - Dynamisch en Veilig
 const metadata = {
   title: `Taxi naar ${info.naam} (${info.code}) | InTaxi Amsterdam`,
-  description: `Vaste tarieven naar ${info.naam}. Reis comfortabel in een Tesla sedan vanaf € ${info.tesla},- of taxibusje vanaf € ${info.busje},-. 24/7 airport service vanuit Amsterdam.`,
+  description: `Vaste tarieven naar ${info.naam}. Reis comfortabel in een Tesla sedan vanaf € ${info.tesla},- of taxibusje vanaf € ${info.busje},-. 24/7 airport service.`,
 };
 ---
 
 <Layout metadata={metadata}>
-  <!-- 3. Stabilized Pure HTML Hero Sectie (Geen widgets) -->
-  <section class="relative h-[60vh] min-h-[500px] flex items-center justify-center overflow-hidden bg-black">
-    <!-- De video - Controleer of het bestand exact hier staat -->
-    <video
-      autoplay
-      muted
-      loop
-      playsinline
-      class="absolute z-0 w-full h-full object-cover opacity-60"
-    >
-      <source src="/videos/video_intaxi.webm" type="video/webm" />
-    </video>
-    
-    <!-- Donkere Blauwe Overlay -->
-    <div class="absolute inset-0 bg-[#003399]/30 z-10"></div>
-
-    <!-- Dynamische Tekst -->
-    <div class="relative z-20 text-center text-white px-4 max-w-4xl">
-      <h1 class="text-4xl md:text-7xl font-bold mb-6 font-heading tracking-tighter uppercase">
+  <!-- Hero Sectie: Pure Text & Kleur (Geen Video/Image) -->
+  <section class="bg-[#003399] py-20 md:py-32 px-4 text-center">
+    <div class="max-w-4xl mx-auto">
+      <h1 class="text-4xl md:text-7xl font-bold text-white mb-6 tracking-tighter uppercase">
         Taxi {info.naam}
       </h1>
-      <p class="text-xl md:text-2xl font-medium mb-10 leading-relaxed italic border-b border-white/20 pb-4">
-        Luxe Airport Vervoer: Tesla Sedan € {info.tesla},- | Taxibus € {info.busje},-
+      <p class="text-xl md:text-2xl text-blue-100 mb-10 leading-relaxed max-w-2xl mx-auto italic">
+        Betrouwbaar luchthavenvervoer vanaf Amsterdam naar {info.code}. 
+        Vaste prijs: € {info.tesla},- (Tesla) of € {info.busje},- (Bus).
       </p>
-      <div class="flex justify-center">
+      <div class="flex flex-wrap justify-center gap-4">
         <a 
           href="https://wa.me/31642277607" 
-          class="bg-white text-[#003399] hover:bg-gray-100 px-8 py-4 rounded-full font-bold transition-all shadow-2xl flex items-center text-lg"
+          class="bg-white text-[#003399] hover:bg-gray-100 px-8 py-4 rounded-lg font-bold transition-all text-lg"
         >
-          Reserveer via WhatsApp
+          Boek nu via WhatsApp
         </a>
       </div>
     </div>
   </section>
 
-  <!-- 4. Features/Tarieven Sectie (Veilig voor dynamische data) -->
+  <!-- Tarieven Sectie -->
   <Features2
-    title="Luchthaven Tarieven Amsterdam"
-    subtitle={`Vaste prijzen voor uw rit naar ${info.naam}`}
+    title="Transparante Tarieven"
+    subtitle={`Uw rit naar ${info.naam} zonder verrassingen`}
     items={[
       {
         title: 'Tesla Sedan',
-        description: `Vanaf € ${info.tesla},- <br /> Max. 4 personen`,
+        description: `Vanaf € ${info.tesla},- <br /> Luxe & Milieuvriendelijk`,
         icon: 'tabler:car-electric',
       },
       {
         title: 'Luxe Personenbus',
-        description: `Vanaf € ${info.busje},- <br /> Tot 8 personen`,
+        description: `Vanaf € ${info.busje},- <br /> Voor groepen tot 8 personen`,
         icon: 'tabler:users',
       },
       {
-        title: 'Airport Service',
-        description: 'Professionele chauffeurs 24/7',
-        icon: 'tabler:plane-departure',
+        title: 'Wachttijd',
+        description: 'Bij vertragingen rekenen wij geen extra kosten',
+        icon: 'tabler:clock',
       },
     ]}
   />
 
-  <!-- 5. Content Sectie (Stabieler gemaakt) -->
-  <Content
-    isReversed
-    items={[
-      {
-        title: 'Stipt en Betrouwbaar',
-        description: `Wij zijn gespecialiseerd in lange-afstandsritten naar ${info.naam}.`,
-      },
-      {
-        title: 'Luxe Tesla Vloot',
-        description: 'Geniet van een stille, duurzame rit in de nieuwste Tesla Model Y of 3.',
-      },
-    ]}
-//    image={{ src: '~/assets/images/taxi-airport.jpg', alt: 'Airport Service' }}
-  >
-    <Fragment slot="content">
-      <h3 class="text-2xl font-bold mb-2 uppercase">Service naar {info.code}</h3>
-      Reis in comfort van Amsterdam naar de terminal.
-    </Fragment>
-  </Content>
-
-  <!-- 6. SEO Link Sectie (Dynamische Loop beveiligd) -->
-  <section class="max-w-6xl mx-auto px-4 py-16 border-t border-gray-100 dark:border-slate-800">
-    <h3 class="text-xl font-bold mb-8 italic text-[#003399]">Bekijk ook onze andere bestemmingen:</h3>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-      {
-        // Filtert de huidige pagina eruit om loops te voorkomen
-        alleLuchthavens
-          .filter((l) => l.slug !== info.slug)
-          .map((l) => (
-            <a 
-              href={`/taxi-${l.slug}`} 
-              class="block p-4 rounded-xl border border-gray-200 dark:border-slate-800 hover:border-[#003399] hover:bg-gray-50 dark:hover:bg-slate-800 transition-all text-sm font-bold"
-            >
-              Taxi {l.naam} →
-            </a>
-          ))
-      }
+  <!-- Tekst Sectie voor SEO -->
+  <section class="max-w-4xl mx-auto px-4 py-16">
+    <div class="prose prose-lg dark:prose-invert">
+      <h2 class="text-3xl font-bold mb-6">Waarom kiezen voor InTaxi naar {info.naam}?</h2>
+      <p>
+        Bij InTaxi Amsterdam begrijpen we dat een reis naar de luchthaven stressvrij moet verlopen. 
+        Daarom bieden wij voor de route Amsterdam naar <strong>{info.naam}</strong> uitsluitend vervoer aan met 
+        ervaren chauffeurs en moderne voertuigen zoals de Tesla Model Y.
+      </p>
+      <ul class="list-disc pl-5 space-y-2 mt-4">
+        <li><strong>Vaste Prijs:</strong> U betaalt € {info.tesla},- ongeacht de drukte op de weg.</li>
+        <li><strong>24/7 Bereikbaar:</strong> Wij staan dag en nacht klaar voor uw rit naar {info.code}.</li>
+        <li><strong>Zakelijk Vervoer:</strong> Mogelijkheid tot betaling op rekening voor bedrijven.</li>
+      </ul>
     </div>
   </section>
 
-  <!-- 7. CTA Sectie -->
+  <!-- Interne Links voor SEO -->
+  <section class="bg-gray-50 dark:bg-slate-800 py-16">
+    <div class="max-w-6xl mx-auto px-4">
+      <h3 class="text-xl font-bold mb-8 text-[#003399] dark:text-white uppercase tracking-widest">Populaire luchthaven bestemmingen</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {
+          alleLuchthavens
+            .filter((l) => l.slug !== info.slug)
+            .map((l) => (
+              <a 
+                href={`/taxi-${l.slug}`} 
+                class="bg-white dark:bg-slate-900 p-4 rounded border border-gray-200 dark:border-slate-700 hover:shadow-md transition-shadow group"
+              >
+                <p class="font-bold group-hover:text-[#003399] transition-colors italic">Taxi naar {l.naam}</p>
+                <p class="text-sm text-gray-500 italic">Vanaf € {l.tesla},-</p>
+              </a>
+            ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
   <CallToAction
-    title="Uw taxi naar de luchthaven reserveren?"
-    subtitle="Vaste prijzen, luxe Tesla's en 24/7 service."
+    title="Vragen over uw rit?"
+    subtitle="Neem direct contact op via WhatsApp voor een vrijblijvende prijsopgave of reservering."
     actions={[{
       variant: 'primary',
-      text: 'Direct Boeken via WhatsApp',
+      text: 'Direct Appen',
       href: 'https://wa.me/31642277607',
       icon: 'tabler:brand-whatsapp',
     }]}
