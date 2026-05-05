@@ -22,13 +22,22 @@ const whenExternalScripts = (items: (() => AstroIntegration) | (() => AstroInteg
   hasExternalScripts ? (Array.isArray(items) ? items.map((item) => item()) : [items()]) : [];
 
 export default defineConfig({
-  // 3. De 'site' property is essentieel voor sitemaps en SEO
+  // De 'site' property is essentieel voor sitemaps en SEO
   site: 'https://www.intaxi.nl',
+
+  // Internationalization (i18n) configuratie
+  i18n: {
+    defaultLocale: 'nl',
+    locales: ['nl', 'en'],
+    routing: {
+      prefixDefaultLocale: false, // nl op /, en op /en/
+    },
+  },
 
   // We houden de output op static voor maximale snelheid
   output: 'static',
 
-  // 2. Voeg de adapter toe om de routing op Vercel correct af te handelen
+  // Voeg de adapter toe om de routing op Vercel correct af te handelen
   adapter: vercel({
     webAnalytics: {
       enabled: true,
@@ -39,7 +48,16 @@ export default defineConfig({
     tailwind({
       applyBaseStyles: false,
     }),
-    sitemap(),
+    // Geoptimaliseerde sitemap voor meertaligheid
+    sitemap({
+      i18n: {
+        defaultLocale: 'nl',
+        locales: {
+          nl: 'nl-NL',
+          en: 'en-US',
+        },
+      },
+    }),
     mdx(),
     icon({
       include: {
@@ -81,7 +99,7 @@ export default defineConfig({
   vite: {
     resolve: {
       alias: {
-        '~': path.resolve(__dirname, './src'),
+        ~: path.resolve(__dirname, './src'),
       },
     },
   },
