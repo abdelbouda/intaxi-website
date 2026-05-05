@@ -1,3 +1,4 @@
+---
 import Layout from '~/layouts/PageLayout.astro';
 
 const metadata = {
@@ -29,12 +30,10 @@ const today = new Date().toISOString().split('T')[0];
         </h1>
       </div>
 
-      <!-- Booking Card -->
       <div class="animate-fade-in bg-white/95 dark:bg-slate-800/95 backdrop-blur-md rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] overflow-hidden border border-white/20">
         <div class="p-4 md:p-6">
           <div class="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-6">
             
-            <!-- 1. Airport Selection -->
             <div class="flex flex-col">
               <div class="flex items-center mb-3">
                 <span class="flex items-center justify-center w-6 h-6 rounded-full bg-[#003399] text-white font-bold mr-3 text-[10px]">1</span>
@@ -75,7 +74,6 @@ const today = new Date().toISOString().split('T')[0];
               </div>
             </div>
 
-            <!-- 2. Trip Details -->
             <div class="flex flex-col">
               <div class="flex items-center mb-3">
                 <span class="flex items-center justify-center w-6 h-6 rounded-full bg-[#003399] text-white font-bold mr-3 text-[10px]">2</span>
@@ -85,21 +83,10 @@ const today = new Date().toISOString().split('T')[0];
               <div class="space-y-3">
                 <div class="flex gap-2">
                   <div class="flex-[4] relative">
-                    <input 
-                      id="vliegveld-ophaal-adres" 
-                      type="text" 
-                      autocomplete="off" 
-                      placeholder="Street Name" 
-                      class="block w-full p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm text-black"
-                    />
+                    <input id="vliegveld-ophaal-adres" type="text" autocomplete="off" placeholder="Street Name" class="block w-full p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm text-black" />
                     <div id="vliegveld-suggestions" class="absolute z-[100] w-full bg-white border border-gray-300 rounded-b-xl shadow-2xl hidden max-h-60 overflow-y-auto mt-1"></div>
                   </div>
-                  <input 
-                    id="vliegveld-huisnummer" 
-                    type="text" 
-                    placeholder="No." 
-                    class="flex-1 p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm text-black text-center" 
-                  />
+                  <input id="vliegveld-huisnummer" type="text" placeholder="No." class="flex-1 p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm text-black text-center" />
                 </div>
 
                 <div class="grid grid-cols-2 gap-2">
@@ -112,17 +99,9 @@ const today = new Date().toISOString().split('T')[0];
                   <input id="vliegveld-tel" type="tel" placeholder="Phone" class="p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm text-black" />
                 </div>
 
-                <textarea
-                  id="vliegveld-notitie"
-                  placeholder="Flight number or additional notes..."
-                  rows="2"
-                  class="w-full p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm text-black resize-none"
-                ></textarea>
+                <textarea id="vliegveld-notitie" placeholder="Flight number or additional notes..." rows="2" class="w-full p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm text-black resize-none"></textarea>
 
-                <button
-                  id="vliegveld-whatsapp-btn"
-                  class="w-full bg-[#003399] hover:bg-blue-800 active:scale-[0.985] text-white font-black py-4 rounded-2xl transition-all shadow-lg mt-2 uppercase tracking-wider text-sm"
-                >
+                <button id="vliegveld-whatsapp-btn" class="w-full bg-[#003399] hover:bg-blue-800 active:scale-[0.985] text-white font-black py-4 rounded-2xl transition-all shadow-lg mt-2 uppercase tracking-wider text-sm">
                   Book Now via WhatsApp
                 </button>
               </div>
@@ -133,137 +112,77 @@ const today = new Date().toISOString().split('T')[0];
     </div>
   </section>
 
-  <!-- SEO Text Section -->
   <section class="bg-white dark:bg-slate-900 py-12 md:py-20 border-t border-gray-100 dark:border-slate-800">
     <div class="max-w-4xl mx-auto px-4 sm:px-6">
       <div class="prose prose-lg dark:prose-invert max-w-none">
-        <h2 class="text-3xl font-bold text-[#003399] dark:text-blue-400 mb-6">
-          Exclusive Airport Transport from Amsterdam
-        </h2>
-        <p class="text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
-          At <strong>InTaxi Amsterdam</strong>, your vacation or business trip starts at your front door. We offer premium airport transport in our luxury and sustainable Tesla fleet. Whether you're traveling alone or with a group, we ensure a comfortable, reliable and punctual journey to any airport in the region.
-        </p>
-
-        <h3 class="text-xl font-semibold mb-4">Taxi to the Major Airports</h3>
-        <p class="text-gray-700 dark:text-gray-300 mb-6">
-          We handle daily trips to all major airports in the region. Look no further for a reliable 
-          <a href="/taxi-schiphol" class="text-[#003399] font-semibold hover:underline">taxi to Schiphol</a>, 
-          <a href="/taxi-rotterdam" class="text-[#003399] font-semibold hover:underline">Rotterdam The Hague Airport</a>, 
-          <a href="/taxi-eindhoven" class="text-[#003399] font-semibold hover:underline">Eindhoven Airport</a>, 
-          or international destinations like Brussels, Antwerp, Charleroi and Düsseldorf.
-        </p>
-
+        <h2 class="text-3xl font-bold text-[#003399] dark:text-blue-400 mb-6">Exclusive Airport Transport from Amsterdam</h2>
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed mb-6">At <strong>InTaxi Amsterdam</strong>, your vacation or business trip starts at your front door. We offer premium airport transport in our luxury and sustainable Tesla fleet.</p>
         <div class="bg-blue-50 dark:bg-slate-800 p-6 rounded-2xl border-l-4 border-[#003399] mt-8">
           <h4 class="text-[#003399] dark:text-blue-300 font-bold mb-2">The Benefits of InTaxi</h4>
           <ul class="list-disc ml-5 space-y-1 text-sm text-gray-700 dark:text-gray-300">
-            <li><strong>Fixed Prices:</strong> No meter surprises, always clarity in advance.</li>
-            <li><strong>Luxury Teslas:</strong> Travel emission-free in the most modern cars.</li>
-            <li><strong>Quick Booking:</strong> Direct contact and confirmation via WhatsApp.</li>
-            <li><strong>Baggage Assistance:</strong> Our drivers are happy to help you with your luggage.</li>
+            <li><strong>Fixed Prices:</strong> No meter surprises.</li>
+            <li><strong>Luxury Teslas:</strong> Travel emission-free.</li>
+            <li><strong>Quick Booking:</strong> Direct confirmation via WhatsApp.</li>
           </ul>
         </div>
       </div>
     </div>
   </section>
-
-  <style>
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(15px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .animate-fade-in {
-      opacity: 0;
-      animation: fadeIn 0.8s ease-out forwards;
-      animation-delay: 1s;
-    }
-  </style>
-
-  <script>
-    function initVliegveldBooking() {
-      const input = document.getElementById('vliegveld-ophaal-adres');
-      const suggestionsBox = document.getElementById('vliegveld-suggestions');
-      const btn = document.getElementById('vliegveld-whatsapp-btn');
-      let debounceTimer;
-
-      if (!input || !suggestionsBox) return;
-
-      input.addEventListener('input', () => {
-        clearTimeout(debounceTimer);
-        const q = input.value.trim();
-        
-        if (q.length < 3) {
-          suggestionsBox.classList.add('hidden');
-          return;
-        }
-
-        debounceTimer = setTimeout(async () => {
-          try {
-            const res = await fetch(
-              `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&addressdetails=1&limit=5&countrycodes=nl`
-            );
-            const data = await res.json();
-            
-            suggestionsBox.innerHTML = '';
-            if (data.length > 0) {
-              suggestionsBox.classList.remove('hidden');
-              data.forEach(item => {
-                const div = document.createElement('div');
-                div.className = 'p-3 hover:bg-blue-50 cursor-pointer border-b text-sm text-black';
-                const parts = item.display_name.split(',');
-                div.textContent = parts[0] + (parts[1] ? ', ' + parts[1] : '');
-
-                div.onclick = () => {
-                  input.value = div.textContent;
-                  suggestionsBox.classList.add('hidden');
-                  document.getElementById('vliegveld-huisnummer').focus();
-                };
-                suggestionsBox.appendChild(div);
-              });
-            }
-          } catch (err) {
-            console.error('Address lookup error:', err);
-          }
-        }, 350);
-      });
-
-      // Close suggestions when clicking outside
-      document.addEventListener('click', (e) => {
-        if (!input.contains(e.target) && !suggestionsBox.contains(e.target)) {
-          suggestionsBox.classList.add('hidden');
-        }
-      });
-
-      // WhatsApp button
-      if (btn) {
-        btn.addEventListener('click', () => {
-          const val = (id) => document.getElementById(id)?.value.trim() || '';
-          const airportEl = document.querySelector('input[name="airport"]:checked');
-          const airport = airportEl ? airportEl.value : 'Not specified';
-
-          const text = `Hi InTaxi, I want to book an airport transfer:%0A%0A` +
-                       `📍 To: ${airport}%0A` +
-                       `🏠 From: ${val('vliegveld-ophaal-adres')} ${val('vliegveld-huisnummer')}%0A` +
-                       `📅 Date: ${val('vliegveld-datum')}%0A` +
-                       `⏰ Time: ${val('vliegveld-tijd')}%0A` +
-                       `👤 Name: ${val('vliegveld-naam')}%0A` +
-                       `📞 Phone: ${val('vliegveld-tel')}%0A` +
-                       `📝 Note: ${val('vliegveld-notitie')}`;
-
-          window.open(`https://wa.me/31642277607?text=${text}`, '_blank');
-        });
-      }
-
-      // Click anywhere on row to select airport
-      document.querySelectorAll('.airport-row').forEach(row => {
-        row.addEventListener('click', () => {
-          const radio = row.querySelector('input[type="radio"]');
-          if (radio) radio.checked = true;
-        });
-      });
-    }
-
-    // Run on initial load and Astro page transitions
-    initVliegveldBooking();
-    document.addEventListener('astro:page-load', initVliegveldBooking);
-  </script>
 </Layout>
+
+<style>
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-in {
+    opacity: 0;
+    animation: fadeIn 0.8s ease-out forwards;
+    animation-delay: 1s;
+  }
+</style>
+
+<script>
+  function initVliegveldBooking() {
+    const input = document.getElementById('vliegveld-ophaal-adres');
+    const suggestionsBox = document.getElementById('vliegveld-suggestions');
+    const btn = document.getElementById('vliegveld-whatsapp-btn');
+    let debounceTimer;
+
+    if (!input || !suggestionsBox) return;
+
+    input.addEventListener('input', () => {
+      clearTimeout(debounceTimer);
+      const q = input.value.trim();
+      if (q.length < 3) { suggestionsBox.classList.add('hidden'); return; }
+
+      debounceTimer = setTimeout(async () => {
+        try {
+          const res = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&addressdetails=1&limit=5&countrycodes=nl`);
+          const data = await res.json();
+          suggestionsBox.innerHTML = '';
+          if (data.length > 0) {
+            suggestionsBox.classList.remove('hidden');
+            data.forEach(item => {
+              const div = document.createElement('div');
+              div.className = 'p-3 hover:bg-blue-50 cursor-pointer border-b text-sm text-black';
+              div.textContent = item.display_name.split(',')[0] + (item.display_name.split(',')[1] ? ', ' + item.display_name.split(',')[1] : '');
+              div.onclick = () => { input.value = div.textContent; suggestionsBox.classList.add('hidden'); document.getElementById('vliegveld-huisnummer').focus(); };
+              suggestionsBox.appendChild(div);
+            });
+          }
+        } catch (err) { console.error(err); }
+      }, 350);
+    });
+
+    btn.addEventListener('click', () => {
+      const val = (id) => document.getElementById(id)?.value.trim() || '';
+      const airportEl = document.querySelector('input[name="airport"]:checked');
+      const airport = airportEl ? airportEl.value : 'Not specified';
+      const text = `Hi InTaxi, I want to book an airport transfer:%0A%0A📍 To: ${airport}%0A🏠 From: ${val('vliegveld-ophaal-adres')} ${val('vliegveld-huisnummer')}%0A📅 Date: ${val('vliegveld-datum')}%0A⏰ Time: ${val('vliegveld-tijd')}%0A👤 Name: ${val('vliegveld-naam')}%0A📞 Phone: ${val('vliegveld-tel')}%0A📝 Note: ${val('vliegveld-notitie')}`;
+      window.open(`https://wa.me/31642277607?text=${text}`, '_blank');
+    });
+  }
+  initVliegveldBooking();
+  document.addEventListener('astro:page-load', initVliegveldBooking);
+</script>
