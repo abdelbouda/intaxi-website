@@ -11,7 +11,9 @@ import Metadata from '~/components/common/Metadata.astro';
 import SiteVerification from '~/components/common/SiteVerification.astro';
 import Analytics from '~/components/common/Analytics.astro';
 import BasicScripts from '~/components/common/BasicScripts.astro';
-import SpeedInsights from '@vercelspeed-insights/astro';
+
+// Gecorrigeerde import (met het streepje)
+import SpeedInsights from '@vercel/speed-insights/astro';
 
 import { ClientRouter } from 'astro:transitions';
 
@@ -30,7 +32,7 @@ const { language, textDirection } = I18N;
   <head>
     <meta name="google-site-verification" content="3g7v7S4Ddi2eyj5xk1GXtqUC8OiPIssoNP93W5xKiCo" />
     
-    <!-- Forceer het logo voor Google Zoekresultaten (image_0177dc.png) -->
+    <!-- Het logo voor Google en Browsertabs -->
     <link rel="icon" type="image/webp" href="/intaxi_logo.webp" />
     <link rel="apple-touch-icon" sizes="180x180" href="/intaxi_logo.webp" />
     
