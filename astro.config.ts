@@ -22,7 +22,7 @@ const whenExternalScripts = (items: (() => AstroIntegration) | (() => AstroInteg
   hasExternalScripts ? (Array.isArray(items) ? items.map((item) => item()) : [items()]) : [];
 
 export default defineConfig({
-  // 3. De 'site' property is essentieel voor sitemaps en SEO (nu met www.)
+  // 3. De 'site' property is essentieel voor sitemaps en SEO
   site: 'https://www.intaxi.nl',
 
   // We houden de output op static voor maximale snelheid
@@ -81,7 +81,7 @@ export default defineConfig({
   vite: {
     resolve: {
       alias: {
-        ~: path.resolve(__dirname, './src'),
+        '~': path.resolve(__dirname, './src'),
       },
     },
   },
