@@ -37,92 +37,89 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-  <section class="py-12 md:py-20 px-4 max-w-6xl mx-auto">
-    <div class="text-center mb-12">
-      <h1 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 tracking-tight uppercase">
+  <!-- Padding top verlaagd van py-12 naar pt-6 -->
+  <section class="pt-6 pb-12 md:pt-10 md:pb-20 px-4 max-w-6xl mx-auto">
+    
+    <!-- Header sectie compacter gemaakt -->
+    <div class="text-center mb-6 md:mb-8">
+      <h1 class="text-2xl md:text-4xl font-extrabold text-slate-900 mb-2 tracking-tight uppercase">
         Taxi Amsterdam naar <span class="text-[#003399]">{naam}</span>
       </h1>
-      <p class="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
-        Comfortabel en duurzaam vliegveldvervoer. Kies voor een luxe Tesla of een ruim taxibusje voor een vast tarief.
+      <p class="text-sm md:text-base text-gray-600 max-w-xl mx-auto leading-tight">
+        Kies voor een luxe Tesla of een ruim taxibusje voor een vast tarief naar {code}.
       </p>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
       
       <!-- LINKERZIJDE: INFO & TARIEVEN -->
-      <div class="space-y-6">
+      <div class="space-y-4">
         <div class="bg-white border border-gray-100 rounded-3xl shadow-xl overflow-hidden">
-          <div class="bg-[#003399] p-4 text-white font-bold text-center uppercase tracking-widest text-sm">
+          <div class="bg-[#003399] p-3 text-white font-bold text-center uppercase tracking-widest text-[10px]">
             Tarieven naar {code}
           </div>
-          <div class="p-6 grid grid-cols-2 gap-4">
-            <div class="text-center p-4 rounded-2xl bg-blue-50 border border-blue-100">
-              <span class="block text-[10px] uppercase font-bold text-blue-400 mb-1">Luxe Tesla (4p)</span>
-              <span class="text-2xl font-black text-[#003399]">v.a. €{prijsTesla},-</span>
+          <div class="p-4 grid grid-cols-2 gap-3">
+            <div class="text-center p-3 rounded-2xl bg-blue-50 border border-blue-100">
+              <span class="block text-[9px] uppercase font-bold text-blue-400 mb-1">Luxe Tesla (4p)</span>
+              <span class="text-xl font-black text-[#003399]">v.a. €{prijsTesla},-</span>
             </div>
-            <div class="text-center p-4 rounded-2xl bg-slate-50 border border-slate-100">
-              <span class="block text-[10px] uppercase font-bold text-slate-400 mb-1">Taxibusje (8p)</span>
-              <span class="text-2xl font-black text-slate-700">v.a. €{prijsBus},-</span>
+            <div class="text-center p-3 rounded-2xl bg-slate-50 border border-slate-100">
+              <span class="block text-[9px] uppercase font-bold text-slate-400 mb-1">Taxibusje (8p)</span>
+              <span class="text-xl font-black text-slate-700">v.a. €{prijsBus},-</span>
             </div>
           </div>
-          <div class="px-6 pb-6 text-sm text-gray-500 italic text-center">
+          <div class="px-4 pb-4 text-[11px] text-gray-500 italic text-center">
              Geschatte reistijd: circa {reistijd}
           </div>
         </div>
 
-        <div class="prose prose-blue prose-sm max-w-none bg-slate-50/50 p-6 rounded-3xl border border-slate-100">
-          <h3 class="text-[#003399] font-bold uppercase text-sm mb-4">Waarom InTaxi Amsterdam?</h3>
-          <ul class="list-none pl-0 space-y-2">
-            <li class="flex items-center">✅ <span class="ml-2 font-medium">Altijd een vaste prijs vooraf</span></li>
-            <li class="flex items-center">✅ <span class="ml-2 font-medium">Luxe Tesla's & Comfortabele bussen</span></li>
-            <li class="flex items-center">✅ <span class="ml-2 font-medium">Chauffeurs helpen met uw bagage</span></li>
-            <li class="flex items-center">✅ <span class="ml-2 font-medium">24/7 bereikbaar via WhatsApp</span></li>
+        <div class="hidden md:block bg-slate-50/50 p-4 rounded-3xl border border-slate-100">
+          <ul class="list-none pl-0 space-y-1 text-xs">
+            <li class="flex items-center">✅ <span class="ml-2">Vaste prijs vooraf</span></li>
+            <li class="flex items-center">✅ <span class="ml-2">Luxe Tesla's & bussen</span></li>
+            <li class="flex items-center">✅ <span class="ml-2">24/7 WhatsApp support</span></li>
           </ul>
         </div>
       </div>
 
-      <!-- RECHTERZIJDE: BOEKINGSFORMULIER (RIT DETAILS) -->
-      <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl p-6 border border-gray-100 relative">
-        <div class="flex items-center mb-6">
-          <span class="flex items-center justify-center w-8 h-8 rounded-full bg-[#003399] text-white font-bold mr-3">2</span>
-          <h2 class="text-xl font-bold text-[#003399]">Rit Details & Boeken</h2>
+      <!-- RECHTERZIJDE: BOEKINGSFORMULIER (Strakker design) -->
+      <div class="bg-white rounded-3xl shadow-2xl p-5 border border-gray-50">
+        <div class="flex items-center mb-4">
+          <span class="flex items-center justify-center w-6 h-6 rounded-full bg-[#003399] text-white font-bold mr-2 text-[10px]">2</span>
+          <h2 class="text-base font-bold text-[#003399]">Rit Details & Boeken</h2>
         </div>
 
-        <div class="space-y-4">
-          <!-- Voertuig Keuze -->
+        <div class="space-y-3">
           <div class="grid grid-cols-2 gap-2">
-            <button id="btn-tesla" class="vehicle-btn active p-3 rounded-xl border-2 border-[#003399] bg-[#003399] text-white font-bold text-xs uppercase transition-all">Luxe Tesla</button>
-            <button id="btn-busje" class="vehicle-btn p-3 rounded-xl border-2 border-gray-100 bg-gray-50 text-gray-400 font-bold text-xs uppercase transition-all">Taxibusje</button>
+            <button id="btn-tesla" class="vehicle-btn active p-2 rounded-xl border-2 border-[#003399] bg-[#003399] text-white font-bold text-[10px] uppercase transition-all">Luxe Tesla</button>
+            <button id="btn-busje" class="vehicle-btn p-2 rounded-xl border-2 border-gray-100 bg-gray-50 text-gray-400 font-bold text-[10px] uppercase transition-all">Taxibusje</button>
           </div>
 
-          <!-- Adres Autocomplete -->
           <div class="flex gap-2">
             <div class="flex-[4] relative">
-              <input id="ophaal-adres" type="text" autocomplete="off" placeholder="Ophaaladres in Amsterdam" class="block w-full p-4 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm text-black focus:bg-white focus:border-[#003399] transition-all" />
-              <div id="suggestions" class="absolute z-[100] w-full bg-white border border-gray-300 rounded-b-xl shadow-2xl hidden max-h-60 overflow-y-auto mt-1"></div>
+              <input id="ophaal-adres" type="text" autocomplete="off" placeholder="Ophaaladres" class="block w-full p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-xs text-black" />
+              <div id="suggestions" class="absolute z-[100] w-full bg-white border border-gray-300 rounded-b-xl shadow-2xl hidden max-h-40 overflow-y-auto mt-1"></div>
             </div>
-            <input id="huisnummer" type="text" placeholder="Nr." class="flex-[1] p-4 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm text-black text-center focus:bg-white focus:border-[#003399] transition-all" />
+            <input id="huisnummer" type="text" placeholder="Nr." class="flex-[1] p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-xs text-black text-center" />
           </div>
 
           <div class="grid grid-cols-2 gap-2">
-            <input id="datum" type="date" value={today} class="p-4 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm text-black focus:bg-white focus:border-[#003399]" />
-            <input id="tijd" type="time" value="12:00" class="p-4 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm text-black focus:bg-white focus:border-[#003399]" />
+            <input id="datum" type="date" value={today} class="p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-xs text-black" />
+            <input id="tijd" type="time" value="12:00" class="p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-xs text-black" />
           </div>
 
           <div class="grid grid-cols-2 gap-2">
-            <input id="naam" type="text" placeholder="Naam" class="p-4 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm text-black focus:bg-white focus:border-[#003399]" />
-            <input id="tel" type="tel" placeholder="Telefoon" class="p-4 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm text-black focus:bg-white focus:border-[#003399]" />
+            <input id="naam" type="text" placeholder="Naam" class="p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-xs text-black" />
+            <input id="tel" type="tel" placeholder="Telefoon" class="p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-xs text-black" />
           </div>
 
-          <textarea id="notitie" placeholder="Vluchtnummer of extra opmerkingen..." rows="2" class="w-full p-4 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm text-black resize-none focus:bg-white focus:border-[#003399]"></textarea>
+          <textarea id="notitie" placeholder="Vluchtnummer / opmerkingen..." rows="1" class="w-full p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-xs text-black resize-none"></textarea>
 
-          <div class="bg-blue-50 p-4 rounded-2xl text-center border border-blue-100">
-             <span class="text-[10px] font-bold text-blue-400 uppercase block">Uw tarief naar {naam}</span>
-             <span id="current-price" class="text-3xl font-black text-[#003399]">€ {prijsTesla},-</span>
+          <div class="bg-blue-50 p-3 rounded-2xl text-center border border-blue-100">
+             <span id="current-price" class="text-xl font-black text-[#003399]">Totaal: € {prijsTesla},-</span>
           </div>
 
-          <button id="whatsapp-btn" class="w-full bg-[#003399] text-white font-black py-5 rounded-2xl hover:bg-blue-800 active:translate-y-1 transition-all shadow-lg uppercase tracking-widest text-sm flex items-center justify-center gap-3">
-            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.588-5.946 0-6.556 5.332-11.888 11.888-11.888 3.176 0 6.161 1.237 8.404 3.48s3.481 5.229 3.481 8.406c0 6.555-5.332 11.887-11.888 11.887-2.007 0-3.974-.506-5.717-1.464l-6.167 1.688zm6.035-4.631l.351.208c1.612.957 3.486 1.462 5.4 1.462 5.51 0 9.997-4.487 9.997-9.995 0-2.67-1.039-5.18-2.926-7.067s-4.397-2.926-7.067-2.926c-5.51 0-9.997 4.487-9.997 9.996 0 2.116.66 4.175 1.908 5.914l.228.318-1.02 3.722 3.826-1.022zM16.518 13.911c-.439-.219-2.597-1.282-2.998-1.428-.4-.146-.693-.219-.985.219-.292.438-1.132 1.428-1.388 1.72-.255.292-.511.328-.95.109-.438-.219-1.85-.681-3.525-2.176-1.303-1.163-2.182-2.599-2.438-3.037-.255-.439-.027-.676.192-.894.197-.196.439-.511.657-.766.219-.255.292-.439.439-.73.146-.292.073-.548-.036-.766-.109-.219-.985-2.373-1.35-3.249-.355-.853-.715-.737-.985-.75l-.84-.015c-.292 0-.766.11-1.168.548-.401.438-1.533 1.498-1.533 3.65 0 2.153 1.57 4.234 1.789 4.526.219.292 3.09 4.718 7.484 6.615 1.045.451 1.86.721 2.496.923 1.049.333 2.003.286 2.757.174.842-.125 2.597-1.06 2.962-2.083.365-1.023.365-1.9.255-2.083-.109-.182-.401-.292-.84-.511z"/></svg>
+          <button id="whatsapp-btn" class="w-full bg-[#003399] text-white font-black py-4 rounded-2xl hover:bg-blue-800 transition-all shadow-lg uppercase tracking-widest text-[11px] flex items-center justify-center gap-2">
             Boek Nu via WhatsApp
           </button>
         </div>
@@ -142,24 +139,22 @@ const metadata = {
       let selectedVehicle = 'Tesla';
       let debounceTimer;
 
-      // Voertuig switch
       function setVehicle(type) {
         selectedVehicle = type;
         if (type === 'Tesla') {
-          teslaBtn.className = "vehicle-btn active p-3 rounded-xl border-2 border-[#003399] bg-[#003399] text-white font-bold text-xs uppercase";
-          busjeBtn.className = "vehicle-btn p-3 rounded-xl border-2 border-gray-100 bg-gray-50 text-gray-400 font-bold text-xs uppercase";
-          priceDisplay.textContent = `€ ${prijsTesla},-`;
+          teslaBtn.className = "vehicle-btn active p-2 rounded-xl border-2 border-[#003399] bg-[#003399] text-white font-bold text-[10px] uppercase";
+          busjeBtn.className = "vehicle-btn p-2 rounded-xl border-2 border-gray-100 bg-gray-50 text-gray-400 font-bold text-[10px] uppercase";
+          priceDisplay.textContent = `Totaal: € ${prijsTesla},-`;
         } else {
-          busjeBtn.className = "vehicle-btn active p-3 rounded-xl border-2 border-[#003399] bg-[#003399] text-white font-bold text-xs uppercase";
-          teslaBtn.className = "vehicle-btn p-3 rounded-xl border-2 border-gray-100 bg-gray-50 text-gray-400 font-bold text-xs uppercase";
-          priceDisplay.textContent = `€ ${prijsBus},-`;
+          busjeBtn.className = "vehicle-btn active p-2 rounded-xl border-2 border-[#003399] bg-[#003399] text-white font-bold text-[10px] uppercase";
+          teslaBtn.className = "vehicle-btn p-2 rounded-xl border-2 border-gray-100 bg-gray-50 text-gray-400 font-bold text-[10px] uppercase";
+          priceDisplay.textContent = `Totaal: € ${prijsBus},-`;
         }
       }
 
       teslaBtn.onclick = () => setVehicle('Tesla');
       busjeBtn.onclick = () => setVehicle('Busje');
 
-      // Adres Autocomplete
       input.addEventListener('input', () => {
         clearTimeout(debounceTimer);
         const q = input.value;
@@ -174,7 +169,7 @@ const metadata = {
               suggestionsBox.classList.remove('hidden');
               data.forEach(item => {
                 const div = document.createElement('div');
-                div.className = 'p-3 hover:bg-blue-50 cursor-pointer border-b text-sm text-black bg-white';
+                div.className = 'p-2 hover:bg-blue-50 cursor-pointer border-b text-[11px] text-black bg-white';
                 const parts = item.display_name.split(',');
                 const label = parts[0] + (parts[1] ? ', ' + parts[1] : '');
                 div.textContent = label;
@@ -190,7 +185,6 @@ const metadata = {
         }, 300);
       });
 
-      // Verzend naar WhatsApp
       btn.onclick = () => {
         const val = (id) => document.getElementById(id).value;
         const text = `Hoi InTaxi, ik wil een rit boeken naar ${naam}:%0A%0A` +
@@ -206,7 +200,6 @@ const metadata = {
         window.open(`https://wa.me/31642277607?text=${text}`, '_blank');
       };
 
-      // Sluit suggesties bij klik buiten veld
       document.addEventListener('click', (e) => {
         if (!input.contains(e.target)) suggestionsBox.classList.add('hidden');
       });
