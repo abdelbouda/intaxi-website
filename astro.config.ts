@@ -99,7 +99,8 @@ export default defineConfig({
   vite: {
     resolve: {
       alias: {
-        ~: path.resolve(__dirname, './src'),
+        // FIX: De tilde moet tussen quotes staan om syntax errors in de build te voorkomen
+        '~': path.resolve(__dirname, './src'),
       },
     },
   },
