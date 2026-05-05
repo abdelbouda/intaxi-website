@@ -1,1 +1,99 @@
-leeg
+---
+import Layout from '~/layouts/PageLayout.astro';
+
+import Hero from '~/components/widgets/Hero.astro';
+import Note from '~/components/widgets/Note.astro';
+import Features from '~/components/widgets/Features.astro';
+import Steps from '~/components/widgets/Steps.astro';
+import FAQs from '~/components/widgets/FAQs.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+import PriceCalculator from '~/components/widgets/PriceCalculator.astro';
+
+const metadata = {
+  title: 'InTaxi — Luxury Tesla Taxi to Schiphol with fixed rates',
+  ignoreTitleTemplate: true,
+};
+---
+
+<Layout metadata={metadata}>
+
+  <Hero>
+    <Fragment slot="title"></Fragment>
+    <Fragment slot="subtitle"></Fragment>
+
+    <Fragment slot="content">
+      <div class="relative -mt-24 md:-mt-16 max-w-5xl mx-auto z-10 px-2 md:px-0">
+        
+        <div class="calculator-container opacity-0 pointer-events-auto">
+          <div class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md p-1 md:p-4 rounded-2xl md:rounded-3xl shadow-2xl border border-white/20">
+            <!-- Let op: Zorg dat je PriceCalculator component ook Engelse teksten ondersteunt indien nodig -->
+            <PriceCalculator />
+          </div>
+          
+          <div class="text-center mt-4 md:mt-6">
+             <h2 class="text-white text-xl md:text-3xl font-bold drop-shadow-lg">
+              Luxury transport in a <span class="text-blue-400 font-extrabold">Tesla</span>
+            </h2>
+            <p class="text-white/90 text-sm md:text-base mt-1 font-medium bg-black/20 inline-block px-4 py-0.5 rounded-full backdrop-blur-sm">
+              Fixed Rates • Schiphol Airport • Amsterdam
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </Fragment>
+
+    <Fragment slot="actions"></Fragment>
+  </Hero>
+
+  <Note title="Our promise:" description="Sustainability, Punctuality and Luxury based on fixed, transparent rates." />
+
+  <Features
+    id="features"
+    title="Why travel with InTaxi?"
+    items={[
+      { title: 'Fixed Price', description: 'No hidden costs or surprises afterward.', icon: 'tabler:currency-euro' },
+      { title: 'Tesla Fleet', description: 'Travel stylishly and eco-friendly.', icon: 'tabler:bolt' },
+      { title: 'WhatsApp Service', description: 'Direct contact and instant confirmation.', icon: 'tabler:brand-whatsapp' },
+    ]}
+  />
+
+  <Steps
+    title="How it works"
+    items={[
+      { title: 'Step 1', description: "Calculate your fixed price above.", icon: 'tabler:calculator' },
+      { title: 'Step 2', description: "Confirm directly via WhatsApp.", icon: 'tabler:brand-whatsapp' },
+      { title: 'Step 3', description: "Enjoy a worry-free ride.", icon: 'tabler:check' },
+    ]}
+  />
+
+  <CallToAction
+    title="Any questions?"
+    subtitle="Our support team is available 24/7 via WhatsApp."
+    actions={[{ variant: 'primary', text: 'Send a message', href: 'https://wa.me/31642277607', icon: 'tabler:brand-whatsapp' }]}
+  />
+</Layout>
+
+<style is:global>
+  @keyframes simpleFadeIn {
+    from { 
+      opacity: 0; 
+      transform: translateY(15px); 
+    }
+    to { 
+      opacity: 1; 
+      transform: translateY(0); 
+    }
+  }
+
+  .calculator-container {
+    animation: simpleFadeIn 1.2s ease-out forwards;
+    animation-delay: 2s;
+  }
+
+  .calculator-container input, 
+  .calculator-container button, 
+  .calculator-container select {
+    pointer-events: auto !important;
+  }
+</style>
