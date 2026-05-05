@@ -12,9 +12,7 @@ import SiteVerification from '~/components/common/SiteVerification.astro';
 import Analytics from '~/components/common/Analytics.astro';
 import BasicScripts from '~/components/common/BasicScripts.astro';
 
-// Gecorrigeerde import (met het streepje)
 import SpeedInsights from '@vercel/speed-insights/astro';
-
 import { ClientRouter } from 'astro:transitions';
 
 import type { MetaData as MetaDataType } from '~/types';
@@ -24,17 +22,33 @@ export interface Props {
 }
 
 const { metadata = {} } = Astro.props;
-const { language, textDirection } = I18N;
+
+// GURU UPDATE: Bepaal de taal op basis van de URL
+// Als de URL begint met /en, dan is de taal 'en', anders de default uit I18N config
+const { textDirection } = I18N;
+const lang = Astro.url.pathname.startsWith('/en') ? 'en' : 'nl';
+
+// GURU UPDATE: Hreflang logica (voor SEO)
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
+const nlUrl = new URL(Astro.url.pathname.replace(/^\/en/, ''), Astro.site);
+const enUrl = new URL('/en' + Astro.url.pathname.replace(/^\/en/, ''), Astro.site);
 ---
 
 <!doctype html>
-<html lang={language} dir={textDirection} class="2xl:text-[20px]">
+<html lang={lang} dir={textDirection} class="2xl:text-[20px]">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="google-site-verification" content="3g7v7S4Ddi2eyj5xk1GXtqUC8OiPIssoNP93W5xKiCo" />
     
     <!-- Het logo voor Google en Browsertabs -->
     <link rel="icon" type="image/webp" href="/intaxi_logo.webp" />
     <link rel="apple-touch-icon" sizes="180x180" href="/intaxi_logo.webp" />
+
+    <!-- GURU SEO: Hreflang tags -->
+    <link rel="alternate" hreflang="nl" href={nlUrl} />
+    <link rel="alternate" hreflang="en" href={enUrl} />
+    <link rel="alternate" hreflang="x-default" href={nlUrl} />
     
     <CommonMeta />
     <Favicons />
