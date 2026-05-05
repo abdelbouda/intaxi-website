@@ -11,9 +11,8 @@ import Metadata from '~/components/common/Metadata.astro';
 import SiteVerification from '~/components/common/SiteVerification.astro';
 import Analytics from '~/components/common/Analytics.astro';
 import BasicScripts from '~/components/common/BasicScripts.astro';
-import SpeedInsights from '@vercel/speed-insights/astro';
+import SpeedInsights from '@vercelspeed-insights/astro';
 
-// Comment the line below to disable View Transitions
 import { ClientRouter } from 'astro:transitions';
 
 import type { MetaData as MetaDataType } from '~/types';
@@ -30,6 +29,11 @@ const { language, textDirection } = I18N;
 <html lang={language} dir={textDirection} class="2xl:text-[20px]">
   <head>
     <meta name="google-site-verification" content="3g7v7S4Ddi2eyj5xk1GXtqUC8OiPIssoNP93W5xKiCo" />
+    
+    <!-- Forceer het logo voor Google Zoekresultaten (image_0177dc.png) -->
+    <link rel="icon" type="image/webp" href="/intaxi_logo.webp" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/intaxi_logo.webp" />
+    
     <CommonMeta />
     <Favicons />
     <CustomStyles />
@@ -38,7 +42,6 @@ const { language, textDirection } = I18N;
     <SiteVerification />
     <Analytics />
 
-    <!-- Comment the line below to disable View Transitions -->
     <ClientRouter fallback="swap" />
   </head>
 
