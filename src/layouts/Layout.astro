@@ -11,6 +11,7 @@ import Metadata from '~/components/common/Metadata.astro';
 import SiteVerification from '~/components/common/SiteVerification.astro';
 import Analytics from '~/components/common/Analytics.astro';
 import BasicScripts from '~/components/common/BasicScripts.astro';
+import SpeedInsights from '@vercel/speed-insights/astro';
 
 // Comment the line below to disable View Transitions
 import { ClientRouter } from 'astro:transitions';
@@ -28,7 +29,7 @@ const { language, textDirection } = I18N;
 <!doctype html>
 <html lang={language} dir={textDirection} class="2xl:text-[20px]">
   <head>
-    <meta name="google-site-verification" content="3g7v7S4Ddi2eyj5xk1GXtqUC8OiPIssoNP93W5xKiCo"/>
+    <meta name="google-site-verification" content="3g7v7S4Ddi2eyj5xk1GXtqUC8OiPIssoNP93W5xKiCo" />
     <CommonMeta />
     <Favicons />
     <CustomStyles />
@@ -45,5 +46,6 @@ const { language, textDirection } = I18N;
     <slot />
 
     <BasicScripts />
+    <SpeedInsights />
   </body>
 </html>
