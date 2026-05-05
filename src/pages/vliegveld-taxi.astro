@@ -35,7 +35,7 @@ const today = new Date().toISOString().split('T')[0];
         <div class="p-4 md:p-6">
           <div class="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-6">
             
-            <!-- 1. Luchthaven Selectie (Compactere padding) -->
+            <!-- 1. Luchthaven Selectie -->
             <div class="flex flex-col">
               <div class="flex items-center mb-3">
                 <span class="flex items-center justify-center w-6 h-6 rounded-full bg-[#003399] text-white font-bold mr-3 text-[10px]">1</span>
@@ -76,7 +76,7 @@ const today = new Date().toISOString().split('T')[0];
               </div>
             </div>
 
-            <!-- 2. Formulier met Opmerkingenveld -->
+            <!-- 2. Formulier -->
             <div class="flex flex-col">
               <div class="flex items-center mb-3">
                 <span class="flex items-center justify-center w-6 h-6 rounded-full bg-[#003399] text-white font-bold mr-3 text-[10px]">2</span>
@@ -102,7 +102,6 @@ const today = new Date().toISOString().split('T')[0];
                   <input id="vliegveld-tel" type="tel" placeholder="Telefoon" class="p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm text-black" />
                 </div>
 
-                <!-- Nieuw: Opmerkingenveld -->
                 <textarea id="vliegveld-notitie" placeholder="Vluchtnummer of extra opmerkingen..." rows="2" class="w-full p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm text-black resize-none"></textarea>
 
                 <button id="vliegveld-whatsapp-btn" class="w-full bg-[#003399] text-white font-black py-4 rounded-xl hover:bg-blue-800 active:translate-y-1 transition-all shadow-lg mt-1 uppercase tracking-widest text-xs">
@@ -117,6 +116,46 @@ const today = new Date().toISOString().split('T')[0];
     </div>
   </section>
 
+  <!-- NIEUW: SEO Tekst Sectie onder de kaart -->
+  <section class="bg-white dark:bg-slate-900 py-12 md:py-20 border-t border-gray-100 dark:border-slate-800">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <div class="prose prose-lg dark:prose-invert max-w-none">
+        <h2 class="text-3xl font-bold text-[#003399] dark:text-blue-400 mb-6">
+          Exclusief Luchthavenvervoer vanuit Amsterdam
+        </h2>
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
+          Bij <strong>InTaxi Amsterdam</strong> begint uw vakantie of zakenreis al bij de voordeur. Wij bieden hoogwaardig vliegveldvervoer aan in onze luxe en duurzame Tesla-vloot. Of u nu alleen reist of met een groep, wij staan 24/7 klaar voor een comfortabele rit tegen scherpe, vaste tarieven.
+        </p>
+
+        <h3 class="text-xl font-semibold mb-4">Taxi naar de belangrijkste vliegvelden</h3>
+        <p class="text-gray-700 dark:text-gray-300 mb-6">
+          Wij verzorgen dagelijks ritten naar alle grote luchthavens in de regio. Zoek niet verder voor een betrouwbare 
+          <a href="/taxi-schiphol" class="text-[#003399] font-semibold hover:underline">taxi naar Schiphol</a>, de meest gekozen optie voor Amsterdammers. Reist u via een regionale luchthaven? Wij bieden ook vaste prijzen voor een 
+          <a href="/taxi-rotterdam" class="text-[#003399] font-semibold hover:underline">taxi naar Rotterdam The Hague Airport</a> of een ontspannen rit met de 
+          <a href="/taxi-eindhoven" class="text-[#003399] font-semibold hover:underline">taxi naar Eindhoven Airport</a>.
+        </p>
+
+        <p class="text-gray-700 dark:text-gray-300 mb-6">
+          Ook voor internationaal vliegveldvervoer bent u bij ons aan het juiste adres. Boek eenvoudig een 
+          <a href="/taxi-antwerpen" class="text-[#003399] font-semibold hover:underline">taxi naar Antwerpen Airport</a> of laat u comfortabel naar België brengen met onze 
+          <a href="/taxi-brussel" class="text-[#003399] font-semibold hover:underline">taxi naar Brussel Zaventem</a>. Daarnaast rijden wij regelmatig naar de 
+          <a href="/taxi-charleroi" class="text-[#003399] font-semibold hover:underline">taxi naar Charleroi</a> en verzorgen wij uw vervoer met de 
+          <a href="/taxi-duesseldorf" class="text-[#003399] font-semibold hover:underline">taxi naar Düsseldorf / Weeze</a>.
+        </p>
+
+        <div class="bg-blue-50 dark:bg-slate-800 p-6 rounded-2xl border-l-4 border-[#003399] mt-8">
+          <h4 class="text-[#003399] dark:text-blue-300 font-bold mb-2">De voordelen van InTaxi</h4>
+          <ul class="list-disc ml-5 space-y-1 text-sm text-gray-700 dark:text-gray-300">
+            <li><strong>Vaste prijzen:</strong> Geen meter-verrassingen, altijd vooraf duidelijkheid.</li>
+            <li><strong>Luxe Tesla's:</strong> Reis emissievrij in de modernste auto's.</li>
+            <li><strong>Snelle Boeking:</strong> Direct contact en bevestiging via WhatsApp.</li>
+            <li><strong>Hulp bij bagage:</strong> Onze chauffeurs helpen u graag met uw koffers.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <style>
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
@@ -125,7 +164,7 @@ const today = new Date().toISOString().split('T')[0];
     .animate-fade-in {
       opacity: 0;
       animation: fadeIn 0.8s ease-out forwards;
-      animation-delay: 1s; /* De gevraagde delay van 1 seconde */
+      animation-delay: 1s;
     }
   </style>
 
