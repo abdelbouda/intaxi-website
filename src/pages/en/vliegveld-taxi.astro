@@ -1,1 +1,250 @@
-leeg
+---
+import Layout from '~/layouts/PageLayout.astro';
+
+const metadata = {
+  title: 'Vliegveld Taxi Amsterdam | Boek Direct Vaste Tarieven',
+  description: 'Boek uw luxe Tesla taxi van Amsterdam naar alle luchthavens voor een vaste prijs. Directe bevestiging via WhatsApp.',
+};
+
+const today = new Date().toISOString().split('T')[0];
+---
+
+<Layout metadata={metadata}>
+  <section class="relative min-h-screen flex items-start justify-center overflow-hidden pt-4 md:pt-10">
+    <video
+      autoplay
+      muted
+      loop
+      playsinline
+      class="absolute inset-0 z-0 w-full h-full object-cover"
+    >
+      <source src="/videos/video_intaxi.webm" type="video/webm" />
+    </video>
+    
+    <div class="absolute inset-0 bg-slate-900/50 z-10"></div>
+
+    <div class="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 w-full">
+      <div class="text-center mb-6 md:mb-10">
+        <h1 class="text-3xl md:text-5xl font-bold leading-tighter tracking-tighter text-white drop-shadow-lg uppercase">
+          Luchthavenvervoer
+        </h1>
+      </div>
+
+      <!-- De Kaart met Fade-in animatie (1s delay via CSS) -->
+      <div class="animate-fade-in bg-white/95 dark:bg-slate-800/95 backdrop-blur-md rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] overflow-hidden border border-white/20 transform transition-all duration-500">
+        <div class="p-4 md:p-6">
+          <div class="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-6">
+            
+            <!-- 1. Luchthaven Selectie -->
+            <div class="flex flex-col">
+              <div class="flex items-center mb-3">
+                <span class="flex items-center justify-center w-6 h-6 rounded-full bg-[#003399] text-white font-bold mr-3 text-[10px]">1</span>
+                <h2 class="text-base font-bold text-[#003399]">Selecteer Luchthaven</h2>
+              </div>
+              
+              <div class="overflow-x-auto rounded-xl border border-gray-100 shadow-inner bg-white">
+                <table class="w-full text-left border-collapse">
+                  <thead class="bg-[#003399] text-white text-[10px] uppercase tracking-widest">
+                    <tr>
+                      <th class="p-2 text-center">Kies</th>
+                      <th class="p-2">Bestemming</th>
+                      <th class="p-2 text-right">Tesla</th>
+                      <th class="p-2 text-right">Busje</th>
+                    </tr>
+                  </thead>
+                  <tbody class="text-[13px] text-[#003399]">
+                    {[
+                      { name: 'Schiphol Airport (AMS)', prices: ['€ 45,-', '€ 65,-'] },
+                      { name: 'Rotterdam The Hague (RTM)', prices: ['€ 125,-', '€ 160,-'] },
+                      { name: 'Eindhoven Airport (EIN)', prices: ['€ 185,-', '€ 230,-'] },
+                      { name: 'Antwerpen Airport (ANR)', prices: ['€ 225,-', '€ 275,-'] },
+                      { name: 'Brussel Zaventem (BRU)', prices: ['€ 325,-', '€ 395,-'] },
+                      { name: 'Charleroi Airport (CRL)', prices: ['€ 325,-', '€ 395,-'] },
+                      { name: 'Düsseldorf / Weeze', prices: ['€ 345,-', '€ 415,-'] }
+                    ].map((item, i) => (
+                      <tr class="border-b border-gray-50 hover:bg-blue-50/80 cursor-pointer airport-row transition-colors">
+                        <td class="p-2 text-center">
+                          <input type="radio" name="airport" value={item.name} checked={i === 0} class="w-4 h-4 cursor-pointer accent-[#003399]" />
+                        </td>
+                        <td class="p-2 font-semibold">{item.name}</td>
+                        <td class="p-2 text-right font-bold whitespace-nowrap">{item.prices[0]}</td>
+                        <td class="p-2 text-right font-bold whitespace-nowrap">{item.prices[1]}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- 2. Formulier -->
+            <div class="flex flex-col">
+              <div class="flex items-center mb-3">
+                <span class="flex items-center justify-center w-6 h-6 rounded-full bg-[#003399] text-white font-bold mr-3 text-[10px]">2</span>
+                <h2 class="text-base font-bold text-[#003399]">Rit Details</h2>
+              </div>
+
+              <div class="space-y-2">
+                <div class="flex gap-2">
+                  <div class="flex-[4] relative">
+                    <input id="vliegveld-ophaal-adres" type="text" autocomplete="off" placeholder="Straatnaam" class="block w-full p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm text-black" />
+                    <div id="vliegveld-suggestions" class="absolute z-[100] w-full bg-white border border-gray-300 rounded-b-xl shadow-2xl hidden max-h-60 overflow-y-auto mt-1"></div>
+                  </div>
+                  <input id="vliegveld-huisnummer" type="text" placeholder="Nr." class="flex-[1] p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm text-black text-center" />
+                </div>
+
+                <div class="grid grid-cols-2 gap-2">
+                  <input id="vliegveld-datum" type="date" value={today} class="p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm text-black" />
+                  <input id="vliegveld-tijd" type="time" value="12:00" class="p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm text-black" />
+                </div>
+
+                <div class="grid grid-cols-2 gap-2">
+                  <input id="vliegveld-naam" type="text" placeholder="Naam" class="p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm text-black" />
+                  <input id="vliegveld-tel" type="tel" placeholder="Telefoon" class="p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm text-black" />
+                </div>
+
+                <textarea id="vliegveld-notitie" placeholder="Vluchtnummer of extra opmerkingen..." rows="2" class="w-full p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm text-black resize-none"></textarea>
+
+                <button id="vliegveld-whatsapp-btn" class="w-full bg-[#003399] text-white font-black py-4 rounded-xl hover:bg-blue-800 active:translate-y-1 transition-all shadow-lg mt-1 uppercase tracking-widest text-xs">
+                  Boek nu via WhatsApp
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NIEUW: SEO Tekst Sectie onder de kaart -->
+  <section class="bg-white dark:bg-slate-900 py-12 md:py-20 border-t border-gray-100 dark:border-slate-800">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <div class="prose prose-lg dark:prose-invert max-w-none">
+        <h2 class="text-3xl font-bold text-[#003399] dark:text-blue-400 mb-6">
+          Exclusief Luchthavenvervoer vanuit Amsterdam
+        </h2>
+        <p class="text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
+          Bij <strong>InTaxi Amsterdam</strong> begint uw vakantie of zakenreis al bij de voordeur. Wij bieden hoogwaardig vliegveldvervoer aan in onze luxe en duurzame Tesla-vloot. Of u nu alleen reist of met een groep, wij staan 24/7 klaar voor een comfortabele rit tegen scherpe, vaste tarieven.
+        </p>
+
+        <h3 class="text-xl font-semibold mb-4">Taxi naar de belangrijkste vliegvelden</h3>
+        <p class="text-gray-700 dark:text-gray-300 mb-6">
+          Wij verzorgen dagelijks ritten naar alle grote luchthavens in de regio. Zoek niet verder voor een betrouwbare 
+          <a href="/taxi-schiphol" class="text-[#003399] font-semibold hover:underline">taxi naar Schiphol</a>, de meest gekozen optie voor Amsterdammers. Reist u via een regionale luchthaven? Wij bieden ook vaste prijzen voor een 
+          <a href="/taxi-rotterdam" class="text-[#003399] font-semibold hover:underline">taxi naar Rotterdam The Hague Airport</a> of een ontspannen rit met de 
+          <a href="/taxi-eindhoven" class="text-[#003399] font-semibold hover:underline">taxi naar Eindhoven Airport</a>.
+        </p>
+
+        <p class="text-gray-700 dark:text-gray-300 mb-6">
+          Ook voor internationaal vliegveldvervoer bent u bij ons aan het juiste adres. Boek eenvoudig een 
+          <a href="/taxi-antwerpen" class="text-[#003399] font-semibold hover:underline">taxi naar Antwerpen Airport</a> of laat u comfortabel naar België brengen met onze 
+          <a href="/taxi-brussel" class="text-[#003399] font-semibold hover:underline">taxi naar Brussel Zaventem</a>. Daarnaast rijden wij regelmatig naar de 
+          <a href="/taxi-charleroi" class="text-[#003399] font-semibold hover:underline">taxi naar Charleroi</a> en verzorgen wij uw vervoer met de 
+          <a href="/taxi-duesseldorf" class="text-[#003399] font-semibold hover:underline">taxi naar Düsseldorf / Weeze</a>.
+        </p>
+
+        <div class="bg-blue-50 dark:bg-slate-800 p-6 rounded-2xl border-l-4 border-[#003399] mt-8">
+          <h4 class="text-[#003399] dark:text-blue-300 font-bold mb-2">De voordelen van InTaxi</h4>
+          <ul class="list-disc ml-5 space-y-1 text-sm text-gray-700 dark:text-gray-300">
+            <li><strong>Vaste prijzen:</strong> Geen meter-verrassingen, altijd vooraf duidelijkheid.</li>
+            <li><strong>Luxe Tesla's:</strong> Reis emissievrij in de modernste auto's.</li>
+            <li><strong>Snelle Boeking:</strong> Direct contact en bevestiging via WhatsApp.</li>
+            <li><strong>Hulp bij bagage:</strong> Onze chauffeurs helpen u graag met uw koffers.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in {
+      opacity: 0;
+      animation: fadeIn 0.8s ease-out forwards;
+      animation-delay: 1s;
+    }
+  </style>
+
+  <script is:inline>
+    function initVliegveldBooking() {
+      const input = document.getElementById('vliegveld-ophaal-adres');
+      const suggestionsBox = document.getElementById('vliegveld-suggestions');
+      const btn = document.getElementById('vliegveld-whatsapp-btn');
+      let debounceTimer;
+
+      if (!input || !suggestionsBox) return;
+
+      input.addEventListener('input', () => {
+        clearTimeout(debounceTimer);
+        const q = input.value;
+        if (q.length < 3) {
+          suggestionsBox.classList.add('hidden');
+          return;
+        }
+
+        debounceTimer = setTimeout(async () => {
+          try {
+            const res = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&addressdetails=1&limit=5&countrycodes=nl`);
+            const data = await res.json();
+            
+            suggestionsBox.innerHTML = '';
+            if (data.length > 0) {
+              suggestionsBox.classList.remove('hidden');
+              data.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'p-3 hover:bg-blue-50 cursor-pointer border-b text-sm text-black bg-white';
+                const parts = item.display_name.split(',');
+                const label = parts[0] + (parts[1] ? ', ' + parts[1] : '');
+                div.textContent = label;
+                
+                div.onclick = (e) => {
+                  e.preventDefault();
+                  input.value = label;
+                  suggestionsBox.classList.add('hidden');
+                  document.getElementById('vliegveld-huisnummer').focus();
+                };
+                suggestionsBox.appendChild(div);
+              });
+            }
+          } catch (err) { console.error('Adresfout:', err); }
+        }, 300);
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!input.contains(e.target)) suggestionsBox.classList.add('hidden');
+      });
+
+      if (btn) {
+        btn.onclick = () => {
+          const val = (id) => document.getElementById(id).value;
+          const airportEl = document.querySelector('input[name="airport"]:checked');
+          const airport = airportEl ? airportEl.value : 'Niet opgegeven';
+          
+          const text = `Hoi InTaxi, ik wil een vliegveldrit boeken:%0A%0A` +
+                       `📍 Naar: ${airport}%0A` +
+                       `🏠 Van: ${val('vliegveld-ophaal-adres')} ${val('vliegveld-huisnummer')}%0A` +
+                       `📅 Datum: ${val('vliegveld-datum')}%0A` +
+                       `⏰ Tijd: ${val('vliegveld-tijd')}%0A` +
+                       `👤 Naam: ${val('vliegveld-naam')}%0A` +
+                       `📞 Tel: ${val('vliegveld-tel')}%0A` +
+                       `📝 Opmerking: ${val('vliegveld-notitie')}`;
+          
+          window.open(`https://wa.me/31642277607?text=${text}`, '_blank');
+        };
+      }
+
+      document.querySelectorAll('.airport-row').forEach(row => {
+        row.onclick = () => {
+          const radio = row.querySelector('input');
+          if(radio) radio.checked = true;
+        };
+      });
+    }
+
+    initVliegveldBooking();
+    document.addEventListener('astro:page-load', initVliegveldBooking);
+  </script>
+</Layout>
