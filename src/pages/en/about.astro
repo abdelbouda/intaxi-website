@@ -1,1 +1,145 @@
-leeg
+---
+import Features2 from '~/components/widgets/Features2.astro';
+import Features3 from '~/components/widgets/Features3.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Stats from '~/components/widgets/Stats.astro';
+import Steps2 from '~/components/widgets/Steps2.astro';
+import Layout from '~/layouts/PageLayout.astro';
+
+const metadata = {
+  title: 'Over Ons | Uw Mobiliteitspartner in Amsterdam — InTaxi',
+  description: 'InTaxi Amsterdam: Uw specialist in zakelijk vervoer, veilig leerlingenvervoer en luxe airport taxi services naar Schiphol. Ontdek onze 100% elektrische vloot.',
+};
+---
+
+<Layout metadata={metadata}>
+  <!-- Hero Widget zonder afbeelding -->
+  <Hero
+    tagline="Uw Mobiliteitspartner"
+  >
+    <Fragment slot="title">
+      Professioneel taxi vervoer voor <br />
+      <span class="text-[#003399] dark:text-blue-400">zakelijk en particulier</span>
+    </Fragment>
+
+    <Fragment slot="subtitle">
+      Bij <strong>InTaxi Amsterdam</strong> gaan we verder dan alleen vervoer. Als uw integrale <strong>mobiliteitspartner</strong> bieden wij maatwerkoplossingen voor de zakelijke markt, specialistische <strong>airport ritten</strong> en betrouwbaar <strong>leerlingenvervoer</strong>. Met onze 100% elektrische vloot combineren wij duurzaamheid met de hoogste standaard in comfort en punctualiteit.
+    </Fragment>
+  </Hero>
+
+  <!-- Stats Widget -->
+  <Stats
+    title="Betrouwbaarheid in cijfers"
+    stats={[
+      { title: 'Jaren Ervaring', amount: '8+' },
+      { title: 'Tevreden Klanten', amount: '15K+' },
+      { title: 'Elektrische KM', amount: '500K+' },
+      { title: 'Chauffeurs', amount: '12' },
+    ]}
+  />
+
+  <!-- Features3 Widget: Specialisaties -->
+  <Features3
+    title="Onze Specialisaties"
+    subtitle="Van strategisch zakelijk partnerschap tot zorgvuldig leerlingenvervoer; wij ontzorgen u op elk traject."
+    columns={3}
+    isBeforeContent={true}
+    items={[
+      {
+        title: 'Zakelijk Vervoer & Partners',
+        description: 'Wij fungeren als de verlengde arm van uw organisatie. Representatieve chauffeurs, facturatie op rekening en prioritair boeken.',
+        icon: 'tabler:briefcase',
+      },
+      {
+        title: 'Airport Specialist',
+        description: 'Uw reis begint bij de voordeur. Wij zijn gespecialiseerd in vliegveld ritten naar Schiphol, Brussel en Düsseldorf.',
+        icon: 'tabler:plane-departure',
+      },
+      {
+        title: 'Leerlingenvervoer',
+        description: 'Veiligheid en continuïteit voor de meest kwetsbare reizigers. Onze chauffeurs zijn gecertificeerd.',
+        icon: 'tabler:school',
+      },
+    ]}
+  />
+
+  <Features3
+    columns={3}
+    isAfterContent={true}
+    items={[
+      {
+        title: 'Zorgvervoer',
+        description: 'Comfortabel en empathisch vervoer van en naar ziekenhuizen en zorginstellingen.',
+        icon: 'tabler:heart-handshake',
+      },
+      {
+        title: 'Particuliere Luxe',
+        description: 'Ervaar de premium service van een privéchauffeur voor de prijs van een reguliere taxi.',
+        icon: 'tabler:car',
+      },
+      {
+        title: 'Event & Groepsvervoer',
+        description: 'Logistieke planning voor congressen of groepsreizen in onze luxe taxibusjes.',
+        icon: 'tabler:users',
+      },
+    ]}
+  />
+
+  <Steps2
+    title="Waarom InTaxi de voorkeur heeft"
+    subtitle="Onze belofte aan elke zakelijke en particuliere klant."
+    items={[
+      {
+        title: 'Mobiliteitspartner van A tot Z',
+        description: 'Wij denken mee met uw logistiek. Of het nu gaat om een enkele rit of dagelijkse planning.',
+      },
+      {
+        title: 'Transparante Vaste Tarieven',
+        description: 'Geen verrassingen achteraf. Wij hanteren vooraf gecommuniceerde tarieven.',
+      },
+      {
+        title: 'Duurzame Ambitie',
+        description: 'Met een volledig elektrische vloot dragen wij bij aan de leefbaarheid in Amsterdam.',
+      },
+    ]}
+  />
+
+  <Features2
+    title="Operationeel in de Metropoolregio"
+    tagline="Dekking"
+    columns={3}
+    items={[
+      {
+        title: 'Amsterdam & Amstelveen',
+        description: 'Snelle responstijden in alle stadsdelen, inclusief Zuidas en Centrum.',
+      },
+      {
+        title: 'Luchthaven Schiphol',
+        description: '24/7 aanwezigheid met Meet & Greet service bij de aankomsthal.',
+      },
+      {
+        title: 'Internationaal',
+        description: 'Lange-afstandsritten naar o.a. Antwerpen, Brussel, Parijs en Berlijn.',
+      },
+    ]}
+  />
+
+  <Features2
+    title="Word zakelijk partner"
+    tagline="Contact"
+    columns={2}
+    items={[
+      {
+        title: 'WhatsApp Business',
+        description: 'Stuur direct een bericht voor boekingen of offertes.',
+        icon: 'tabler:brand-whatsapp',
+      },
+      {
+        title: 'Zakelijke Desk',
+        description: 'Bel ons voor het openen van een zakelijk account.',
+        icon: 'tabler:phone',
+      },
+    ]}
+  />
+</Layout>
+
