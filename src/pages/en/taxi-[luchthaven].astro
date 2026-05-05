@@ -1,1 +1,210 @@
-leeg
+---
+import Layout from '~/layouts/PageLayout.astro';
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const luchthavens = [
+    { slug: 'schiphol-airport', naam: 'Schiphol Airport', code: 'AMS', prijsTesla: '45', prijsBus: '65', reistijd: '20-25 min' },
+    { slug: 'rotterdam-the-hague', naam: 'Rotterdam The Hague', code: 'RTM', prijsTesla: '125', prijsBus: '160', reistijd: '50-60 min' },
+    { slug: 'eindhoven-airport', naam: 'Eindhoven Airport', code: 'EIN', prijsTesla: '185', prijsBus: '230', reistijd: '75-90 min' },
+    { slug: 'antwerp-airport', naam: 'Antwerp Airport', code: 'ANR', prijsTesla: '225', prijsBus: '275', reistijd: '120 min' },
+    { slug: 'brussels-zaventem', naam: 'Brussels Zaventem', code: 'BRU', prijsTesla: '325', prijsBus: '395', reistijd: '2.5 hours' },
+    { slug: 'charleroi-airport', naam: 'Charleroi Airport', code: 'CRL', prijsTesla: '325', prijsBus: '395', reistijd: '3 hours' },
+    { slug: 'duesseldorf-weeze', naam: 'Düsseldorf / Weeze', code: 'DUS', prijsTesla: '345', prijsBus: '415', reistijd: '2 hours' },
+  ];
+
+  return luchthavens.map((l) => ({
+    params: { luchthaven: l.slug }, // Dit vult de [luchthaven] in de URL
+    props: { 
+      naam: l.naam, 
+      code: l.code, 
+      prijsTesla: l.prijsTesla,
+      prijsBus: l.prijsBus,
+      reistijd: l.reistijd 
+    },
+  }));
+}
+const { naam, code, prijsTesla, prijsBus, reistijd } = Astro.props;
+const today = new Date().toISOString().split('T')[0];
+
+const metadata = {
+  title: `Taxi Amsterdam naar ${naam} (${code}) | Vaste Prijs v.a. €${prijsTesla}`,
+  description: `Luxe Tesla taxi of busje van Amsterdam naar ${naam}. Vast tarief vanaf €${prijsTesla}. Geen verborgen kosten, 24/7 bereikbaar. Boek direct via WhatsApp!`,
+  ignoreTitleTemplate: true,
+};
+---
+
+<Layout metadata={metadata}>
+  <!-- Padding top verlaagd van py-12 naar pt-6 -->
+  <section class="pt-6 pb-12 md:pt-10 md:pb-20 px-4 max-w-6xl mx-auto">
+    
+    <!-- Header sectie compacter gemaakt -->
+    <div class="text-center mb-6 md:mb-8">
+      <h1 class="text-2xl md:text-4xl font-extrabold text-slate-900 mb-2 tracking-tight uppercase">
+        Taxi Amsterdam naar <span class="text-[#003399]">{naam}</span>
+      </h1>
+      <p class="text-sm md:text-base text-gray-600 max-w-xl mx-auto leading-tight">
+        Kies voor een luxe Tesla of een ruim taxibusje voor een vast tarief naar {code}.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+      
+      <!-- LINKERZIJDE: INFO & TARIEVEN -->
+      <div class="space-y-4">
+        <div class="bg-white border border-gray-100 rounded-3xl shadow-xl overflow-hidden">
+          <div class="bg-[#003399] p-3 text-white font-bold text-center uppercase tracking-widest text-[10px]">
+            Tarieven naar {code}
+          </div>
+          <div class="p-4 grid grid-cols-2 gap-3">
+            <div class="text-center p-3 rounded-2xl bg-blue-50 border border-blue-100">
+              <span class="block text-[9px] uppercase font-bold text-blue-400 mb-1">Luxe Tesla (4p)</span>
+              <span class="text-xl font-black text-[#003399]">v.a. €{prijsTesla},-</span>
+            </div>
+            <div class="text-center p-3 rounded-2xl bg-slate-50 border border-slate-100">
+              <span class="block text-[9px] uppercase font-bold text-slate-400 mb-1">Taxibusje (8p)</span>
+              <span class="text-xl font-black text-slate-700">v.a. €{prijsBus},-</span>
+            </div>
+          </div>
+          <div class="px-4 pb-4 text-[11px] text-gray-500 italic text-center">
+             Geschatte reistijd: circa {reistijd}
+          </div>
+        </div>
+
+        <div class="hidden md:block bg-slate-50/50 p-4 rounded-3xl border border-slate-100">
+          <ul class="list-none pl-0 space-y-1 text-xs">
+            <li class="flex items-center">✅ <span class="ml-2">Vaste prijs vooraf</span></li>
+            <li class="flex items-center">✅ <span class="ml-2">Luxe Tesla's & bussen</span></li>
+            <li class="flex items-center">✅ <span class="ml-2">24/7 WhatsApp support</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- RECHTERZIJDE: BOEKINGSFORMULIER (Strakker design) -->
+      <div class="bg-white rounded-3xl shadow-2xl p-5 border border-gray-50">
+        <div class="flex items-center mb-4">
+          <span class="flex items-center justify-center w-6 h-6 rounded-full bg-[#003399] text-white font-bold mr-2 text-[10px]">2</span>
+          <h2 class="text-base font-bold text-[#003399]">Rit Details & Boeken</h2>
+        </div>
+
+        <div class="space-y-3">
+          <div class="grid grid-cols-2 gap-2">
+            <button id="btn-tesla" class="vehicle-btn active p-2 rounded-xl border-2 border-[#003399] bg-[#003399] text-white font-bold text-[10px] uppercase transition-all">Luxe Tesla</button>
+            <button id="btn-busje" class="vehicle-btn p-2 rounded-xl border-2 border-gray-100 bg-gray-50 text-gray-400 font-bold text-[10px] uppercase transition-all">Taxibusje</button>
+          </div>
+
+          <div class="flex gap-2">
+            <div class="flex-[4] relative">
+              <input id="ophaal-adres" type="text" autocomplete="off" placeholder="Ophaaladres" class="block w-full p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-xs text-black" />
+              <div id="suggestions" class="absolute z-[100] w-full bg-white border border-gray-300 rounded-b-xl shadow-2xl hidden max-h-40 overflow-y-auto mt-1"></div>
+            </div>
+            <input id="huisnummer" type="text" placeholder="Nr." class="flex-[1] p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-xs text-black text-center" />
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <input id="datum" type="date" value={today} class="p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-xs text-black" />
+            <input id="tijd" type="time" value="12:00" class="p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-xs text-black" />
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <input id="naam" type="text" placeholder="Naam" class="p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-xs text-black" />
+            <input id="tel" type="tel" placeholder="Telefoon" class="p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-xs text-black" />
+          </div>
+
+          <textarea id="notitie" placeholder="Vluchtnummer / opmerkingen..." rows="1" class="w-full p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-xs text-black resize-none"></textarea>
+
+          <div class="bg-blue-50 p-3 rounded-2xl text-center border border-blue-100">
+             <span id="current-price" class="text-xl font-black text-[#003399]">Totaal: € {prijsTesla},-</span>
+          </div>
+
+          <button id="whatsapp-btn" class="w-full bg-[#003399] text-white font-black py-4 rounded-2xl hover:bg-blue-800 transition-all shadow-lg uppercase tracking-widest text-[11px] flex items-center justify-center gap-2">
+            Boek Nu via WhatsApp
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script is:inline define:vars={{ naam, prijsTesla, prijsBus }}>
+    function initLocalBooking() {
+      const input = document.getElementById('ophaal-adres');
+      const suggestionsBox = document.getElementById('suggestions');
+      const btn = document.getElementById('whatsapp-btn');
+      const priceDisplay = document.getElementById('current-price');
+      const teslaBtn = document.getElementById('btn-tesla');
+      const busjeBtn = document.getElementById('btn-busje');
+      
+      let selectedVehicle = 'Tesla';
+      let debounceTimer;
+
+      function setVehicle(type) {
+        selectedVehicle = type;
+        if (type === 'Tesla') {
+          teslaBtn.className = "vehicle-btn active p-2 rounded-xl border-2 border-[#003399] bg-[#003399] text-white font-bold text-[10px] uppercase";
+          busjeBtn.className = "vehicle-btn p-2 rounded-xl border-2 border-gray-100 bg-gray-50 text-gray-400 font-bold text-[10px] uppercase";
+          priceDisplay.textContent = `Totaal: € ${prijsTesla},-`;
+        } else {
+          busjeBtn.className = "vehicle-btn active p-2 rounded-xl border-2 border-[#003399] bg-[#003399] text-white font-bold text-[10px] uppercase";
+          teslaBtn.className = "vehicle-btn p-2 rounded-xl border-2 border-gray-100 bg-gray-50 text-gray-400 font-bold text-[10px] uppercase";
+          priceDisplay.textContent = `Totaal: € ${prijsBus},-`;
+        }
+      }
+
+      teslaBtn.onclick = () => setVehicle('Tesla');
+      busjeBtn.onclick = () => setVehicle('Busje');
+
+      input.addEventListener('input', () => {
+        clearTimeout(debounceTimer);
+        const q = input.value;
+        if (q.length < 3) { suggestionsBox.classList.add('hidden'); return; }
+
+        debounceTimer = setTimeout(async () => {
+          try {
+            const res = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&addressdetails=1&limit=5&countrycodes=nl`);
+            const data = await res.json();
+            suggestionsBox.innerHTML = '';
+            if (data.length > 0) {
+              suggestionsBox.classList.remove('hidden');
+              data.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'p-2 hover:bg-blue-50 cursor-pointer border-b text-[11px] text-black bg-white';
+                const parts = item.display_name.split(',');
+                const label = parts[0] + (parts[1] ? ', ' + parts[1] : '');
+                div.textContent = label;
+                div.onclick = () => {
+                  input.value = label;
+                  suggestionsBox.classList.add('hidden');
+                  document.getElementById('huisnummer').focus();
+                };
+                suggestionsBox.appendChild(div);
+              });
+            }
+          } catch (err) { console.error('Adresfout:', err); }
+        }, 300);
+      });
+
+      btn.onclick = () => {
+        const val = (id) => document.getElementById(id).value;
+        const text = `Hoi InTaxi, ik wil een rit boeken naar ${naam}:%0A%0A` +
+                     `🚕 Voertuig: ${selectedVehicle}%0A` +
+                     `💰 Prijs: ${priceDisplay.textContent}%0A` +
+                     `🏠 Van: ${val('ophaal-adres')} ${val('huisnummer')}%0A` +
+                     `📅 Datum: ${val('datum')}%0A` +
+                     `⏰ Tijd: ${val('tijd')}%0A` +
+                     `👤 Naam: ${val('naam')}%0A` +
+                     `📞 Tel: ${val('tel')}%0A` +
+                     `📝 Opmerking: ${val('notitie')}`;
+        
+        window.open(`https://wa.me/31642277607?text=${text}`, '_blank');
+      };
+
+      document.addEventListener('click', (e) => {
+        if (!input.contains(e.target)) suggestionsBox.classList.add('hidden');
+      });
+    }
+
+    initLocalBooking();
+    document.addEventListener('astro:page-load', initLocalBooking);
+  </script>
+</Layout>
