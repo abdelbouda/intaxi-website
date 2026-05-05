@@ -12,12 +12,19 @@ export interface Props {
 }
 
 const { metadata } = Astro.props;
+
+// 1. Detecteer de huidige taal (nl of en)
+const lang = (Astro.currentLocale || 'nl') as 'nl' | 'en';
+
+// 2. Haal de juiste data op basis van de taal
+const currentHeaderData = headerData(lang);
+const currentFooterData = footerData(lang);
 ---
 
 <Layout metadata={metadata}>
   <slot name="header">
     <Header 
-      {...headerData} 
+      {...currentHeaderData} 
       isSticky 
       showToggleTheme 
     />
@@ -26,6 +33,6 @@ const { metadata } = Astro.props;
     <slot />
   </main>
   <slot name="footer">
-    <Footer {...footerData} />
+    <Footer {...currentFooterData} />
   </slot>
 </Layout>
