@@ -142,47 +142,78 @@ const today = new Date().toISOString().split('T')[0];
   }
 </style>
 
-<script>
+<script is:inline>
   function initVliegveldBooking() {
-    const input = document.getElementById('vliegveld-ophaal-adres');
-    const suggestionsBox = document.getElementById('vliegveld-suggestions');
-    const btn = document.getElementById('vliegveld-whatsapp-btn');
-    let debounceTimer;
+    var input = document.getElementById('vliegveld-ophaal-adres');
+    var suggestionsBox = document.getElementById('vliegveld-suggestions');
+    var btn = document.getElementById('vliegveld-whatsapp-btn');
+    var debounceTimer;
 
-    if (!input || !suggestionsBox) return;
+    if (!input || !suggestionsBox || !btn) return;
 
-    input.addEventListener('input', () => {
+    input.addEventListener('input', function() {
       clearTimeout(debounceTimer);
-      const q = input.value.trim();
+      var q = input.value.trim();
       if (q.length < 3) { suggestionsBox.classList.add('hidden'); return; }
 
-      debounceTimer = setTimeout(async () => {
-        try {
-          const res = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&addressdetails=1&limit=5&countrycodes=nl`);
-          const data = await res.json();
-          suggestionsBox.innerHTML = '';
-          if (data.length > 0) {
-            suggestionsBox.classList.remove('hidden');
-            data.forEach(item => {
-              const div = document.createElement('div');
-              div.className = 'p-3 hover:bg-blue-50 cursor-pointer border-b text-sm text-black';
-              div.textContent = item.display_name.split(',')[0] + (item.display_name.split(',')[1] ? ', ' + item.display_name.split(',')[1] : '');
-              div.onclick = () => { input.value = div.textContent; suggestionsBox.classList.add('hidden'); document.getElementById('vliegveld-huisnummer').focus(); };
-              suggestionsBox.appendChild(div);
-            });
-          }
-        } catch (err) { console.error(err); }
+      debounceTimer = setTimeout(function() {
+        fetch('https://nominatim.openstreetmap.org/search?q=' + encodeURIComponent(q) + '&format=json&addressdetails=1&limit=5&countrycodes=nl')
+          .then(function(res) { return res.json(); })
+          .then(function(data) {
+            suggestionsBox.innerHTML = '';
+            if (data.length > 0) {
+              suggestionsBox.classList.remove('hidden');
+              data.forEach(function(item) {
+                var div = document.createElement('div');
+                div.className = 'p-3 hover:bg-blue-50 cursor-pointer border-b text-sm text-black';
+                var parts = item.display_name.split(',');
+                div.textContent = parts[0] + (parts[1] ? ', ' + parts[1] : '');
+                div.onclick = function() {
+                  input.value = div.textContent;
+                  suggestionsBox.classList.add('hidden');
+                  var huisnr = document.getElementById('vliegveld-huisnummer');
+                  if (huisnr) huisnr.focus();
+                };
+                suggestionsBox.appendChild(div);
+              });
+            }
+          })
+          .catch(function(err) { console.error(err); });
       }, 350);
     });
 
-    btn.addEventListener('click', () => {
-      const val = (id) => document.getElementById(id)?.value.trim() || '';
-      const airportEl = document.querySelector('input[name="airport"]:checked');
-      const airport = airportEl ? airportEl.value : 'Not specified';
-      const text = `Hi InTaxi, I want to book an airport transfer:%0A%0A📍 To: ${airport}%0A🏠 From: ${val('vliegveld-ophaal-adres')} ${val('vliegveld-huisnummer')}%0A📅 Date: ${val('vliegveld-datum')}%0A⏰ Time: ${val('vliegveld-tijd')}%0A👤 Name: ${val('vliegveld-naam')}%0A📞 Phone: ${val('vliegveld-tel')}%0A📝 Note: ${val('vliegveld-notitie')}`;
-      window.open(`https://wa.me/31642277607?text=${text}`, '_blank');
+    document.addEventListener('click', function(e) {
+      if (!input.contains(e.target) && !suggestionsBox.contains(e.target)) {
+        suggestionsBox.classList.add('hidden');
+      }
+    });
+
+    btn.addEventListener('click', function() {
+      function val(id) {
+        var el = document.getElementById(id);
+        return el ? el.value.trim() : '';
+      }
+      var airportEl = document.querySelector('input[name="airport"]:checked');
+      var airport = airportEl ? airportEl.value : 'Not specified';
+      var text = 'Hi InTaxi, I want to book an airport transfer:%0A%0A' +
+        '📍 To: ' + airport + '%0A' +
+        '🏠 From: ' + val('vliegveld-ophaal-adres') + ' ' + val('vliegveld-huisnummer') + '%0A' +
+        '📅 Date: ' + val('vliegveld-datum') + '%0A' +
+        '⏰ Time: ' + val('vliegveld-tijd') + '%0A' +
+        '👤 Name: ' + val('vliegveld-naam') + '%0A' +
+        '📞 Phone: ' + val('vliegveld-tel') + '%0A' +
+        '📝 Note: ' + val('vliegveld-notitie');
+      window.open('https://wa.me/31642277607?text=' + text, '_blank');
+    });
+
+    document.querySelectorAll('.airport-row').forEach(function(row) {
+      row.addEventListener('click', function() {
+        var radio = row.querySelector('input[type="radio"]');
+        if (radio) radio.checked = true;
+      });
     });
   }
+
   initVliegveldBooking();
   document.addEventListener('astro:page-load', initVliegveldBooking);
 </script>
