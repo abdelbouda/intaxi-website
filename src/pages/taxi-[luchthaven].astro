@@ -1,61 +1,104 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 
-// 1. FORCEER STATISCHE GENERATIE (Cruciaal voor Vercel)
+// 1. FORCEER STATISCHE GENERATIE (Essentieel voor Vercel performance)
 export const prerender = true;
 
-// 2. DE FUNCTIE DIE DE PAGINA'S AANMAAKT
+// 2. DE FUNCTIE DIE DE DYNAMISCHE PAGINA'S GENEREERT
 export async function getStaticPaths() {
   const luchthavens = [
-    { slug: 'schiphol', naam: 'Schiphol Airport', code: 'AMS', prijs: '45' },
-    { slug: 'rotterdam', naam: 'Rotterdam The Hague', code: 'RTM', prijs: '125' },
-    { slug: 'eindhoven', naam: 'Eindhoven Airport', code: 'EIN', prijs: '185' },
-    { slug: 'antwerpen', naam: 'Antwerpen Airport', code: 'ANR', prijs: '225' },
-    { slug: 'brussel', naam: 'Brussel Zaventem', code: 'BRU', prijs: '325' },
-    { slug: 'charleroi', naam: 'Charleroi Airport', code: 'CRL', prijs: '325' },
-    { slug: 'duesseldorf', naam: 'Düsseldorf / Weeze', code: 'DUS', prijs: '345' },
+    { slug: 'schiphol', naam: 'Schiphol Airport', code: 'AMS', prijs: '45', reistijd: '20-25 min' },
+    { slug: 'rotterdam', naam: 'Rotterdam The Hague', code: 'RTM', prijs: '125', reistijd: '50-60 min' },
+    { slug: 'eindhoven', naam: 'Eindhoven Airport', code: 'EIN', prijs: '185', reistijd: '75-90 min' },
+    { slug: 'antwerpen', naam: 'Antwerpen Airport', code: 'ANR', prijs: '225', reistijd: '120 min' },
+    { slug: 'brussel', naam: 'Brussel Zaventem', code: 'BRU', prijs: '325', reistijd: '2,5 uur' },
+    { slug: 'charleroi', naam: 'Charleroi Airport', code: 'CRL', prijs: '325', reistijd: '3 uur' },
+    { slug: 'duesseldorf', naam: 'Düsseldorf / Weeze', code: 'DUS', prijs: '345', reistijd: '2 uur' },
   ];
 
-  return luchthavens.map((l) => {
-    return {
-      params: { luchthaven: l.slug },
-      props: { naam: l.naam, code: l.code, prijs: l.prijs },
-    };
-  });
+  return luchthavens.map((l) => ({
+    params: { luchthaven: l.slug },
+    props: { 
+      naam: l.naam, 
+      code: l.code, 
+      prijs: l.prijs,
+      reistijd: l.reistijd 
+    },
+  }));
 }
 
-// 3. HAAL DE DATA OP VOOR DE HUIDIGE PAGINA
-const { naam, code, prijs } = Astro.props;
+// 3. HAAL DE DATA OP
+const { naam, code, prijs, reistijd } = Astro.props;
 const { luchthaven } = Astro.params;
 
+// 4. SEO METADATA OPTIMALISATIE
 const metadata = {
-  title: `Taxi naar ${naam} - InTaxi Amsterdam`,
+  title: `Taxi Amsterdam naar ${naam} (${code}) | Vaste Prijs €${prijs}`,
+  description: `Luxe Tesla taxi van Amsterdam naar ${naam}. Vast tarief van €${prijs}. Geen verborgen kosten, 24/7 bereikbaar. Boek direct via WhatsApp!`,
+  ignoreTitleTemplate: true,
 };
 ---
 
 <Layout metadata={metadata}>
-  <section class="py-20 px-4 max-w-3xl mx-auto text-center">
-    <h1 class="text-5xl font-bold text-[#003399] mb-6">Taxi naar {naam}</h1>
-    <p class="text-2xl mb-10 text-gray-700">Vaste prijs vanaf Amsterdam naar {code}: <strong>€{prijs},-</strong></p>
-    
-    <div class="bg-gray-50 border border-gray-200 p-8 rounded-2xl shadow-sm">
-      <h2 class="text-2xl font-semibold mb-4">Direct reserveren</h2>
-      <p class="mb-6">U reist in een luxe Tesla voor een vast tarief. Geen verrassingen achteraf.</p>
-      <a 
-        href="https://wa.me/31642277607" 
-        class="bg-[#25d366] hover:bg-[#20bd5a] text-white px-10 py-4 rounded-full font-bold text-lg inline-block transition-transform hover:scale-105"
-      >
-        App nu: 06 42 27 76 07
-      </a>
+  <section class="py-16 md:py-24 px-4 max-w-4xl mx-auto">
+    <div class="text-center mb-12">
+      <h1 class="text-4xl md:text-6xl font-extrabold text-slate-900 mb-6 tracking-tight">
+        Taxi Amsterdam naar <span class="text-blue-700">{naam}</span>
+      </h1>
+      <p class="text-xl md:text-2xl text-gray-600 leading-relaxed">
+        Comfortabel en duurzaam vliegveldvervoer in een luxe Tesla. 
+        <br class="hidden md:block" /> 
+        Vaste prijs naar <strong>{code}</strong>: <span class="text-blue-700 font-bold">€{prijs},-</span>
+      </p>
     </div>
 
-    <div class="mt-12 text-left prose prose-blue mx-auto">
-      <p>Op zoek naar een betrouwbare taxi naar <strong>{naam}</strong>? Bij InTaxi Amsterdam bent u verzekerd van een comfortabele rit in een van onze elektrische voertuigen.</p>
-      <ul>
-        <li>Vaste tarieven, geen meter-verrassingen</li>
-        <li>Professionele chauffeurs met kennis van {code}</li>
-        <li>24/7 bereikbaar voor vliegveldvervoer</li>
-      </ul>
+    <!-- Conversie Kaart -->
+    <div class="bg-white border-2 border-blue-50 p-8 md:p-12 rounded-3xl shadow-xl text-center relative overflow-hidden">
+      <div class="absolute top-0 right-0 bg-blue-700 text-white px-6 py-1 rounded-bl-2xl font-bold uppercase text-sm">
+        Vast Tarief
+      </div>
+      
+      <h2 class="text-3xl font-bold mb-4">Direct uw rit boeken?</h2>
+      <p class="text-gray-600 mb-8 max-w-md mx-auto">
+        Uw chauffeur staat klaar voor vertrek. De geschatte reistijd is circa <strong>{reistijd}</strong>.
+      </p>
+      
+      <div class="flex flex-col md:flex-row gap-4 justify-center items-center">
+        <a 
+          href="https://wa.me/31642277607?text=Hallo%20InTaxi,%20ik%20wil%20graag%20een%20taxi%20boeken%20naar%20${naam}" 
+          class="bg-[#25d366] hover:bg-[#20bd5a] text-white px-10 py-5 rounded-2xl font-bold text-xl inline-flex items-center transition-all hover:scale-105 shadow-lg w-full md:w-auto justify-center"
+        >
+          <svg class="w-6 h-6 mr-2 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.588-5.946 0-6.556 5.332-11.888 11.888-11.888 3.176 0 6.161 1.237 8.404 3.48s3.481 5.229 3.481 8.406c0 6.555-5.332 11.887-11.888 11.887-2.007 0-3.974-.506-5.717-1.464l-6.167 1.688zm6.035-4.631l.351.208c1.612.957 3.486 1.462 5.4 1.462 5.51 0 9.997-4.487 9.997-9.995 0-2.67-1.039-5.18-2.926-7.067s-4.397-2.926-7.067-2.926c-5.51 0-9.997 4.487-9.997 9.996 0 2.116.66 4.175 1.908 5.914l.228.318-1.02 3.722 3.826-1.022zM16.518 13.911c-.439-.219-2.597-1.282-2.998-1.428-.4-.146-.693-.219-.985.219-.292.438-1.132 1.428-1.388 1.72-.255.292-.511.328-.95.109-.438-.219-1.85-.681-3.525-2.176-1.303-1.163-2.182-2.599-2.438-3.037-.255-.439-.027-.676.192-.894.197-.196.439-.511.657-.766.219-.255.292-.439.439-.73.146-.292.073-.548-.036-.766-.109-.219-.985-2.373-1.35-3.249-.355-.853-.715-.737-.985-.75l-.84-.015c-.292 0-.766.11-1.168.548-.401.438-1.533 1.498-1.533 3.65 0 2.153 1.57 4.234 1.789 4.526.219.292 3.09 4.718 7.484 6.615 1.045.451 1.86.721 2.496.923 1.049.333 2.003.286 2.757.174.842-.125 2.597-1.06 2.962-2.083.365-1.023.365-1.9.255-2.083-.109-.182-.401-.292-.84-.511z"/></svg>
+          WhatsApp Nu
+        </a>
+        <a href="tel:+31642277607" class="text-slate-900 px-10 py-5 rounded-2xl font-bold text-xl border-2 border-slate-200 hover:bg-slate-50 transition-all w-full md:w-auto">
+          Bel Direct
+        </a>
+      </div>
+    </div>
+
+    <!-- Details Sectie -->
+    <div class="mt-16 grid md:grid-cols-2 gap-12 items-start text-left prose prose-blue prose-lg max-w-none">
+      <div>
+        <h3 class="text-2xl font-bold mb-4 text-blue-900">Uw rit naar {naam}</h3>
+        <p>
+          Met <strong>InTaxi Amsterdam</strong> kiest u voor de meest comfortabele manier om naar de luchthaven te reizen. Geen stress met parkeren of vertragingen in het openbaar vervoer.
+        </p>
+        <ul class="list-none pl-0">
+          <li class="flex items-center mb-2">✅ <span class="ml-2">Luxe Tesla vervoer</span></li>
+          <li class="flex items-center mb-2">✅ <span class="ml-2">Vaste prijs, geen verrassingen</span></li>
+          <li class="flex items-center mb-2">✅ <span class="ml-2">Professionele en stipte chauffeurs</span></li>
+          <li class="flex items-center mb-2">✅ <span class="ml-2">Vliegveld-specialist naar {code}</span></li>
+        </ul>
+      </div>
+      <div class="bg-slate-50 p-6 rounded-2xl not-prose">
+        <h3 class="text-xl font-bold mb-4">Veelgestelde vragen</h3>
+        <div class="space-y-4 text-sm">
+          <p><strong>Hoe laat moet ik vertrekken?</strong><br/>We adviseren om minimaal 2 tot 3 uur voor vertrek op {code} aanwezig te zijn.</p>
+          <p><strong>Is de prijs echt vast?</strong><br/>Ja, de prijs van €{prijs},- is inclusief BTW en geldt voor de hele auto, niet per persoon.</p>
+          <p><strong>Zijn jullie 24/7 beschikbaar?</strong><br/>Zeker, wij rijden op elk moment van de dag, ook voor vroege vluchten.</p>
+        </div>
+      </div>
     </div>
   </section>
 </Layout>
