@@ -37,39 +37,35 @@ const currentFooterData = footerData(lang);
   </slot>
 
   <script is:inline>
-    const injectChatbase = () => {
-      // 1. Ruim oude scripts en variabelen op
-      const oldScript = document.getElementById("chatbase-script-intaxi");
-      if (oldScript) {
-        oldScript.remove();
-      }
+    const initChatbase = () => {
+      // 1. Verwijder de global om een schone herstart te forceren
       window.chatbase = undefined;
 
-      // 2. Configuratie instellen
+      // 2. Stel de officiële configuratie in
       window.chatbaseConfig = {
         chatbotId: "xebg6Uj_yHqd9ef2Sq4F5",
       };
 
-      // 3. Maak het nieuwe script element aan
+      // 3. Maak het script aan met de ID die zij verwachten
       const s = document.createElement("script");
       s.src = "https://www.chatbase.co/embed.min.js";
-      s.id = "chatbase-script-intaxi";
+      s.id = "xebg6Uj_yHqd9ef2Sq4F5"; 
       s.domain = "www.chatbase.co";
       s.defer = true;
       
-      // 4. Voeg toe aan de body
+      // 4. Injecteer in de body
       document.body.appendChild(s);
     };
 
-    // Voer uit bij de initiële paginalading
+    // Voer uit bij eerste keer laden
     if (document.readyState === 'complete') {
-      injectChatbase();
+      initChatbase();
     } else {
-      window.addEventListener('load', injectChatbase);
+      window.addEventListener('load', initChatbase);
     }
 
-    // Luister naar Astro paginawissels (ClientRouter)
-    document.addEventListener('astro:page-load', injectChatbase);
-    document.addEventListener('astro:after-swap', injectChatbase);
+    // Luister naar Astro paginawissels (ClientRouter ondersteuning)
+    // We gebruiken na-swap omdat dan de nieuwe DOM (body) klaar is voor de injectie
+    document.addEventListener('astro:after-swap', initChatbase);
   </script>
 </Layout>
