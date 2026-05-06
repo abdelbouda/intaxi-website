@@ -12,7 +12,7 @@ import SiteVerification from '~/components/common/SiteVerification.astro';
 import Analytics from '~/components/common/Analytics.astro';
 import BasicScripts from '~/components/common/BasicScripts.astro';
 
-import SpeedInsights from '@vercel speed-insights/astro';
+import SpeedInsights from '@vercel/speed-insights/astro';
 import { ClientRouter } from 'astro:transitions';
 
 import type { MetaData as MetaDataType } from '~/types';
@@ -26,7 +26,6 @@ const { metadata = {} } = Astro.props;
 const { textDirection } = I18N;
 const lang = Astro.url.pathname.startsWith('/en') ? 'en' : 'nl';
 
-const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
 const nlUrl = new URL(Astro.url.pathname.replace(/^\/en/, ''), Astro.site);
 const enUrl = new URL('/en' + Astro.url.pathname.replace(/^\/en/, ''), Astro.site);
 ---
@@ -63,26 +62,39 @@ const enUrl = new URL('/en' + Astro.url.pathname.replace(/^\/en/, ''), Astro.sit
     <SpeedInsights />
 
     <script is:inline>
-      function initChatbase() {
-        if (!window.chatbase || window.chatbase("getState") !== "initialized") {
-          window.chatbaseConfig = {
-            chatbotId: "xebg6Uj_yHqd9ef2Sq4F5",
-          };
-          
-          const script = document.createElement("script");
-          script.src = "https://www.chatbase.co/embed.min.js";
-          script.id = "xebg6Uj_yHqd9ef2Sq4F5";
-          script.domain = "www.chatbase.co";
-          script.defer = true;
-          document.body.appendChild(script);
+      const loadChatbase = () => {
+        // Stap 1: Ruim eventuele oude scripts op van de vorige pagina
+        const existingScript = document.getElementById("chatbase-script");
+        if (existingScript) {
+          existingScript.remove();
         }
+        
+        // Stap 2: Reset de global chatbase variabele om een schone start te forceren
+        window.chatbase = undefined;
+
+        // Stap 3: Configuratie instellen
+        window.chatbaseConfig = {
+          chatbotId: "xebg6Uj_yHqd9ef2Sq4F5",
+        };
+        
+        // Stap 4: Script dynamisch injecteren
+        const s = document.createElement("script");
+        s.src = "https://www.chatbase.co/embed.min.js";
+        s.id = "chatbase-script"; // Vast ID om makkelijk terug te vinden
+        s.domain = "www.chatbase.co";
+        s.defer = true;
+        document.body.appendChild(s);
+      };
+
+      // Initialiseer bij de eerste keer laden van de browser
+      if (document.readyState === 'complete') {
+        loadChatbase();
+      } else {
+        window.addEventListener('load', loadChatbase);
       }
 
-      // Start bij eerste load
-      initChatbase();
-
-      // Start opnieuw bij elke paginawissel binnen Astro
-      document.addEventListener('astro:page-load', initChatbase);
+      // Cruciaal voor Astro: Herlaad na elke paginawissel
+      document.addEventListener('astro:after-swap', loadChatbase);
     </script>
   </body>
 </html>
