@@ -36,36 +36,34 @@ const currentFooterData = footerData(lang);
     <Footer {...currentFooterData} />
   </slot>
 
-  <script is:inline>
+<script is:inline>
     const initChatbase = () => {
-      // 1. Verwijder de global om een schone herstart te forceren
+      // 1. Volledige reset van oude variabelen
       window.chatbase = undefined;
 
-      // 2. Stel de officiële configuratie in
+      // 2. Alleen de noodzakelijke config
       window.chatbaseConfig = {
         chatbotId: "xebg6Uj_yHqd9ef2Sq4F5",
       };
 
-      // 3. Maak het script aan met de ID die zij verwachten
+      // 3. Maak het script aan ZONDER eigen ID of extra attributen
       const s = document.createElement("script");
       s.src = "https://www.chatbase.co/embed.min.js";
-      s.id = "xebg6Uj_yHqd9ef2Sq4F5"; 
-      s.domain = "www.chatbase.co";
       s.defer = true;
       
-      // 4. Injecteer in de body
+      // 4. Injecteer
       document.body.appendChild(s);
     };
 
-    // Voer uit bij eerste keer laden
+    // Start bij eerste load
     if (document.readyState === 'complete') {
       initChatbase();
     } else {
       window.addEventListener('load', initChatbase);
     }
 
-    // Luister naar Astro paginawissels (ClientRouter ondersteuning)
-    // We gebruiken na-swap omdat dan de nieuwe DOM (body) klaar is voor de injectie
+    // Start na elke Astro-navigatie
     document.addEventListener('astro:after-swap', initChatbase);
+  </script>
   </script>
 </Layout>
