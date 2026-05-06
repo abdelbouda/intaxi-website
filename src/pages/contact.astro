@@ -1,17 +1,28 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 import ContactUs from '~/components/widgets/Contact.astro';
+
 // Zorgt ervoor dat deze pagina statisch wordt gegenereerd voor maximale snelheid
 export const prerender = true;
 
 const metadata = {
-  title: 'Contact | InTaxi Amsterdam - Uw Premium Taxi Partner',
-  description: 'Neem direct contact op met InTaxi voor zakelijk vervoer, Tesla taxi services en luchthavenritten. 24/7 bereikbaar via WhatsApp en E-mail.',
+  title: 'Contact | InTaxi Amsterdam - Uw Premium Tesla Taxi Partner',
+  description: 'Neem direct contact op met InTaxi voor zakelijk vervoer, Tesla taxi services en luchthavenritten. 24/7 bereikbaar via WhatsApp voor ritten naar Schiphol, Brussel en meer.',
 };
+
+// De dynamische links voor de SEO sectie
+const airports = [
+  { name: 'Schiphol Airport', slug: 'schiphol' },
+  { name: 'Rotterdam The Hague', slug: 'rotterdam' },
+  { name: 'Eindhoven Airport', slug: 'eindhoven' },
+  { name: 'Antwerpen Airport', slug: 'antwerpen' },
+  { name: 'Brussel Zaventem', slug: 'brussel' },
+  { name: 'Charleroi Airport', slug: 'charleroi' },
+  { name: 'Düsseldorf Airport', slug: 'duesseldorf' },
+];
 ---
 
 <Layout metadata={metadata}>
-  <!-- Video Hero Section -->
   <section class="relative h-[60vh] min-h-[500px] flex items-center justify-center overflow-hidden">
     <video
       autoplay
@@ -26,11 +37,9 @@ const metadata = {
     
     <div class="absolute inset-0 bg-[#003399]/40 z-10"></div>
 
-    <!-- 3 Compacte kaders in plaats van tekst/CTA -->
     <div class="relative z-20 w-full max-w-5xl px-4">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         
-        <!-- Kader 1: WhatsApp -->
         <div class="bg-white/95 backdrop-blur-sm p-6 rounded-xl shadow-2xl text-center border-t-4 border-[#003399]">
           <div class="flex justify-center mb-3">
             <div class="p-3 bg-[#003399]/10 rounded-full text-[#003399]">
@@ -41,7 +50,6 @@ const metadata = {
           <a href="https://wa.me/31642277607" class="text-[#003399] font-black text-xl hover:underline">06-42277607</a>
         </div>
 
-        <!-- Kader 2: E-mail -->
         <div class="bg-white/95 backdrop-blur-sm p-6 rounded-xl shadow-2xl text-center border-t-4 border-[#003399]">
           <div class="flex justify-center mb-3">
             <div class="p-3 bg-[#003399]/10 rounded-full text-[#003399]">
@@ -52,7 +60,6 @@ const metadata = {
           <a href="mailto:info@intaxi.nl" class="text-[#003399] font-black text-xl hover:underline">info@intaxi.nl</a>
         </div>
 
-        <!-- Kader 3: Standplaats -->
         <div class="bg-white/95 backdrop-blur-sm p-6 rounded-xl shadow-2xl text-center border-t-4 border-[#003399]">
           <div class="flex justify-center mb-3">
             <div class="p-3 bg-[#003399]/10 rounded-full text-[#003399]">
@@ -67,7 +74,6 @@ const metadata = {
     </div>
   </section>
 
-  <!-- Contact Formulier & Zakelijke USP's -->
   <div class="grid md:grid-cols-2 gap-0 bg-white dark:bg-slate-900 border-t border-gray-100 dark:border-slate-800">
     <div class="p-8 md:p-16 border-r border-gray-100 dark:border-slate-800">
        <ContactUs
@@ -116,4 +122,39 @@ const metadata = {
       </ul>
     </div>
   </div>
+
+  <section class="bg-slate-50 dark:bg-slate-800/50 py-16">
+    <div class="max-w-5xl mx-auto px-4">
+      <div class="grid md:grid-cols-3 gap-12">
+        <div class="md:col-span-2">
+          <h2 class="text-2xl font-bold text-[#003399] dark:text-blue-400 mb-4 uppercase tracking-tight">Taxi Amsterdam Schiphol & Meer</h2>
+          <p class="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+            InTaxi is uw betrouwbare partner voor hoogwaardig personenvervoer vanuit Amsterdam naar alle grote Europese luchthavens. Of u nu een <strong>Tesla taxi naar Schiphol</strong> nodig heeft voor een zakelijke vlucht, of een comfortabel busje zoekt voor een groepsreis naar Brussel; onze chauffeurs staan 24/7 voor u klaar.
+          </p>
+          <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+            Wij onderscheiden ons door vaste tarieven, een volledig elektrische vloot en een persoonlijke aanpak via WhatsApp. Geen verrassingen achteraf, alleen de hoogste kwaliteit in <strong>executive airport transfers</strong>.
+          </p>
+        </div>
+        
+        <div class="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-slate-700">
+          <h3 class="font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+            <span class="text-[#003399]">✈️</span> Onze Bestemmingen
+          </h3>
+          <ul class="space-y-2">
+            {airports.map((airport) => (
+              <li>
+                <a 
+                  href={`/taxi-${airport.slug}`} 
+                  class="text-sm text-gray-600 dark:text-gray-400 hover:text-[#003399] dark:hover:text-blue-400 flex justify-between border-b border-gray-50 dark:border-slate-800 pb-1"
+                >
+                  Taxi naar {airport.name}
+                  <span class="text-[10px] font-bold">→</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
 </Layout>
