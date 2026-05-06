@@ -1,6 +1,6 @@
-import path from 'path';
-import { fileURLToPath } from 'url';
 import { defineConfig } from 'astro/config';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
@@ -9,13 +9,14 @@ import partytown from '@astrojs/partytown';
 import icon from 'astro-icon';
 import type { AstroIntegration } from 'astro';
 
-// 1. Importeer de Vercel adapter
+// Importeer de Vercel adapter
 import vercel from '@astrojs/vercel';
 
 import astrowind from './vendor/integration';
 import { readingTimeRemarkPlugin, responsiveTablesRehypePlugin, lazyImagesRehypePlugin } from './src/utils/frontmatter';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const hasExternalScripts = false;
 const whenExternalScripts = (items: (() => AstroIntegration) | (() => AstroIntegration)[] = []) =>
@@ -34,10 +35,10 @@ export default defineConfig({
     },
   },
 
-  // We houden de output op static voor maximale snelheid
-  output: 'static',
+  // Veranderd van 'static' naar 'hybrid' om SSR voor de taxi-pagina's mogelijk te maken
+  output: 'hybrid',
 
-  // Voeg de adapter toe om de routing op Vercel correct af te handelen
+  // De adapter handelt de server-side functies op Vercel af
   adapter: vercel({
     webAnalytics: {
       enabled: true,
@@ -99,7 +100,6 @@ export default defineConfig({
   vite: {
     resolve: {
       alias: {
-        // FIX: De tilde moet tussen quotes staan om syntax errors in de build te voorkomen
         '~': path.resolve(__dirname, './src'),
       },
     },
