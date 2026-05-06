@@ -5,7 +5,8 @@ import Hero from '~/components/widgets/Hero.astro';
 import Stats from '~/components/widgets/Stats.astro';
 import Steps2 from '~/components/widgets/Steps2.astro';
 import Layout from '~/layouts/PageLayout.astro';
-
+// Zorgt ervoor dat deze pagina statisch wordt gegenereerd voor maximale snelheid
+export const prerender = true;
 const metadata = {
   title: 'Over Ons | Uw Mobiliteitspartner in Amsterdam — InTaxi',
   description: 'InTaxi Amsterdam: Uw specialist in zakelijk vervoer, veilig leerlingenvervoer en luxe airport taxi services naar Schiphol. Ontdek onze 100% elektrische vloot.',
