@@ -9,6 +9,9 @@ import FAQs from '~/components/widgets/FAQs.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
 import PriceCalculator from '~/components/widgets/PriceCalculator.astro';
 
+// Zorgt ervoor dat deze pagina statisch wordt gegenereerd voor maximale snelheid
+export const prerender = true;
+
 const metadata = {
   title: 'InTaxi — Luxury Tesla Taxi to Schiphol with fixed rates',
   ignoreTitleTemplate: true,
@@ -26,7 +29,6 @@ const metadata = {
         
         <div class="calculator-container opacity-0 pointer-events-auto">
           <div class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md p-1 md:p-4 rounded-2xl md:rounded-3xl shadow-2xl border border-white/20">
-            <!-- Let op: Zorg dat je PriceCalculator component ook Engelse teksten ondersteunt indien nodig -->
             <PriceCalculator />
           </div>
           
@@ -88,7 +90,7 @@ const metadata = {
 
   .calculator-container {
     animation: simpleFadeIn 1.2s ease-out forwards;
-    animation-delay: 2s;
+    animation-delay: 1s; /* Iets kortere delay voor betere UX */
   }
 
   .calculator-container input, 
