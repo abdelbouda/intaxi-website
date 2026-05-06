@@ -6,6 +6,8 @@ import Stats from '~/components/widgets/Stats.astro';
 import Steps2 from '~/components/widgets/Steps2.astro';
 import Layout from '~/layouts/PageLayout.astro';
 
+// Zorgt ervoor dat deze pagina statisch wordt gegenereerd voor maximale snelheid
+export const prerender = true;
 const metadata = {
   title: 'About Us | Your Mobility Partner in Amsterdam — InTaxi',
   description: 'InTaxi Amsterdam: Your specialist in business transportation, safe student transport and luxury airport taxi services to Schiphol. Discover our 100% electric fleet.',
