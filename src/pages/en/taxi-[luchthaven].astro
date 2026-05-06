@@ -4,56 +4,117 @@ import Layout from '~/layouts/PageLayout.astro';
 export const prerender = true;
 
 export async function getStaticPaths() {
-  const luchthavens = [
-    { slug: 'schiphol-airport', naam: 'Schiphol Airport', code: 'AMS', prijsTesla: '45', prijsBus: '65', reistijd: '20-25 min' },
-    { slug: 'rotterdam-the-hague', naam: 'Rotterdam The Hague', code: 'RTM', prijsTesla: '125', prijsBus: '160', reistijd: '50-60 min' },
-    { slug: 'eindhoven-airport', naam: 'Eindhoven Airport', code: 'EIN', prijsTesla: '185', prijsBus: '230', reistijd: '75-90 min' },
-    { slug: 'antwerp-airport', naam: 'Antwerp Airport', code: 'ANR', prijsTesla: '225', prijsBus: '275', reistijd: '120 min' },
-    { slug: 'brussels-zaventem', naam: 'Brussels Zaventem', code: 'BRU', prijsTesla: '325', prijsBus: '395', reistijd: '2.5 hours' },
-    { slug: 'charleroi-airport', naam: 'Charleroi Airport', code: 'CRL', prijsTesla: '325', prijsBus: '395', reistijd: '3 hours' },
-    { slug: 'duesseldorf-weeze', naam: 'Düsseldorf / Weeze', code: 'DUS', prijsTesla: '345', prijsBus: '415', reistijd: '2 hours' },
+  const airports = [
+    { slug: 'schiphol-airport', name: 'Schiphol Airport', code: 'AMS', priceTesla: '45', priceVan: '65', time: '20-25 min' },
+    { slug: 'rotterdam-the-hague', name: 'Rotterdam The Hague', code: 'RTM', priceTesla: '125', priceVan: '160', time: '50-60 min' },
+    { slug: 'eindhoven-airport', name: 'Eindhoven Airport', code: 'EIN', priceTesla: '185', priceVan: '230', time: '75-90 min' },
+    { slug: 'antwerp-airport', name: 'Antwerp Airport', code: 'ANR', priceTesla: '225', priceVan: '275', time: '120 min' },
+    { slug: 'brussels-zaventem', name: 'Brussels Zaventem', code: 'BRU', priceTesla: '325', priceVan: '395', time: '2.5 hours' },
+    { slug: 'charleroi-airport', name: 'Charleroi Airport', code: 'CRL', priceTesla: '325', priceVan: '395', time: '3 hours' },
+    { slug: 'duesseldorf-weeze', name: 'Düsseldorf / Weeze', code: 'DUS', priceTesla: '345', priceVan: '415', time: '2 hours' },
   ];
 
-  return luchthavens.map((l) => ({
-    params: { luchthaven: l.slug },
+  return airports.map((a) => ({
+    params: { luchthaven: a.slug },
     props: { 
-      naam: l.naam, 
-      code: l.code, 
-      prijsTesla: l.prijsTesla,
-      prijsBus: l.prijsBus,
-      reistijd: l.reistijd 
+      name: a.name, 
+      code: a.code, 
+      priceTesla: a.priceTesla,
+      priceVan: a.priceVan,
+      time: a.time,
     },
   }));
 }
-const { naam, code, prijsTesla, prijsBus, reistijd } = Astro.props;
+
+const { name, code, priceTesla, priceVan, time } = Astro.props;
 const today = new Date().toISOString().split('T')[0];
 
 const metadata = {
-  title: `Taxi Amsterdam to ${naam} (${code}) | Fixed Price from €${prijsTesla}`,
-  description: `Luxury Tesla taxi or van from Amsterdam to ${naam}. Fixed rate from €${prijsTesla}. No hidden costs, available 24/7. Book directly via WhatsApp!`,
+  title: `Taxi Amsterdam to ${name} (${code}) | Fixed Price from €${priceTesla}`,
+  description: `Luxury Tesla taxi or van from Amsterdam to ${name}. Fixed fare from €${priceTesla}. No hidden costs, available 24/7. Book directly via WhatsApp!`,
   ignoreTitleTemplate: true,
 };
 ---
 
 <Layout metadata={metadata}>
-  <!-- ... al je bestaande HTML blijft precies hetzelfde ... -->
-
-  <!-- Je gehele form en inhoud komt HIER ... -->
-
-  <!-- Plaats enkel DIT <script is:inline> blok vlak voor de afsluitende </Layout> -->
+  <section class="py-6 md:py-10 px-2 md:px-0 max-w-6xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+      <!-- LEFT: RATES & USPs -->
+      <div class="space-y-6">
+        <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
+          <div class="bg-[#003399] p-4 text-white font-bold text-center uppercase tracking-widest text-xs rounded-t-3xl">
+            Rates to {code}
+          </div>
+          <div class="p-4 grid grid-cols-2 gap-2 items-center">
+            <div id="tesla-card" class="text-center p-4 rounded-2xl bg-blue-50 border-2 border-blue-100 font-sans">
+              <span class="block text-[11px] uppercase font-bold text-blue-400 mb-1">Luxury Tesla (4p)</span>
+              <span class="text-2xl font-extrabold text-[#003399]">from €{priceTesla},-</span>
+            </div>
+            <div id="van-card" class="text-center p-4 rounded-2xl bg-slate-50 border-2 border-slate-100 font-sans">
+              <span class="block text-[11px] uppercase font-bold text-slate-400 mb-1">Taxi Van (8p)</span>
+              <span class="text-2xl font-extrabold text-slate-700">from €{priceVan},-</span>
+            </div>
+          </div>
+          <div class="px-4 pb-4 text-xs text-gray-500 italic text-center">
+            Estimated travel time: approx. {time}
+          </div>
+        </div>
+        <div class="bg-white p-5 rounded-3xl border border-slate-100">
+          <ul class="space-y-2 text-base">
+            <li class="flex items-center"><span class="text-green-600 text-xl mr-2">✔️</span> Fixed price in advance</li>
+            <li class="flex items-center"><span class="text-green-600 text-xl mr-2">✔️</span> Luxury Teslas & spacious vans</li>
+            <li class="flex items-center"><span class="text-green-600 text-xl mr-2">✔️</span> 24/7 WhatsApp support</li>
+          </ul>
+        </div>
+      </div>
+      <!-- RIGHT: BOOKING FORM -->
+      <div class="bg-white rounded-3xl shadow-2xl p-6 md:p-8 border border-gray-50">
+        <div class="flex items-center mb-4">
+          <span class="flex items-center justify-center w-7 h-7 rounded-full bg-[#003399] text-white font-bold mr-2 text-xs">2</span>
+          <h2 class="text-xl font-bold text-[#003399]">Trip Details & Booking</h2>
+        </div>
+        <div class="mb-4 grid grid-cols-2 gap-2">
+          <button id="btn-tesla" class="vehicle-btn active p-3 rounded-xl border-2 border-[#003399] bg-[#003399] text-white font-bold text-xs uppercase transition">Luxury Tesla</button>
+          <button id="btn-van" class="vehicle-btn p-3 rounded-xl border-2 border-gray-100 bg-gray-50 text-gray-400 font-bold text-xs uppercase transition">Taxi Van</button>
+        </div>
+        <div class="space-y-3">
+          <div class="flex gap-2">
+            <input id="pickup-address" type="text" autocomplete="off" placeholder="Pickup address" class="flex-[4] block w-full p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm text-black" />
+            <input id="house-number" type="text" placeholder="No." class="flex-[1] p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm text-black text-center" />
+          </div>
+          <div id="suggestions" class="absolute z-[100] w-full bg-white border border-gray-300 rounded-b-xl shadow-2xl hidden max-h-40 overflow-y-auto mt-1"></div>
+          <div class="grid grid-cols-2 gap-2">
+            <input id="date" type="date" value={today} class="p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm text-black" />
+            <input id="time" type="time" value="12:00" class="p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm text-black" />
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <input id="name" type="text" placeholder="Name" class="p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm text-black" />
+            <input id="phone" type="tel" placeholder="Phone" class="p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm text-black" />
+          </div>
+          <textarea id="notes" placeholder="Flight number / notes..." rows="1" class="w-full p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm text-black resize-none"></textarea>
+          <div class="bg-blue-50 p-4 rounded-2xl text-center border border-blue-100">
+            <span id="current-price" class="text-2xl font-extrabold text-[#003399]">Total: € {priceTesla},-</span>
+          </div>
+          <button id="whatsapp-btn" class="w-full bg-[#003399] text-white font-black py-4 rounded-2xl hover:bg-blue-800 transition-all shadow-lg uppercase tracking-widest text-base flex items-center justify-center">
+            Book now via WhatsApp
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
   <script is:inline>
-    // Maak prijs-gegevens beschikbaar (uit Astro.props)
-    const prijsTesla = "{prijsTesla}";
-    const prijsBus = "{prijsBus}";
-    const naam = "{naam}";
+    // Make price data available from props
+    const priceTesla = "{priceTesla}";
+    const priceVan = "{priceVan}";
+    const name = "{name}";
 
-    function initLocalBooking() {
-      const input = document.getElementById('ophaal-adres');
+    function initBooking() {
+      const input = document.getElementById('pickup-address');
       const suggestionsBox = document.getElementById('suggestions');
       const btn = document.getElementById('whatsapp-btn');
       const priceDisplay = document.getElementById('current-price');
       const teslaBtn = document.getElementById('btn-tesla');
-      const busjeBtn = document.getElementById('btn-busje');
+      const vanBtn = document.getElementById('btn-van');
 
       let selectedVehicle = 'Tesla';
       let debounceTimer;
@@ -61,18 +122,18 @@ const metadata = {
       function setVehicle(type) {
         selectedVehicle = type;
         if (type === 'Tesla') {
-          teslaBtn.className = "vehicle-btn active p-2 rounded-xl border-2 border-[#003399] bg-[#003399] text-white font-bold text-[10px] uppercase";
-          busjeBtn.className = "vehicle-btn p-2 rounded-xl border-2 border-gray-100 bg-gray-50 text-gray-400 font-bold text-[10px] uppercase";
-          priceDisplay.textContent = `Total: € ${prijsTesla},-`;
+          teslaBtn.className = "vehicle-btn active p-3 rounded-xl border-2 border-[#003399] bg-[#003399] text-white font-bold text-xs uppercase";
+          vanBtn.className = "vehicle-btn p-3 rounded-xl border-2 border-gray-100 bg-gray-50 text-gray-400 font-bold text-xs uppercase";
+          priceDisplay.textContent = `Total: € ${priceTesla},-`;
         } else {
-          busjeBtn.className = "vehicle-btn active p-2 rounded-xl border-2 border-[#003399] bg-[#003399] text-white font-bold text-[10px] uppercase";
-          teslaBtn.className = "vehicle-btn p-2 rounded-xl border-2 border-gray-100 bg-gray-50 text-gray-400 font-bold text-[10px] uppercase";
-          priceDisplay.textContent = `Total: € ${prijsBus},-`;
+          vanBtn.className = "vehicle-btn active p-3 rounded-xl border-2 border-[#003399] bg-[#003399] text-white font-bold text-xs uppercase";
+          teslaBtn.className = "vehicle-btn p-3 rounded-xl border-2 border-gray-100 bg-gray-50 text-gray-400 font-bold text-xs uppercase";
+          priceDisplay.textContent = `Total: € ${priceVan},-`;
         }
       }
 
       teslaBtn.onclick = () => setVehicle('Tesla');
-      busjeBtn.onclick = () => setVehicle('Van');
+      vanBtn.onclick = () => setVehicle('Van');
 
       input.addEventListener('input', () => {
         clearTimeout(debounceTimer);
@@ -87,14 +148,14 @@ const metadata = {
               suggestionsBox.classList.remove('hidden');
               data.forEach(item => {
                 const div = document.createElement('div');
-                div.className = 'p-2 hover:bg-blue-50 cursor-pointer border-b text-[11px] text-black bg-white';
+                div.className = 'p-2 hover:bg-blue-50 cursor-pointer border-b text-xs text-black bg-white';
                 const parts = item.display_name.split(',');
                 const label = parts[0] + (parts[1] ? ', ' + parts[1] : '');
                 div.textContent = label;
                 div.onclick = () => {
                   input.value = label;
                   suggestionsBox.classList.add('hidden');
-                  document.getElementById('huisnummer').focus();
+                  document.getElementById('house-number').focus();
                 };
                 suggestionsBox.appendChild(div);
               });
@@ -105,15 +166,15 @@ const metadata = {
 
       btn.onclick = () => {
         const val = (id) => document.getElementById(id).value;
-        const text = `Hi InTaxi, I want to book a trip to ${naam}:%0A%0A` +
+        const text = `Hi InTaxi, I want to book a trip to ${name}:%0A%0A` +
                      `🚕 Vehicle: ${selectedVehicle}%0A` +
                      `💰 Price: ${priceDisplay.textContent}%0A` +
-                     `🏠 From: ${val('ophaal-adres')} ${val('huisnummer')}%0A` +
-                     `📅 Date: ${val('datum')}%0A` +
-                     `⏰ Time: ${val('tijd')}%0A` +
-                     `👤 Name: ${val('naam')}%0A` +
-                     `📞 Phone: ${val('tel')}%0A` +
-                     `📝 Note: ${val('notitie')}`;
+                     `🏠 From: ${val('pickup-address')} ${val('house-number')}%0A` +
+                     `📅 Date: ${val('date')}%0A` +
+                     `⏰ Time: ${val('time')}%0A` +
+                     `👤 Name: ${val('name')}%0A` +
+                     `📞 Phone: ${val('phone')}%0A` +
+                     `📝 Note: ${val('notes')}`;
         window.open(`https://wa.me/31642277607?text=${text}`, '_blank');
       };
 
@@ -122,12 +183,12 @@ const metadata = {
       });
     }
 
-    // Astro hydrateert niet altijd DOM direct 
+    // DOM-ready/init
     if (document.readyState !== "loading") {
-      initLocalBooking();
+      initBooking();
     } else {
-      document.addEventListener('DOMContentLoaded', initLocalBooking);
+      document.addEventListener('DOMContentLoaded', initBooking);
     }
-    document.addEventListener('astro:page-load', initLocalBooking);
+    document.addEventListener('astro:page-load', initBooking);
   </script>
 </Layout>
