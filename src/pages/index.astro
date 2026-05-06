@@ -1,5 +1,7 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
+// Zorgt ervoor dat deze pagina statisch wordt gegenereerd voor maximale snelheid
+export const prerender = true;
 
 import Hero from '~/components/widgets/Hero.astro';
 import Note from '~/components/widgets/Note.astro';
