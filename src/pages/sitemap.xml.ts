@@ -1,9 +1,9 @@
 // /src/pages/sitemap.xml.ts
 import { fetchPosts } from '../utils/blog';
 
-const SITE = 'https://intaxi.nl';
+// GEUPDATE: Nu met www. voor Google Search optimalisatie
+const SITE = 'https://www.intaxi.nl';
 
-// Zorg dat deze slugs exact matchen met de slugs in je [luchthaven].astro bestanden!
 const dynamicAirports = [
   { slug: 'schiphol' },
   { slug: 'rotterdam' },
@@ -17,19 +17,17 @@ const dynamicAirports = [
 const lastmod = new Date().toISOString().slice(0, 10);
 
 export async function GET() {
-  // Statische pagina's (NL en EN)
   const staticEN = [
     { path: '/en', priority: 1.0 },
     { path: '/en/contact', priority: 0.8 },
     { path: '/en/vliegveld-taxi', priority: 0.8 }
   ];
   const staticNL = [
-    { path: '/', priority: 1.0 },
+    { path: '', priority: 1.0 },
     { path: '/contact', priority: 0.8 },
     { path: '/vliegveld-taxi', priority: 0.8 }
   ];
 
-  // Dynamische Airport URLs (EN: /en/taxi-slug, NL: /taxi-slug)
   const enAirportUrls = dynamicAirports.map(({ slug }) => ({
     url: `${SITE}/en/taxi-${slug}`,
     priority: 0.7,
@@ -41,7 +39,6 @@ export async function GET() {
     changefreq: 'monthly'
   }));
 
-  // Blogs ophalen
   let blogUrls: Array<{ url: string; priority: number; changefreq: string }> = [];
   try {
     const posts = await fetchPosts?.();
@@ -52,32 +49,35 @@ export async function GET() {
         changefreq: 'monthly'
       }));
     }
-  } catch { /* blog overgeslagen */ }
+  } catch { /* blog disabled */ }
 
-  // Alle URLs combineren
-  const allUrls = [
-    ...staticEN,
-    ...staticNL,
+  const urls = [
+    ...staticEN.map(({ path, priority }) => ({
+      url: `${SITE}${path}`,
+      priority,
+      changefreq: 'monthly'
+    })),
+    ...staticNL.map(({ path, priority }) => ({
+      url: `${SITE}${path}`,
+      priority,
+      changefreq: 'monthly'
+    })),
     ...enAirportUrls,
     ...nlAirportUrls,
     ...blogUrls
   ];
 
-  // Sitemap XML genereren
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${allUrls.map((item) => {
-    // Check of item.url al een volledige URL is (bij blogs/airports) of nog een pad (bij static)
-    const fullUrl = 'url' in item ? item.url : `${SITE}${item.path}`;
-    return `
+${urls.map(({ url, priority, changefreq }) => `
   <url>
-    <loc>${fullUrl}</loc>
+    <loc>${url}</loc>
     <lastmod>${lastmod}</lastmod>
-    <changefreq>${'changefreq' in item ? item.changefreq : 'monthly'}</changefreq>
-    <priority>${item.priority}</priority>
-  </url>`;
-  }).join('')}
-</urlset>`.trim();
+    <changefreq>${changefreq}</changefreq>
+    <priority>${priority}</priority>
+  </url>`).join('')}
+</urlset>
+`;
 
   return new Response(xml, {
     headers: { 'Content-Type': 'application/xml' }
