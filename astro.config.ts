@@ -2,6 +2,7 @@ import { defineConfig } from 'astro/config';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+// Integraties
 import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
 import mdx from '@astrojs/mdx';
@@ -9,12 +10,14 @@ import partytown from '@astrojs/partytown';
 import icon from 'astro-icon';
 import type { AstroIntegration } from 'astro';
 
-// Importeer de Vercel adapter
+// Vercel Adapter
 import vercel from '@astrojs/vercel';
 
+// Lokale project imports
 import astrowind from './vendor/integration';
 import { readingTimeRemarkPlugin, responsiveTablesRehypePlugin, lazyImagesRehypePlugin } from './src/utils/frontmatter';
 
+// Fix voor __dirname in ESM mode
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -23,10 +26,10 @@ const whenExternalScripts = (items: (() => AstroIntegration) | (() => AstroInteg
   hasExternalScripts ? (Array.isArray(items) ? items.map((item) => item()) : [items()]) : [];
 
 export default defineConfig({
-  // De 'site' property is essentieel voor sitemaps en SEO
+  // Essentieel voor SEO en sitemaps
   site: 'https://www.intaxi.nl',
 
-  // Internationalization (i18n) configuratie
+  // Internationalization (i18n)
   i18n: {
     defaultLocale: 'nl',
     locales: ['nl', 'en'],
@@ -35,10 +38,10 @@ export default defineConfig({
     },
   },
 
-  // Veranderd van 'static' naar 'hybrid' om SSR voor de taxi-pagina's mogelijk te maken
-  output: 'hybrid',
+  // 'server' output is nodig voor je dynamische taxi-pagina's op Vercel
+  output: 'server',
 
-  // De adapter handelt de server-side functies op Vercel af
+  // Vercel configuratie
   adapter: vercel({
     webAnalytics: {
       enabled: true,
@@ -49,7 +52,7 @@ export default defineConfig({
     tailwind({
       applyBaseStyles: false,
     }),
-    // Geoptimaliseerde sitemap voor meertaligheid
+    // Meertalige sitemap
     sitemap({
       i18n: {
         defaultLocale: 'nl',
