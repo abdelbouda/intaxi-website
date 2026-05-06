@@ -1,32 +1,32 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 
-export const prerender = true;
+// 1. Schakel statische generatie uit voor deze pagina
+export const prerender = false;
 
-export async function getStaticPaths() {
-  const airports = [
-    { slug: 'schiphol-airport', name: 'Schiphol Airport', code: 'AMS', priceTesla: '45', priceVan: '65', time: '20-25 min' },
-    { slug: 'rotterdam-the-hague', name: 'Rotterdam The Hague', code: 'RTM', priceTesla: '125', priceVan: '160', time: '50-60 min' },
-    { slug: 'eindhoven-airport', name: 'Eindhoven Airport', code: 'EIN', priceTesla: '185', priceVan: '230', time: '75-90 min' },
-    { slug: 'antwerp-airport', name: 'Antwerp Airport', code: 'ANR', priceTesla: '225', priceVan: '275', time: '120 min' },
-    { slug: 'brussels-zaventem', name: 'Brussels Zaventem', code: 'BRU', priceTesla: '325', priceVan: '395', time: '2.5 hours' },
-    { slug: 'charleroi-airport', name: 'Charleroi Airport', code: 'CRL', priceTesla: '325', priceVan: '395', time: '3 hours' },
-    { slug: 'duesseldorf-weeze', name: 'Düsseldorf / Weeze', code: 'DUS', priceTesla: '345', priceVan: '415', time: '2 hours' },
-  ];
+// 2. Haal de 'luchthaven' (slug) uit de URL
+const { luchthaven } = Astro.params;
 
-  return airports.map((a) => ({
-    params: { luchthaven: a.slug },
-    props: { 
-      name: a.name, 
-      code: a.code, 
-      priceTesla: a.priceTesla,
-      priceVan: a.priceVan,
-      time: a.time,
-    },
-  }));
+// 3. De dataset (In een later stadium kun je dit uit een database of JSON halen)
+const airports = [
+  { slug: 'schiphol-airport', name: 'Schiphol Airport', code: 'AMS', priceTesla: '45', priceVan: '65', time: '20-25 min' },
+  { slug: 'rotterdam-the-hague', name: 'Rotterdam The Hague', code: 'RTM', priceTesla: '125', priceVan: '160', time: '50-60 min' },
+  { slug: 'eindhoven-airport', name: 'Eindhoven Airport', code: 'EIN', priceTesla: '185', priceVan: '230', time: '75-90 min' },
+  { slug: 'antwerp-airport', name: 'Antwerp Airport', code: 'ANR', priceTesla: '225', priceVan: '275', time: '120 min' },
+  { slug: 'brussels-zaventem', name: 'Brussels Zaventem', code: 'BRU', priceTesla: '325', priceVan: '395', time: '2.5 hours' },
+  { slug: 'charleroi-airport', name: 'Charleroi Airport', code: 'CRL', priceTesla: '325', priceVan: '395', time: '3 hours' },
+  { slug: 'duesseldorf-weeze', name: 'Düsseldorf / Weeze', code: 'DUS', priceTesla: '345', priceVan: '415', time: '2 hours' },
+];
+
+// 4. Zoek de specifieke data voor deze pagina
+const airport = airports.find((a) => a.slug === luchthaven);
+
+// 5. Fallback als de luchthaven niet wordt gevonden (404)
+if (!airport) {
+  return Astro.redirect('/404');
 }
 
-const { name, code, priceTesla, priceVan, time } = Astro.props;
+const { name, code, priceTesla, priceVan, time } = airport;
 const today = new Date().toISOString().split('T')[0];
 
 const metadata = {
@@ -39,7 +39,6 @@ const metadata = {
 <Layout metadata={metadata}>
   <section class="py-6 md:py-10 px-2 md:px-0 max-w-6xl mx-auto">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-      <!-- LEFT: RATES & USPs -->
       <div class="space-y-6">
         <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
           <div class="bg-[#003399] p-4 text-white font-bold text-center uppercase tracking-widest text-xs rounded-t-3xl">
@@ -67,7 +66,6 @@ const metadata = {
           </ul>
         </div>
       </div>
-      <!-- RIGHT: BOOKING FORM -->
       <div class="bg-white rounded-3xl shadow-2xl p-6 md:p-8 border border-gray-50">
         <div class="flex items-center mb-4">
           <span class="flex items-center justify-center w-7 h-7 rounded-full bg-[#003399] text-white font-bold mr-2 text-xs">2</span>
@@ -102,12 +100,8 @@ const metadata = {
       </div>
     </div>
   </section>
-  <script is:inline>
-    // Make price data available from props
-    const priceTesla = "{priceTesla}";
-    const priceVan = "{priceVan}";
-    const name = "{name}";
 
+  <script is:inline define:vars={{ priceTesla, priceVan, name }}>
     function initBooking() {
       const input = document.getElementById('pickup-address');
       const suggestionsBox = document.getElementById('suggestions');
@@ -132,54 +126,60 @@ const metadata = {
         }
       }
 
-      teslaBtn.onclick = () => setVehicle('Tesla');
-      vanBtn.onclick = () => setVehicle('Van');
+      if (teslaBtn) teslaBtn.onclick = () => setVehicle('Tesla');
+      if (vanBtn) vanBtn.onclick = () => setVehicle('Van');
 
-      input.addEventListener('input', () => {
-        clearTimeout(debounceTimer);
-        const q = input.value;
-        if (q.length < 3) { suggestionsBox.classList.add('hidden'); return; }
-        debounceTimer = setTimeout(async () => {
-          try {
-            const res = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&addressdetails=1&limit=5&countrycodes=nl`);
-            const data = await res.json();
-            suggestionsBox.innerHTML = '';
-            if (data.length > 0) {
-              suggestionsBox.classList.remove('hidden');
-              data.forEach(item => {
-                const div = document.createElement('div');
-                div.className = 'p-2 hover:bg-blue-50 cursor-pointer border-b text-xs text-black bg-white';
-                const parts = item.display_name.split(',');
-                const label = parts[0] + (parts[1] ? ', ' + parts[1] : '');
-                div.textContent = label;
-                div.onclick = () => {
-                  input.value = label;
-                  suggestionsBox.classList.add('hidden');
-                  document.getElementById('house-number').focus();
-                };
-                suggestionsBox.appendChild(div);
-              });
-            }
-          } catch (err) { console.error('Address error:', err); }
-        }, 300);
-      });
+      if (input) {
+        input.addEventListener('input', () => {
+          clearTimeout(debounceTimer);
+          const q = input.value;
+          if (q.length < 3) { suggestionsBox?.classList.add('hidden'); return; }
+          debounceTimer = setTimeout(async () => {
+            try {
+              const res = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&addressdetails=1&limit=5&countrycodes=nl`);
+              const data = await res.json();
+              if (suggestionsBox) {
+                suggestionsBox.innerHTML = '';
+                if (data.length > 0) {
+                  suggestionsBox.classList.remove('hidden');
+                  data.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'p-2 hover:bg-blue-50 cursor-pointer border-b text-xs text-black bg-white';
+                    const parts = item.display_name.split(',');
+                    const label = parts[0] + (parts[1] ? ', ' + parts[1] : '');
+                    div.textContent = label;
+                    div.onclick = () => {
+                      input.value = label;
+                      suggestionsBox.classList.add('hidden');
+                      document.getElementById('house-number')?.focus();
+                    };
+                    suggestionsBox.appendChild(div);
+                  });
+                }
+              }
+            } catch (err) { console.error('Address error:', err); }
+          }, 300);
+        });
+      }
 
-      btn.onclick = () => {
-        const val = (id) => document.getElementById(id).value;
-        const text = `Hi InTaxi, I want to book a trip to ${name}:%0A%0A` +
-                     `🚕 Vehicle: ${selectedVehicle}%0A` +
-                     `💰 Price: ${priceDisplay.textContent}%0A` +
-                     `🏠 From: ${val('pickup-address')} ${val('house-number')}%0A` +
-                     `📅 Date: ${val('date')}%0A` +
-                     `⏰ Time: ${val('time')}%0A` +
-                     `👤 Name: ${val('name')}%0A` +
-                     `📞 Phone: ${val('phone')}%0A` +
-                     `📝 Note: ${val('notes')}`;
-        window.open(`https://wa.me/31642277607?text=${text}`, '_blank');
-      };
+      if (btn) {
+        btn.onclick = () => {
+          const val = (id) => document.getElementById(id)?.value || '';
+          const text = `Hi InTaxi, I want to book a trip to ${name}:%0A%0A` +
+                       `🚕 Vehicle: ${selectedVehicle}%0A` +
+                       `💰 Price: ${priceDisplay?.textContent || ''}%0A` +
+                       `🏠 From: ${val('pickup-address')} ${val('house-number')}%0A` +
+                       `📅 Date: ${val('date')}%0A` +
+                       `⏰ Time: ${val('time')}%0A` +
+                       `👤 Name: ${val('name')}%0A` +
+                       `📞 Phone: ${val('phone')}%0A` +
+                       `📝 Note: ${val('notes')}`;
+          window.open(`https://wa.me/31642277607?text=${text}`, '_blank');
+        };
+      }
 
       document.addEventListener('click', (e) => {
-        if (!input.contains(e.target)) suggestionsBox.classList.add('hidden');
+        if (input && !input.contains(e.target)) suggestionsBox?.classList.add('hidden');
       });
     }
 
