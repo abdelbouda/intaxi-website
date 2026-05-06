@@ -1,32 +1,32 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 
-export const prerender = true;
+// 1. SSR inschakelen
+export const prerender = false;
 
-export async function getStaticPaths() {
-  const luchthavens = [
-    { slug: 'schiphol', naam: 'Schiphol Airport', code: 'AMS', prijsTesla: '45', prijsBus: '65', reistijd: '20-25 min' },
-    { slug: 'rotterdam', naam: 'Rotterdam The Hague', code: 'RTM', prijsTesla: '125', prijsBus: '160', reistijd: '50-60 min' },
-    { slug: 'eindhoven', naam: 'Eindhoven Airport', code: 'EIN', prijsTesla: '185', prijsBus: '230', reistijd: '75-90 min' },
-    { slug: 'antwerpen', naam: 'Antwerpen Airport', code: 'ANR', prijsTesla: '225', prijsBus: '275', reistijd: '120 min' },
-    { slug: 'brussel', naam: 'Brussel Zaventem', code: 'BRU', prijsTesla: '325', prijsBus: '395', reistijd: '2,5 uur' },
-    { slug: 'charleroi', naam: 'Charleroi Airport', code: 'CRL', prijsTesla: '325', prijsBus: '395', reistijd: '3 uur' },
-    { slug: 'duesseldorf', naam: 'Düsseldorf / Weeze', code: 'DUS', prijsTesla: '345', prijsBus: '415', reistijd: '2 uur' },
-  ];
+// 2. Haal de slug uit de URL
+const { luchthaven } = Astro.params;
 
-  return luchthavens.map((l) => ({
-    params: { luchthaven: l.slug },
-    props: { 
-      naam: l.naam, 
-      code: l.code, 
-      prijsTesla: l.prijsTesla,
-      prijsBus: l.prijsBus,
-      reistijd: l.reistijd 
-    },
-  }));
+// 3. Dataset
+const luchthavens = [
+  { slug: 'schiphol', naam: 'Schiphol Airport', code: 'AMS', prijsTesla: '45', prijsBus: '65', reistijd: '20-25 min' },
+  { slug: 'rotterdam', naam: 'Rotterdam The Hague', code: 'RTM', prijsTesla: '125', prijsBus: '160', reistijd: '50-60 min' },
+  { slug: 'eindhoven', naam: 'Eindhoven Airport', code: 'EIN', prijsTesla: '185', prijsBus: '230', reistijd: '75-90 min' },
+  { slug: 'antwerpen', naam: 'Antwerpen Airport', code: 'ANR', prijsTesla: '225', prijsBus: '275', reistijd: '120 min' },
+  { slug: 'brussel', naam: 'Brussel Zaventem', code: 'BRU', prijsTesla: '325', prijsBus: '395', reistijd: '2,5 uur' },
+  { slug: 'charleroi', naam: 'Charleroi Airport', code: 'CRL', prijsTesla: '325', prijsBus: '395', reistijd: '3 uur' },
+  { slug: 'duesseldorf', naam: 'Düsseldorf / Weeze', code: 'DUS', prijsTesla: '345', prijsBus: '415', reistijd: '2 uur' },
+];
+
+// 4. Zoek de data op
+const l = luchthavens.find((item) => item.slug === luchthaven);
+
+// 5. 404 check
+if (!l) {
+  return Astro.redirect('/404');
 }
 
-const { naam, code, prijsTesla, prijsBus, reistijd } = Astro.props;
+const { naam, code, prijsTesla, prijsBus, reistijd } = l;
 const today = new Date().toISOString().split('T')[0];
 
 const metadata = {
@@ -37,10 +37,7 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-  <!-- Padding top verlaagd van py-12 naar pt-6 -->
   <section class="pt-6 pb-12 md:pt-10 md:pb-20 px-4 max-w-6xl mx-auto">
-    
-    <!-- Header sectie compacter gemaakt -->
     <div class="text-center mb-6 md:mb-8">
       <h1 class="text-2xl md:text-4xl font-extrabold text-slate-900 mb-2 tracking-tight uppercase">
         Taxi Amsterdam naar <span class="text-[#003399]">{naam}</span>
@@ -51,8 +48,6 @@ const metadata = {
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
-      
-      <!-- LINKERZIJDE: INFO & TARIEVEN -->
       <div class="space-y-4">
         <div class="bg-white border border-gray-100 rounded-3xl shadow-xl overflow-hidden">
           <div class="bg-[#003399] p-3 text-white font-bold text-center uppercase tracking-widest text-[10px]">
@@ -82,7 +77,6 @@ const metadata = {
         </div>
       </div>
 
-      <!-- RECHTERZIJDE: BOEKINGSFORMULIER (Strakker design) -->
       <div class="bg-white rounded-3xl shadow-2xl p-5 border border-gray-50">
         <div class="flex items-center mb-4">
           <span class="flex items-center justify-center w-6 h-6 rounded-full bg-[#003399] text-white font-bold mr-2 text-[10px]">2</span>
@@ -109,7 +103,7 @@ const metadata = {
           </div>
 
           <div class="grid grid-cols-2 gap-2">
-            <input id="naam" type="text" placeholder="Naam" class="p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-xs text-black" />
+            <input id="naam-input" type="text" placeholder="Naam" class="p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-xs text-black" />
             <input id="tel" type="tel" placeholder="Telefoon" class="p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-xs text-black" />
           </div>
 
@@ -152,60 +146,70 @@ const metadata = {
         }
       }
 
-      teslaBtn.onclick = () => setVehicle('Tesla');
-      busjeBtn.onclick = () => setVehicle('Busje');
+      if (teslaBtn) teslaBtn.onclick = () => setVehicle('Tesla');
+      if (busjeBtn) busjeBtn.onclick = () => setVehicle('Busje');
 
-      input.addEventListener('input', () => {
-        clearTimeout(debounceTimer);
-        const q = input.value;
-        if (q.length < 3) { suggestionsBox.classList.add('hidden'); return; }
+      if (input) {
+        input.addEventListener('input', () => {
+          clearTimeout(debounceTimer);
+          const q = input.value;
+          if (q.length < 3) { suggestionsBox?.classList.add('hidden'); return; }
 
-        debounceTimer = setTimeout(async () => {
-          try {
-            const res = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&addressdetails=1&limit=5&countrycodes=nl`);
-            const data = await res.json();
-            suggestionsBox.innerHTML = '';
-            if (data.length > 0) {
-              suggestionsBox.classList.remove('hidden');
-              data.forEach(item => {
-                const div = document.createElement('div');
-                div.className = 'p-2 hover:bg-blue-50 cursor-pointer border-b text-[11px] text-black bg-white';
-                const parts = item.display_name.split(',');
-                const label = parts[0] + (parts[1] ? ', ' + parts[1] : '');
-                div.textContent = label;
-                div.onclick = () => {
-                  input.value = label;
-                  suggestionsBox.classList.add('hidden');
-                  document.getElementById('huisnummer').focus();
-                };
-                suggestionsBox.appendChild(div);
-              });
-            }
-          } catch (err) { console.error('Adresfout:', err); }
-        }, 300);
-      });
+          debounceTimer = setTimeout(async () => {
+            try {
+              const res = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&addressdetails=1&limit=5&countrycodes=nl`);
+              const data = await res.json();
+              if (suggestionsBox) {
+                suggestionsBox.innerHTML = '';
+                if (data.length > 0) {
+                  suggestionsBox.classList.remove('hidden');
+                  data.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'p-2 hover:bg-blue-50 cursor-pointer border-b text-[11px] text-black bg-white';
+                    const parts = item.display_name.split(',');
+                    const label = parts[0] + (parts[1] ? ', ' + parts[1] : '');
+                    div.textContent = label;
+                    div.onclick = () => {
+                      input.value = label;
+                      suggestionsBox.classList.add('hidden');
+                      document.getElementById('huisnummer')?.focus();
+                    };
+                    suggestionsBox.appendChild(div);
+                  });
+                }
+              }
+            } catch (err) { console.error('Adresfout:', err); }
+          }, 300);
+        });
+      }
 
-      btn.onclick = () => {
-        const val = (id) => document.getElementById(id).value;
-        const text = `Hoi InTaxi, ik wil een rit boeken naar ${naam}:%0A%0A` +
-                     `🚕 Voertuig: ${selectedVehicle}%0A` +
-                     `💰 Prijs: ${priceDisplay.textContent}%0A` +
-                     `🏠 Van: ${val('ophaal-adres')} ${val('huisnummer')}%0A` +
-                     `📅 Datum: ${val('datum')}%0A` +
-                     `⏰ Tijd: ${val('tijd')}%0A` +
-                     `👤 Naam: ${val('naam')}%0A` +
-                     `📞 Tel: ${val('tel')}%0A` +
-                     `📝 Opmerking: ${val('notitie')}`;
-        
-        window.open(`https://wa.me/31642277607?text=${text}`, '_blank');
-      };
+      if (btn) {
+        btn.onclick = () => {
+          const val = (id) => document.getElementById(id)?.value || '';
+          const text = `Hoi InTaxi, ik wil een rit boeken naar ${naam}:%0A%0A` +
+                       `🚕 Voertuig: ${selectedVehicle}%0A` +
+                       `💰 Prijs: ${priceDisplay?.textContent || ''}%0A` +
+                       `🏠 Van: ${val('ophaal-adres')} ${val('huisnummer')}%0A` +
+                       `📅 Datum: ${val('datum')}%0A` +
+                       `⏰ Tijd: ${val('tijd')}%0A` +
+                       `👤 Naam: ${val('naam-input')}%0A` +
+                       `📞 Tel: ${val('tel')}%0A` +
+                       `📝 Opmerking: ${val('notitie')}`;
+          
+          window.open(`https://wa.me/31642277607?text=${text}`, '_blank');
+        };
+      }
 
       document.addEventListener('click', (e) => {
-        if (!input.contains(e.target)) suggestionsBox.classList.add('hidden');
+        if (input && !input.contains(e.target)) suggestionsBox?.classList.add('hidden');
       });
     }
 
-    initLocalBooking();
+    if (document.readyState !== "loading") {
+      initLocalBooking();
+    } else {
+      document.addEventListener('DOMContentLoaded', initLocalBooking);
+    }
     document.addEventListener('astro:page-load', initLocalBooking);
   </script>
 </Layout>
