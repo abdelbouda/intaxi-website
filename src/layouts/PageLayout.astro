@@ -35,6 +35,41 @@ const currentFooterData = footerData(lang);
   <slot name="footer">
     <Footer {...currentFooterData} />
   </slot>
+
+  <script is:inline>
+    const injectChatbase = () => {
+      // 1. Ruim oude scripts en variabelen op
+      const oldScript = document.getElementById("chatbase-script-intaxi");
+      if (oldScript) {
+        oldScript.remove();
+      }
+      window.chatbase = undefined;
+
+      // 2. Configuratie instellen
+      window.chatbaseConfig = {
+        chatbotId: "xebg6Uj_yHqd9ef2Sq4F5",
+      };
+
+      // 3. Maak het nieuwe script element aan
+      const s = document.createElement("script");
+      s.src = "https://www.chatbase.co/embed.min.js";
+      s.id = "chatbase-script-intaxi";
+      s.domain = "www.chatbase.co";
+      s.defer = true;
+      
+      // 4. Voeg toe aan de body
+      document.body.appendChild(s);
+    };
+
+    // Voer uit bij de initiële paginalading
+    if (document.readyState === 'complete') {
+      injectChatbase();
+    } else {
+      window.addEventListener('load', injectChatbase);
+    }
+
+    // Luister naar Astro paginawissels (ClientRouter)
+    document.addEventListener('astro:page-load', injectChatbase);
+    document.addEventListener('astro:after-swap', injectChatbase);
+  </script>
 </Layout>
-
-
