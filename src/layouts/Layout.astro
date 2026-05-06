@@ -61,40 +61,5 @@ const enUrl = new URL('/en' + Astro.url.pathname.replace(/^\/en/, ''), Astro.sit
     <BasicScripts />
     <SpeedInsights />
 
-    <script is:inline>
-      const loadChatbase = () => {
-        // Stap 1: Ruim eventuele oude scripts op van de vorige pagina
-        const existingScript = document.getElementById("chatbase-script");
-        if (existingScript) {
-          existingScript.remove();
-        }
-        
-        // Stap 2: Reset de global chatbase variabele om een schone start te forceren
-        window.chatbase = undefined;
-
-        // Stap 3: Configuratie instellen
-        window.chatbaseConfig = {
-          chatbotId: "xebg6Uj_yHqd9ef2Sq4F5",
-        };
-        
-        // Stap 4: Script dynamisch injecteren
-        const s = document.createElement("script");
-        s.src = "https://www.chatbase.co/embed.min.js";
-        s.id = "chatbase-script"; // Vast ID om makkelijk terug te vinden
-        s.domain = "www.chatbase.co";
-        s.defer = true;
-        document.body.appendChild(s);
-      };
-
-      // Initialiseer bij de eerste keer laden van de browser
-      if (document.readyState === 'complete') {
-        loadChatbase();
-      } else {
-        window.addEventListener('load', loadChatbase);
-      }
-
-      // Cruciaal voor Astro: Herlaad na elke paginawissel
-      document.addEventListener('astro:after-swap', loadChatbase);
-    </script>
-  </body>
+     </body>
 </html>
