@@ -1,0 +1,56 @@
+site:
+  name: InTaxi
+  site: 'https://intaxi.nl'
+  base: '/'
+  trailingSlash: false
+
+  googleSiteVerificationId: null # Verwijder de oude ID van AstroWind
+
+# Default SEO metadata
+metadata:
+  title:
+    default: InTaxi — Luxe Tesla Taxi naar Schiphol vanaf €75
+    template: '%s — InTaxi'
+  description: "Luxe en duurzaam luchthavenvervoer vanuit Amsterdam naar Schiphol in een Tesla. Vast tarief van €75,-. Betrouwbaar, stipt en comfortabel."
+  robots:
+    index: true
+    follow: true
+  openGraph:
+    site_name: InTaxi
+    images:
+      - url: '~/assets/images/default.png' # Update dit later naar een foto van de Tesla
+        width: 1200
+        height: 628
+    type: website
+  twitter:
+    handle: null
+    site: null
+    cardType: summary_large_image
+
+i18n:
+  language: nl
+  textDirection: ltr
+
+apps:
+  blog:
+    isEnabled: false # Uitgezet voor een professionele zakelijke look (geen lege blog-secties)
+
+    post:
+      isEnabled: false
+      permalink: '/%slug%'
+      robots:
+        index: false
+
+    list:
+      isEnabled: false
+      pathname: 'blog'
+      robots:
+        index: false
+
+analytics:
+  vendors:
+    googleAnalytics:
+      id: null # Hier kun je later je eigen G-XXXXXXXXXX code invullen
+
+ui:
+  theme: 'light' # 'light' oogt vaak professioneler voor taxi-diensten, maar 'system' kan ook.

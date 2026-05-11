@@ -1,0 +1,146 @@
+---
+import Features2 from '~/components/widgets/Features2.astro';
+import Features3 from '~/components/widgets/Features3.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Stats from '~/components/widgets/Stats.astro';
+import Steps2 from '~/components/widgets/Steps2.astro';
+import Layout from '~/layouts/PageLayout.astro';
+
+// Zorgt ervoor dat deze pagina statisch wordt gegenereerd voor maximale snelheid
+export const prerender = true;
+const metadata = {
+  title: 'About Us | Your Mobility Partner in Amsterdam — InTaxi',
+  description: 'InTaxi Amsterdam: Your specialist in business transportation, safe student transport and luxury airport taxi services to Schiphol. Discover our 100% electric fleet.',
+};
+---
+
+<Layout metadata={metadata}>
+  <!-- Hero Widget without image -->
+  <Hero
+    tagline="Your Mobility Partner"
+  >
+    <Fragment slot="title">
+      Professional taxi services for <br />
+      <span class="text-[#003399] dark:text-blue-400">business and private</span>
+    </Fragment>
+
+    <Fragment slot="subtitle">
+      At <strong>InTaxi Amsterdam</strong> we go beyond just transportation. As your comprehensive <strong>mobility partner</strong>, we offer tailored solutions for the business market, specializing in airport transfers, student transport, and luxury private services.
+    </Fragment>
+  </Hero>
+
+  <!-- Stats Widget -->
+  <Stats
+    title="Reliability in Numbers"
+    stats={[
+      { title: 'Years of Experience', amount: '8+' },
+      { title: 'Satisfied Customers', amount: '15K+' },
+      { title: 'Electric KM', amount: '500K+' },
+      { title: 'Professional Drivers', amount: '12' },
+    ]}
+  />
+
+  <!-- Features3 Widget: Specializations -->
+  <Features3
+    title="Our Specializations"
+    subtitle="From strategic business partnerships to careful student transport; we take care of you on every journey."
+    columns={3}
+    isBeforeContent={true}
+    items={[
+      {
+        title: 'Business Transport & Partnerships',
+        description: 'We act as the extended arm of your organization. Professional drivers, billing on account and priority booking.',
+        icon: 'tabler:briefcase',
+      },
+      {
+        title: 'Airport Specialist',
+        description: 'Your journey begins at your doorstep. We specialize in airport transfers to Schiphol, Brussels and Düsseldorf.',
+        icon: 'tabler:plane-departure',
+      },
+      {
+        title: 'Student Transport',
+        description: 'Safety and continuity for the most vulnerable travelers. Our drivers are certified professionals.',
+        icon: 'tabler:school',
+      },
+    ]}
+  />
+
+  <Features3
+    columns={3}
+    isAfterContent={true}
+    items={[
+      {
+        title: 'Care Transport',
+        description: 'Comfortable and empathetic transport to and from hospitals and care facilities.',
+        icon: 'tabler:heart-handshake',
+      },
+      {
+        title: 'Private Luxury',
+        description: 'Experience the premium service of a private chauffeur at the price of a regular taxi.',
+        icon: 'tabler:car',
+      },
+      {
+        title: 'Events & Group Transport',
+        description: 'Logistical planning for conferences or group trips in our luxury taxi buses.',
+        icon: 'tabler:users',
+      },
+    ]}
+  />
+
+  <Steps2
+    title="Why InTaxi is Preferred"
+    subtitle="Our promise to every business and private customer."
+    items={[
+      {
+        title: 'Mobility Partner from A to Z',
+        description: 'We think along with your logistics. Whether it\'s a single trip or daily planning.',
+      },
+      {
+        title: 'Transparent Fixed Rates',
+        description: 'No surprises afterwards. We use clearly communicated rates in advance.',
+      },
+      {
+        title: 'Sustainable Ambition',
+        description: 'With a fully electric fleet, we contribute to livability in Amsterdam.',
+      },
+    ]}
+  />
+
+  <Features2
+    title="Operating in the Metropolitan Region"
+    tagline="Coverage"
+    columns={3}
+    items={[
+      {
+        title: 'Amsterdam & Amstelveen',
+        description: 'Fast response times in all city districts, including Zuidas and City Centre.',
+      },
+      {
+        title: 'Schiphol Airport',
+        description: '24/7 presence with Meet & Greet service at the arrival hall.',
+      },
+      {
+        title: 'International',
+        description: 'Long-distance trips to Antwerp, Brussels, Paris and Berlin among others.',
+      },
+    ]}
+  />
+
+  <Features2
+    title="Become a Business Partner"
+    tagline="Contact"
+    columns={2}
+    items={[
+      {
+        title: 'WhatsApp Business',
+        description: 'Send a message directly for bookings or quotes.',
+        icon: 'tabler:brand-whatsapp',
+      },
+      {
+        title: 'Business Desk',
+        description: 'Call us to open a business account.',
+        icon: 'tabler:phone',
+      },
+    ]}
+  />
+</Layout>

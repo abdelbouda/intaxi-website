@@ -1,0 +1,106 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+// Zorgt ervoor dat deze pagina statisch wordt gegenereerd voor maximale snelheid
+export const prerender = true;
+
+import Hero from '~/components/widgets/Hero.astro';
+import Note from '~/components/widgets/Note.astro';
+import Features from '~/components/widgets/Features.astro';
+import Steps from '~/components/widgets/Steps.astro';
+import FAQs from '~/components/widgets/FAQs.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+import PriceCalculator from '~/components/widgets/PriceCalculator.astro';
+
+const metadata = {
+  title: 'InTaxi — Luxe Tesla Taxi naar Schiphol met vaste tarieven',
+  ignoreTitleTemplate: true,
+};
+---
+
+<Layout metadata={metadata}>
+
+  <Hero>
+    <Fragment slot="title"></Fragment>
+    <Fragment slot="subtitle"></Fragment>
+
+    <Fragment slot="content">
+      <!-- 
+        Op mobiel schuiven we met -mt-24 de calculator strak onder de menubalk.
+        Op desktop houden we -mt-16 aan voor een gebalanceerd beeld.
+      -->
+      <div class="relative -mt-24 md:-mt-16 max-w-5xl mx-auto z-10 px-2 md:px-0">
+        
+        <div class="calculator-container opacity-0 pointer-events-auto">
+          <!-- p-1 op mobiel bespaart veel ruimte; p-4 op desktop voor de luxe uitstraling -->
+          <div class="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md p-1 md:p-4 rounded-2xl md:rounded-3xl shadow-2xl border border-white/20">
+            <PriceCalculator />
+          </div>
+          
+          <!-- Tekst onder de calculator iets compacter gemaakt voor mobiel -->
+          <div class="text-center mt-4 md:mt-6">
+             <h2 class="text-white text-xl md:text-3xl font-bold drop-shadow-lg">
+              Luxe vervoer in een <span class="text-blue-400 font-extrabold">Tesla</span>
+            </h2>
+            <p class="text-white/90 text-sm md:text-base mt-1 font-medium bg-black/20 inline-block px-4 py-0.5 rounded-full backdrop-blur-sm">
+              Vaste tarieven • Schiphol • Amsterdam
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </Fragment>
+
+    <Fragment slot="actions"></Fragment>
+  </Hero>
+
+  <Note title="Onze belofte:" description="Duurzaamheid, Punctualiteit en Luxe op basis van vaste, transparante tarieven." />
+
+  <Features
+    id="tarieven"
+    title="Waarom reizen met InTaxi?"
+    items={[
+      { title: 'Vaste Ritprijs', description: 'Geen verrassingen achteraf.', icon: 'tabler:currency-euro' },
+      { title: 'Tesla Vloot', description: 'Stijlvol en milieuvriendelijk.', icon: 'tabler:bolt' },
+      { title: 'WhatsApp Service', description: 'Direct contact en bevestiging.', icon: 'tabler:brand-whatsapp' },
+    ]}
+  />
+
+  <Steps
+    title="Hoe werkt het?"
+    items={[
+      { title: 'Stap 1', description: "Bereken uw vaste prijs bovenaan.", icon: 'tabler:calculator' },
+      { title: 'Stap 2', description: "Bevestig direct via WhatsApp.", icon: 'tabler:brand-whatsapp' },
+      { title: 'Stap 3', description: "Geniet van een zorgeloze rit.", icon: 'tabler:check' },
+    ]}
+  />
+
+  <CallToAction
+    title="Vragen?"
+    subtitle="Onze centrale is 24/7 bereikbaar via WhatsApp."
+    actions={[{ variant: 'primary', text: 'Stuur een bericht', href: 'https://wa.me/31642277607', icon: 'tabler:brand-whatsapp' }]}
+  />
+</Layout>
+
+<style is:global>
+  @keyframes simpleFadeIn {
+    from { 
+      opacity: 0; 
+      transform: translateY(15px); 
+    }
+    to { 
+      opacity: 1; 
+      transform: translateY(0); 
+    }
+  }
+
+  .calculator-container {
+    animation: simpleFadeIn 1.2s ease-out forwards;
+    animation-delay: 2s;
+  }
+
+  .calculator-container input, 
+  .calculator-container button, 
+  .calculator-container select {
+    pointer-events: auto !important;
+  }
+</style>

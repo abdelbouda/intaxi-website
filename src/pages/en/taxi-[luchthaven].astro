@@ -1,0 +1,194 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+
+// 1. Schakel statische generatie uit voor deze pagina
+export const prerender = false;
+
+// 2. Haal de 'luchthaven' (slug) uit de URL
+const { luchthaven } = Astro.params;
+
+// 3. De dataset (In een later stadium kun je dit uit een database of JSON halen)
+const airports = [
+  { slug: 'schiphol', name: 'Schiphol Airport', code: 'AMS', priceTesla: '45', priceVan: '65', time: '20-25 min' },
+  { slug: 'rotterdam', name: 'Rotterdam The Hague', code: 'RTM', priceTesla: '125', priceVan: '160', time: '50-60 min' },
+  { slug: 'eindhoven', name: 'Eindhoven Airport', code: 'EIN', priceTesla: '185', priceVan: '230', time: '75-90 min' },
+  { slug: 'antwerp', name: 'Antwerp Airport', code: 'ANR', priceTesla: '225', priceVan: '275', time: '120 min' },
+  { slug: 'brussels', name: 'Brussels Zaventem', code: 'BRU', priceTesla: '325', priceVan: '395', time: '2.5 hours' },
+  { slug: 'charleroi', name: 'Charleroi Airport', code: 'CRL', priceTesla: '325', priceVan: '395', time: '3 hours' },
+  { slug: 'duesseldorf', name: 'Düsseldorf / Weeze', code: 'DUS', priceTesla: '345', priceVan: '415', time: '2 hours' },
+];
+
+// 4. Zoek de specifieke data voor deze pagina
+const airport = airports.find((a) => a.slug === luchthaven);
+
+// 5. Fallback als de luchthaven niet wordt gevonden (404)
+if (!airport) {
+  return Astro.redirect('/404');
+}
+
+const { name, code, priceTesla, priceVan, time } = airport;
+const today = new Date().toISOString().split('T')[0];
+
+const metadata = {
+  title: `Taxi Amsterdam to ${name} (${code}) | Fixed Price from €${priceTesla}`,
+  description: `Luxury Tesla taxi or van from Amsterdam to ${name}. Fixed fare from €${priceTesla}. No hidden costs, available 24/7. Book directly via WhatsApp!`,
+  ignoreTitleTemplate: true,
+};
+---
+
+<Layout metadata={metadata}>
+  <section class="py-6 md:py-10 px-2 md:px-0 max-w-6xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+      <div class="space-y-6">
+        <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
+          <div class="bg-[#003399] p-4 text-white font-bold text-center uppercase tracking-widest text-xs rounded-t-3xl">
+            Rates to {code}
+          </div>
+          <div class="p-4 grid grid-cols-2 gap-2 items-center">
+            <div id="tesla-card" class="text-center p-4 rounded-2xl bg-blue-50 border-2 border-blue-100 font-sans">
+              <span class="block text-[11px] uppercase font-bold text-blue-400 mb-1">Luxury Tesla (4p)</span>
+              <span class="text-2xl font-extrabold text-[#003399]">from €{priceTesla},-</span>
+            </div>
+            <div id="van-card" class="text-center p-4 rounded-2xl bg-slate-50 border-2 border-slate-100 font-sans">
+              <span class="block text-[11px] uppercase font-bold text-slate-400 mb-1">Taxi Van (8p)</span>
+              <span class="text-2xl font-extrabold text-slate-700">from €{priceVan},-</span>
+            </div>
+          </div>
+          <div class="px-4 pb-4 text-xs text-gray-500 italic text-center">
+            Estimated travel time: approx. {time}
+          </div>
+        </div>
+        <div class="bg-white p-5 rounded-3xl border border-slate-100">
+          <ul class="space-y-2 text-base">
+            <li class="flex items-center"><span class="text-green-600 text-xl mr-2">✔️</span> Fixed price in advance</li>
+            <li class="flex items-center"><span class="text-green-600 text-xl mr-2">✔️</span> Luxury Teslas & spacious vans</li>
+            <li class="flex items-center"><span class="text-green-600 text-xl mr-2">✔️</span> 24/7 WhatsApp support</li>
+          </ul>
+        </div>
+      </div>
+      <div class="bg-white rounded-3xl shadow-2xl p-6 md:p-8 border border-gray-50">
+        <div class="flex items-center mb-4">
+          <span class="flex items-center justify-center w-7 h-7 rounded-full bg-[#003399] text-white font-bold mr-2 text-xs">2</span>
+          <h2 class="text-xl font-bold text-[#003399]">Trip Details & Booking</h2>
+        </div>
+        <div class="mb-4 grid grid-cols-2 gap-2">
+          <button id="btn-tesla" class="vehicle-btn active p-3 rounded-xl border-2 border-[#003399] bg-[#003399] text-white font-bold text-xs uppercase transition">Luxury Tesla</button>
+          <button id="btn-van" class="vehicle-btn p-3 rounded-xl border-2 border-gray-100 bg-gray-50 text-gray-400 font-bold text-xs uppercase transition">Taxi Van</button>
+        </div>
+        <div class="space-y-3">
+          <div class="flex gap-2">
+            <input id="pickup-address" type="text" autocomplete="off" placeholder="Pickup address" class="flex-[4] block w-full p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm text-black" />
+            <input id="house-number" type="text" placeholder="No." class="flex-[1] p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm text-black text-center" />
+          </div>
+          <div id="suggestions" class="absolute z-[100] w-full bg-white border border-gray-300 rounded-b-xl shadow-2xl hidden max-h-40 overflow-y-auto mt-1"></div>
+          <div class="grid grid-cols-2 gap-2">
+            <input id="date" type="date" value={today} class="p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm text-black" />
+            <input id="time" type="time" value="12:00" class="p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm text-black" />
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <input id="name" type="text" placeholder="Name" class="p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm text-black" />
+            <input id="phone" type="tel" placeholder="Phone" class="p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm text-black" />
+          </div>
+          <textarea id="notes" placeholder="Flight number / notes..." rows="1" class="w-full p-3 border border-gray-200 rounded-xl bg-gray-50 outline-none text-sm text-black resize-none"></textarea>
+          <div class="bg-blue-50 p-4 rounded-2xl text-center border border-blue-100">
+            <span id="current-price" class="text-2xl font-extrabold text-[#003399]">Total: € {priceTesla},-</span>
+          </div>
+          <button id="whatsapp-btn" class="w-full bg-[#003399] text-white font-black py-4 rounded-2xl hover:bg-blue-800 transition-all shadow-lg uppercase tracking-widest text-base flex items-center justify-center">
+            Book now via WhatsApp
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script is:inline define:vars={{ priceTesla, priceVan, name }}>
+    function initBooking() {
+      const input = document.getElementById('pickup-address');
+      const suggestionsBox = document.getElementById('suggestions');
+      const btn = document.getElementById('whatsapp-btn');
+      const priceDisplay = document.getElementById('current-price');
+      const teslaBtn = document.getElementById('btn-tesla');
+      const vanBtn = document.getElementById('btn-van');
+
+      let selectedVehicle = 'Tesla';
+      let debounceTimer;
+
+      function setVehicle(type) {
+        selectedVehicle = type;
+        if (type === 'Tesla') {
+          teslaBtn.className = "vehicle-btn active p-3 rounded-xl border-2 border-[#003399] bg-[#003399] text-white font-bold text-xs uppercase";
+          vanBtn.className = "vehicle-btn p-3 rounded-xl border-2 border-gray-100 bg-gray-50 text-gray-400 font-bold text-xs uppercase";
+          priceDisplay.textContent = `Total: € ${priceTesla},-`;
+        } else {
+          vanBtn.className = "vehicle-btn active p-3 rounded-xl border-2 border-[#003399] bg-[#003399] text-white font-bold text-xs uppercase";
+          teslaBtn.className = "vehicle-btn p-3 rounded-xl border-2 border-gray-100 bg-gray-50 text-gray-400 font-bold text-xs uppercase";
+          priceDisplay.textContent = `Total: € ${priceVan},-`;
+        }
+      }
+
+      if (teslaBtn) teslaBtn.onclick = () => setVehicle('Tesla');
+      if (vanBtn) vanBtn.onclick = () => setVehicle('Van');
+
+      if (input) {
+        input.addEventListener('input', () => {
+          clearTimeout(debounceTimer);
+          const q = input.value;
+          if (q.length < 3) { suggestionsBox?.classList.add('hidden'); return; }
+          debounceTimer = setTimeout(async () => {
+            try {
+              const res = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&addressdetails=1&limit=5&countrycodes=nl`);
+              const data = await res.json();
+              if (suggestionsBox) {
+                suggestionsBox.innerHTML = '';
+                if (data.length > 0) {
+                  suggestionsBox.classList.remove('hidden');
+                  data.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'p-2 hover:bg-blue-50 cursor-pointer border-b text-xs text-black bg-white';
+                    const parts = item.display_name.split(',');
+                    const label = parts[0] + (parts[1] ? ', ' + parts[1] : '');
+                    div.textContent = label;
+                    div.onclick = () => {
+                      input.value = label;
+                      suggestionsBox.classList.add('hidden');
+                      document.getElementById('house-number')?.focus();
+                    };
+                    suggestionsBox.appendChild(div);
+                  });
+                }
+              }
+            } catch (err) { console.error('Address error:', err); }
+          }, 300);
+        });
+      }
+
+      if (btn) {
+        btn.onclick = () => {
+          const val = (id) => document.getElementById(id)?.value || '';
+          const text = `Hi InTaxi, I want to book a trip to ${name}:%0A%0A` +
+                       `🚕 Vehicle: ${selectedVehicle}%0A` +
+                       `💰 Price: ${priceDisplay?.textContent || ''}%0A` +
+                       `🏠 From: ${val('pickup-address')} ${val('house-number')}%0A` +
+                       `📅 Date: ${val('date')}%0A` +
+                       `⏰ Time: ${val('time')}%0A` +
+                       `👤 Name: ${val('name')}%0A` +
+                       `📞 Phone: ${val('phone')}%0A` +
+                       `📝 Note: ${val('notes')}`;
+          window.open(`https://wa.me/31642277607?text=${text}`, '_blank');
+        };
+      }
+
+      document.addEventListener('click', (e) => {
+        if (input && !input.contains(e.target)) suggestionsBox?.classList.add('hidden');
+      });
+    }
+
+    // DOM-ready/init
+    if (document.readyState !== "loading") {
+      initBooking();
+    } else {
+      document.addEventListener('DOMContentLoaded', initBooking);
+    }
+    document.addEventListener('astro:page-load', initBooking);
+  </script>
+</Layout>

@@ -1,0 +1,301 @@
+---
+/* PriceCalculator.astro - Meertalige Versie */
+import { Image } from 'astro:assets';
+import teslaLogo from '../../assets/images/tesla_nad_services.webp';
+import vitoLogo from '../../assets/images/busje_nad_services.webp';
+
+// Detecteer taal op basis van de URL
+const lang = Astro.url.pathname.startsWith('/en') ? 'en' : 'nl';
+
+// Vertalingen object
+const t = {
+  nl: {
+    step1: "Reisgegevens",
+    pickup: "Ophaaladres...",
+    destination: "Bestemming...",
+    nr: "Nr",
+    details: "Ritdetails:",
+    min: "min",
+    tesla: "Tesla",
+    bus: "Busje",
+    step2: "Contactgegevens",
+    firstName: "Voornaam *",
+    lastName: "Achternaam",
+    phone: "Telefoonnummer *",
+    notes: "Vluchtnummer of opmerkingen...",
+    button: "Nu Boeken via WhatsApp",
+    error: "Vul a.u.b. alle verplichte velden (*) in.",
+    waKlant: "Klant",
+    waVan: "Van",
+    waNaar: "Naar",
+    waDatum: "Datum",
+    waVoertuig: "Voertuig",
+    waPrijs: "Prijs"
+  },
+  en: {
+    step1: "Trip Details",
+    pickup: "Pickup address...",
+    destination: "Destination...",
+    nr: "No",
+    details: "Trip details:",
+    min: "min",
+    tesla: "Tesla",
+    bus: "Van",
+    step2: "Contact Details",
+    firstName: "First Name *",
+    lastName: "Last Name",
+    phone: "Phone Number *",
+    notes: "Flight number or notes...",
+    button: "Book Now via WhatsApp",
+    error: "Please fill in all required fields (*).",
+    waKlant: "Customer",
+    waVan: "From",
+    waNaar: "To",
+    waDatum: "Date",
+    waVoertuig: "Vehicle",
+    waPrijs: "Price"
+  }
+}[lang];
+---
+
+<section id="prijs-calculator" class="bg-slate-50 dark:bg-slate-900 py-4 scroll-mt-20 overflow-x-hidden">
+  <div class="max-w-4xl mx-auto px-4">
+    <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-gray-100 dark:border-slate-700 overflow-hidden">
+      <div class="bg-[#003399] h-1.5 w-full"></div>
+
+      <div class="p-4 md:p-6">
+        <div class="grid lg:grid-cols-2 gap-6 items-start">
+          
+          <div class="space-y-3">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="bg-[#003399] text-white w-5 h-5 flex items-center justify-center rounded-full text-[10px] font-bold">1</span>
+              <h2 class="text-sm font-black text-[#003399] uppercase tracking-wider">{t.step1}</h2>
+            </div>
+
+            <div class="grid gap-2">
+              <div class="grid grid-cols-4 gap-2">
+                <div class="col-span-3 relative">
+                  <div class="flex items-center bg-gray-50 dark:bg-slate-700 rounded-lg px-3 py-3 md:py-2 border border-gray-200 dark:border-slate-600 focus-within:border-[#003399]">
+                    <span class="text-xs mr-2">📍</span>
+                    <input type="text" id="pickup-input" placeholder={t.pickup} class="w-full bg-transparent outline-none text-base md:text-sm font-semibold text-black dark:text-white" autocomplete="off" />
+                  </div>
+                  <div id="pickup-results" class="absolute z-[100] w-full bg-white shadow-2xl hidden max-h-48 overflow-y-auto border rounded-b-lg text-sm md:text-xs"></div>
+                </div>
+                <input type="text" id="pickup-house" placeholder={t.nr} class="bg-gray-50 dark:bg-slate-700 rounded-lg px-3 py-3 md:py-2 border border-gray-200 dark:border-slate-600 text-base md:text-sm font-semibold outline-none focus:border-[#003399] text-black dark:text-white" />
+              </div>
+
+              <div class="grid grid-cols-4 gap-2">
+                <div class="col-span-3 relative">
+                  <div class="flex items-center bg-gray-50 dark:bg-slate-700 rounded-lg px-3 py-3 md:py-2 border border-gray-200 dark:border-slate-600 focus-within:border-[#003399]">
+                    <span class="text-xs mr-2">🏁</span>
+                    <input type="text" id="dest-input" placeholder={t.destination} class="w-full bg-transparent outline-none text-base md:text-sm font-semibold text-black dark:text-white" autocomplete="off" />
+                  </div>
+                  <div id="dest-results" class="absolute z-[100] w-full bg-white shadow-2xl hidden max-h-48 overflow-y-auto border rounded-b-lg text-sm md:text-xs"></div>
+                </div>
+                <input type="text" id="dest-house" placeholder={t.nr} class="bg-gray-50 dark:bg-slate-700 rounded-lg px-3 py-3 md:py-2 border border-gray-200 dark:border-slate-600 text-base md:text-sm font-semibold outline-none focus:border-[#003399] text-black dark:text-white" />
+              </div>
+
+              <div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg px-3 py-2 border border-blue-100 flex justify-between items-center">
+                 <span class="text-[9px] uppercase font-bold text-blue-400">{t.details}</span>
+                 <p class="text-xs font-black text-[#003399] dark:text-blue-300">
+                    <span id="est-time">--</span> {t.min} / <span id="est-km">--</span> km
+                 </p>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2">
+                <input type="date" id="pickup-date" class="bg-gray-50 dark:bg-slate-700 rounded-lg px-3 py-3 md:py-2 border border-gray-200 dark:border-slate-600 text-base md:text-sm font-bold outline-none text-black dark:text-white" />
+                <input type="time" id="pickup-time" class="bg-gray-50 dark:bg-slate-700 rounded-lg px-3 py-3 md:py-2 border border-gray-200 dark:border-slate-600 text-base md:text-sm font-bold outline-none text-black dark:text-white" />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2 pt-1">
+              <button type="button" id="v-auto" class="vehicle-btn bg-white dark:bg-slate-700 border-b-4 border-gray-200 p-2 rounded-xl transition-all">
+                <div class="flex flex-col items-center">
+                  <Image src={teslaLogo} alt="Tesla" width={60} height={30} class="w-12 h-auto mb-1" />
+                  <span class="text-[10px] font-bold">{t.tesla}</span>
+                  <span id="price-auto" class="text-xs font-black text-[#003399]">€ --</span>
+                </div>
+              </button>
+              <button type="button" id="v-bus" class="vehicle-btn bg-white dark:bg-slate-700 border-b-4 border-gray-200 p-2 rounded-xl transition-all">
+                <div class="flex flex-col items-center">
+                  <Image src={vitoLogo} alt="Busje" width={60} height={30} class="w-12 h-auto mb-1" />
+                  <span class="text-[10px] font-bold">{t.bus}</span>
+                  <span id="price-bus" class="text-xs font-black text-[#003399]">€ --</span>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <div class="space-y-3 lg:border-l border-gray-100 lg:pl-6">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="bg-[#003399] text-white w-5 h-5 flex items-center justify-center rounded-full text-[10px] font-bold">2</span>
+              <h2 class="text-sm font-black text-[#003399] uppercase tracking-wider">{t.step2}</h2>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <input type="text" id="cust-first-name" placeholder={t.firstName} class="p-3 md:p-2.5 text-base md:text-xs bg-gray-50 dark:bg-slate-700 border border-gray-200 rounded-lg outline-none text-black dark:text-white" />
+              <input type="text" id="cust-last-name" placeholder={t.lastName} class="p-3 md:p-2.5 text-base md:text-xs bg-gray-50 dark:bg-slate-700 border border-gray-200 rounded-lg outline-none text-black dark:text-white" />
+            </div>
+            <input type="tel" id="cust-phone" placeholder={t.phone} class="w-full p-3 md:p-2.5 text-base md:text-xs bg-gray-50 dark:bg-slate-700 border border-gray-200 rounded-lg outline-none text-black dark:text-white" />
+            <textarea id="cust-notes" placeholder={t.notes} class="w-full p-3 md:p-2.5 text-base md:text-xs bg-gray-50 dark:bg-slate-700 border border-gray-200 rounded-lg h-24 md:h-20 outline-none resize-none text-black dark:text-white"></textarea>
+            
+            <button id="final-reserve-btn" class="w-full bg-[#003399] text-white font-black py-4 md:py-3 rounded-xl shadow-lg active:translate-y-1 transition-all text-xs uppercase tracking-widest">
+              {t.button}
+            </button>
+            <p id="error-msg" class="text-[10px] text-red-500 font-bold text-center opacity-0 transition-opacity">
+              {t.error}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script is:inline define:vars={{ t, lang }}>
+  (function() {
+    let selectedVehicle = 'auto';
+    let pickupCoords = null;
+    let destCoords = null;
+    let destInNL = false;
+
+    function initPriceCalculator() {
+      const pickupInput = document.getElementById('pickup-input');
+      if (!pickupInput) return;
+
+      const dateEl = document.getElementById('pickup-date');
+      const timeEl = document.getElementById('pickup-time');
+      if(dateEl) dateEl.value = new Date().toISOString().split('T')[0];
+      if(timeEl) timeEl.value = "12:00";
+      
+      setVehicle('auto');
+
+      setupAutocomplete('pickup-input', 'pickup-results', (c) => { pickupCoords = c; calculatePrice(); });
+      setupAutocomplete('dest-input', 'dest-results', (c) => { destCoords = c; calculatePrice(); });
+
+      document.getElementById('v-auto').onclick = () => setVehicle('auto');
+      document.getElementById('v-bus').onclick = () => setVehicle('bus');
+      document.getElementById('final-reserve-btn').onclick = handleBooking;
+    }
+
+    function setVehicle(type) {
+      selectedVehicle = type;
+      const vAuto = document.getElementById('v-auto');
+      const vBus = document.getElementById('v-bus');
+      if(vAuto && vBus) {
+        vAuto.classList.toggle('active-vehicle', type === 'auto');
+        vBus.classList.toggle('active-vehicle', type === 'bus');
+      }
+      calculatePrice();
+    }
+
+    async function calculatePrice() {
+      if (!pickupCoords || !destCoords) return;
+      const pVal = document.getElementById('pickup-input').value.toLowerCase();
+      const dVal = document.getElementById('dest-input').value.toLowerCase();
+
+      try {
+        const res = await fetch(`https://router.project-osrm.org/route/v1/driving/${pickupCoords[0]},${pickupCoords[1]};${destCoords[0]},${destCoords[1]}`);
+        const data = await res.json();
+        if(!data.routes || !data.routes[0]) return;
+
+        const r = data.routes[0];
+        const km = r.distance / 1000;
+        const min = r.duration / 60;
+        
+        document.getElementById('est-time').innerText = Math.round(min);
+        document.getElementById('est-km').innerText = Math.round(km);
+        
+        let tAuto = (4.31 + (km * 3.17) + (min * 0.52)) * 0.90;
+        let tBus = (8.75 + (km * 3.63) + (min * 0.60)) * 0.90;
+
+        if ((pVal.includes('amsterdam') && dVal.includes('amsterdam')) || dVal.includes('schiphol')) {
+            if (tAuto > 55) tAuto = 55;
+            if (tBus > 70) tBus = 70;
+        }
+        if (destInNL) {
+          if (tAuto > 250) tAuto = 250;
+          if (tBus > 300) tBus = 300;
+        }
+
+        document.getElementById('price-auto').innerText = '€ ' + Math.floor(tAuto) + ',-';
+        document.getElementById('price-bus').innerText = '€ ' + Math.floor(tBus) + ',-';
+      } catch (e) { console.error("OSRM Error:", e); }
+    }
+
+    function setupAutocomplete(id, resId, cb) {
+      const inp = document.getElementById(id);
+      const res = document.getElementById(resId);
+      let timeout;
+
+      inp.addEventListener('input', function(e) {
+        clearTimeout(timeout);
+        const v = e.target.value;
+        if (v.length < 3) { res.innerHTML = ''; res.classList.add('hidden'); return; }
+        
+        timeout = setTimeout(async () => {
+          try {
+            const r = await fetch('https://photon.komoot.io/api/?q=' + encodeURIComponent(v) + '&limit=5');
+            const d = await r.json();
+            res.innerHTML = '';
+            d.features.forEach(function(f) {
+              const div = document.createElement('div');
+              div.className = 'p-4 md:p-3 hover:bg-blue-50 cursor-pointer border-b text-sm md:text-xs bg-white text-black';
+              const n = (f.properties.name || '') + ' ' + (f.properties.city || '') + ', ' + (f.properties.country || '');
+              div.innerText = n;
+              div.onclick = function() {
+                inp.value = n;
+                res.classList.add('hidden');
+                destInNL = f.properties.country === 'Netherlands' || f.properties.countrycode === 'NL';
+                cb(f.geometry.coordinates);
+              };
+              res.appendChild(div);
+            });
+            res.classList.remove('hidden');
+          } catch(err) { console.log(err); }
+        }, 300);
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!inp.contains(e.target)) res.classList.add('hidden');
+      });
+    }
+
+    function handleBooking() {
+      const val = (id) => document.getElementById(id).value;
+      const fn = val('cust-first-name');
+      const ph = val('cust-phone');
+      const pi = val('pickup-input');
+      const pr = selectedVehicle === 'auto' ? document.getElementById('price-auto').innerText : document.getElementById('price-bus').innerText;
+      
+      if (!fn || !ph || !pi || pr.includes('--')) { 
+          const e = document.getElementById('error-msg');
+          if(e) {
+            e.style.opacity = 1;
+            setTimeout(() => e.style.opacity = 0, 3000);
+          }
+          return; 
+      }
+
+      const vehicleLabel = selectedVehicle === 'auto' ? t.tesla : t.bus;
+
+      const msg = encodeURIComponent(`🚕 INTAXI BOOKING\n\n${t.waKlant}: ${fn}\nTel: ${ph}\n${t.waVan}: ${pi} ${val('pickup-house')}\n${t.waNaar}: ${val('dest-input')} ${val('dest-house')}\n${t.waDatum}: ${val('pickup-date')} @ ${val('pickup-time')}\n${t.waVoertuig}: ${vehicleLabel}\n${t.waPrijs}: ${pr}`);
+      window.open("https://wa.me/31642277607?text=" + msg, "_blank");
+    }
+
+    initPriceCalculator();
+    document.addEventListener('astro:page-load', initPriceCalculator);
+  })();
+</script>
+
+<style>
+  .active-vehicle { 
+    border-color: #003399 !important; 
+    background-color: #f0f7ff !important; 
+    border-bottom-width: 1px !important; 
+    transform: translateY(2px); 
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+  }
+  .vehicle-btn:hover {
+    border-color: #003399;
+  }
+</style>

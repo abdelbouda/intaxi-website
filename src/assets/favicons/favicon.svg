@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 128 128">
+    <!-- InTaxi Logo - Tesla inspired design -->
+    <rect width="128" height="128" rx="20" fill="#003399"/>
+    <path d="M64 20C45 20 30 35 30 54c0 12 6 22 15 28l-5 14c-1 3 0 5 3 5h38c3 0 4-2 3-5l-5-14c9-6 15-16 15-28 0-19-15-34-34-34z" fill="#fff"/>
+    <circle cx="64" cy="54" r="8" fill="#003399"/>
+    <path d="M50 70h28l-4 12H54l-4-12z" fill="#003399"/>
+    <style>
+        rect { fill: #003399; }
+        path:nth-child(2) { fill: #fff; }
+        circle { fill: #003399; }
+        path:nth-child(4) { fill: #003399; }
+        @media (prefers-color-scheme: dark) {
+            rect { fill: #fff; }
+            path:nth-child(2) { fill: #003399; }
+            circle { fill: #fff; }
+            path:nth-child(4) { fill: #fff; }
+        }
+    </style>
+</svg>
