@@ -95,16 +95,16 @@ const t = {
                 <input type="text" id="dest-house" placeholder={t.nr} class="bg-gray-50 dark:bg-slate-700 rounded-lg px-3 py-3 md:py-2 border border-gray-200 dark:border-slate-600 text-base md:text-sm font-semibold outline-none focus:border-[#003399] text-black dark:text-white" />
               </div>
 
-              <div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg px-3 py-2 border border-blue-100 flex justify-between items-center">
-                 <span class="text-[9px] uppercase font-bold text-blue-400">{t.details}</span>
-                 <p class="text-xs font-black text-[#003399] dark:text-blue-300">
+              <div class="bg-white dark:bg-slate-800 rounded-lg px-3 py-2 border border-gray-200 dark:border-slate-600 flex justify-between items-center">
+                 <span class="text-[9px] uppercase font-bold text-gray-900 dark:text-gray-100">{t.details}</span>
+                 <p class="text-xs font-black text-gray-700 dark:text-gray-300">
                     <span id="est-time">--</span> {t.min} / <span id="est-km">--</span> km
                  </p>
               </div>
 
               <div class="grid grid-cols-2 gap-2">
-                <input type="date" id="pickup-date" class="bg-gray-50 dark:bg-slate-700 rounded-lg px-3 py-3 md:py-2 border border-gray-200 dark:border-slate-600 text-base md:text-sm font-bold outline-none text-black dark:text-white" />
-                <input type="time" id="pickup-time" class="bg-gray-50 dark:bg-slate-700 rounded-lg px-3 py-3 md:py-2 border border-gray-200 dark:border-slate-600 text-base md:text-sm font-bold outline-none text-black dark:text-white" />
+                <input type="date" id="pickup-date" class="bg-gray-50 dark:bg-slate-700 rounded-lg px-3 py-3 md:py-2 border border-gray-200 dark:border-slate-600 text-base md:text-sm font-bold outline-none text-black dark:text-white" aria-label={t.details + " " + t.min} />
+                <input type="time" id="pickup-time" class="bg-gray-50 dark:bg-slate-700 rounded-lg px-3 py-3 md:py-2 border border-gray-200 dark:border-slate-600 text-base md:text-sm font-bold outline-none text-black dark:text-white" aria-label={t.details + " " + t.min} />
               </div>
             </div>
 
