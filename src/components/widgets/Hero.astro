@@ -19,14 +19,18 @@ const {
 <section class="relative md:-mt-[76px] not-prose overflow-hidden" {...id ? { id } : {}}>
   <!-- VIDEO BACKGROUND LAYER -->
   <div class="absolute inset-0 z-0 pointer-events-none">
+    <!-- Preload LCP image -->
+    <link rel="preload" as="image" href="/images/hero-poster.webp" />
     <video 
       autoplay 
       muted 
       loop 
       playsinline
-      preload="auto"
+      preload="none"
       class="w-full h-full object-cover"
       poster="/images/hero-poster.webp" 
+      width="1920"
+      height="1080" 
     >
       <source src="/videos/video_intaxi.webm" type="video/webm" />
     </video>

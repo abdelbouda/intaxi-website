@@ -44,15 +44,33 @@ import { UI } from 'astrowind:config';
     let lastKnownScrollPosition = window.scrollY;
     let ticking = true;
 
-    attachEvent('#header nav', 'click', function () {
-      document.querySelector('[data-aw-toggle-menu]')?.classList.remove('expanded');
-      document.body.classList.remove('overflow-hidden');
-      document.getElementById('header')?.classList.remove('h-screen');
-      document.getElementById('header')?.classList.remove('expanded');
-      document.getElementById('header')?.classList.remove('bg-page');
-      document.querySelector('#header nav')?.classList.add('hidden');
-      document.querySelector('#header > div > div:last-child')?.classList.add('hidden');
-    });
+    // Defer non-critical event listeners
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(() => {
+        attachEvent('#header nav', 'click', function () {
+          document.querySelector('[data-aw-toggle-menu]')?.classList.remove('expanded');
+          document.body.classList.remove('overflow-hidden');
+          document.getElementById('header')?.classList.remove('h-screen');
+          document.getElementById('header')?.classList.remove('expanded');
+          document.getElementById('header')?.classList.remove('bg-page');
+          document.querySelector('#header nav')?.classList.add('hidden');
+          document.querySelector('#header > div > div:last-child')?.classList.add('hidden');
+        });
+      });
+    } else {
+      // Fallback for browsers without requestIdleCallback
+      setTimeout(() => {
+        attachEvent('#header nav', 'click', function () {
+          document.querySelector('[data-aw-toggle-menu]')?.classList.remove('expanded');
+          document.body.classList.remove('overflow-hidden');
+          document.getElementById('header')?.classList.remove('h-screen');
+          document.getElementById('header')?.classList.remove('expanded');
+          document.getElementById('header')?.classList.remove('bg-page');
+          document.querySelector('#header nav')?.classList.add('hidden');
+          document.querySelector('#header > div > div:last-child')?.classList.add('hidden');
+        });
+      }, 100);
+    }
 
     attachEvent('[data-aw-toggle-menu]', 'click', function (_, elem) {
       elem.classList.toggle('expanded');
