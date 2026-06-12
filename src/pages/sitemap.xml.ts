@@ -2,7 +2,7 @@
 import { fetchPosts } from '../utils/blog';
 
 // GEUPDATE: Nu met www. voor Google Search optimalisatie
-const SITE = 'https://www.intaxi.nl';
+const SITE = 'https://intaxi.nl';
 
 const dynamicAirports = [
   { slug: 'schiphol' },
