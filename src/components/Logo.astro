@@ -1,12 +1,11 @@
 ---
-// We importeren de Tesla afbeelding als het miniatuur-logo
-import logoImg from '~/assets/images/intaxi_logo.webp';
+// Logo.astro - Gebruikt logo uit public map voor Google indexatie
 ---
 
 <span class="self-center ml-2 rtl:ml-0 rtl:mr-2 flex items-center gap-3">
-  <!-- Het auto-icoon -->
+  <!-- Logo uit public map (toegankelijk voor Google) -->
   <img 
-    src={logoImg.src} 
+    src="/intaxi_logo.webp" 
     alt="InTaxi Amsterdam Logo" 
     class="h-10 md:h-12 w-auto object-contain"
     loading="eager"

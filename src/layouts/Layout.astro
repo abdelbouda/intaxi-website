@@ -37,8 +37,19 @@ const enUrl = new URL('/en' + Astro.url.pathname.replace(/^\/en/, ''), Astro.sit
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="google-site-verification" content="3g7v7S4Ddi2eyj5xk1GXtqUC8OiPIssoNP93W5xKiCo" />
     
+    <!-- FAVICONS & LOGO VOOR GOOGLE ZOEKRESULTATEN - START -->
+    <!-- Meest universeel: ICO formaat -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <!-- WebP formaat voor moderne browsers -->
     <link rel="icon" type="image/webp" href="/intaxi_logo.webp" />
+    <!-- SVG formaat voor hoge resolutie schermen -->
+    <link rel="icon" type="image/svg+xml" href="/intaxi_logo.svg" />
+    <!-- Apple Touch Icon voor iOS apparaten (mobiel) -->
     <link rel="apple-touch-icon" sizes="180x180" href="/intaxi_logo.webp" />
+    <!-- Android/Chrome icon -->
+    <link rel="icon" type="image/png" sizes="192x192" href="/intaxi_logo.webp" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/intaxi_logo.webp" />
+    <!-- FAVICONS & LOGO VOOR GOOGLE ZOEKRESULTATEN - EINDE -->
 
     <link rel="alternate" hreflang="nl" href={nlUrl} />
     <link rel="alternate" hreflang="en" href={enUrl} />
@@ -61,5 +72,5 @@ const enUrl = new URL('/en' + Astro.url.pathname.replace(/^\/en/, ''), Astro.sit
     <BasicScripts />
     <SpeedInsights />
 
-     </body>
+  </body>
 </html>
