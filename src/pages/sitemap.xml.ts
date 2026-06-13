@@ -4,12 +4,24 @@ import { fetchPosts } from '../utils/blog';
 // GEUPDATE: Nu met www. voor Google Search optimalisatie
 const SITE = 'https://intaxi.nl';
 
-const dynamicAirports = [
+// Nederlandse slugs (zonder 's' aan het einde)
+const nlAirportSlugs = [
   { slug: 'schiphol' },
   { slug: 'rotterdam' },
   { slug: 'eindhoven' },
   { slug: 'antwerpen' },
-  { slug: 'brussel' },
+  { slug: 'brussel' },      // Nederlands: taxi-brussel
+  { slug: 'charleroi' },
+  { slug: 'duesseldorf' }
+];
+
+// Engelse slugs (met 's' voor Brussel)
+const enAirportSlugs = [
+  { slug: 'schiphol' },
+  { slug: 'rotterdam' },
+  { slug: 'eindhoven' },
+  { slug: 'antwerpen' },
+  { slug: 'brussels' },     // Engels: taxi-brussels
   { slug: 'charleroi' },
   { slug: 'duesseldorf' }
 ];
@@ -28,12 +40,15 @@ export async function GET() {
     { path: '/vliegveld-taxi', priority: 0.8 }
   ];
 
-  const enAirportUrls = dynamicAirports.map(({ slug }) => ({
+  // Engelse airport URLs (taxi-brussels met 's')
+  const enAirportUrls = enAirportSlugs.map(({ slug }) => ({
     url: `${SITE}/en/taxi-${slug}`,
     priority: 0.7,
     changefreq: 'monthly'
   }));
-  const nlAirportUrls = dynamicAirports.map(({ slug }) => ({
+
+  // Nederlandse airport URLs (taxi-brussel zonder 's')
+  const nlAirportUrls = nlAirportSlugs.map(({ slug }) => ({
     url: `${SITE}/taxi-${slug}`,
     priority: 0.7,
     changefreq: 'monthly'
@@ -69,7 +84,7 @@ export async function GET() {
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls.map(({ url, priority, changefreq }) => `
+${urls.map(({ url, priority, changefreq}) => `
   <url>
     <loc>${url}</loc>
     <lastmod>${lastmod}</lastmod>

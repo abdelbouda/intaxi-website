@@ -11,5 +11,12 @@
         }
       ]
     }
+  ],
+  "redirects": [
+    {
+      "source": "/taxi-brussels",
+      "destination": "/taxi-brussel",
+      "permanent": true
+    }
   ]
 }
